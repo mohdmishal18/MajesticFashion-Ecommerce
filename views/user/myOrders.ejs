@@ -1,0 +1,170 @@
+<%- include('../layouts/user/header1.ejs') -%>
+
+ <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        a {
+            text-decoration: none;
+            
+        }
+
+        .status-checkboxes {
+            margin-top: .5rem;
+
+        }
+
+        .status-checkboxes .form-check {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .status-checkboxes .form-check-input {
+            margin-top: 0;
+            margin-right: 5px;
+            /* Adjust spacing between checkbox and label */
+        }
+
+        .status-checkboxes .form-check-label {
+            margin-bottom: 0;
+        }
+        
+    </style>
+
+<!-- Breadcrumb Section Begin -->
+<section class="breadcrumb-option">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb__text">
+                    <h4>Majestic</h4>
+                    <div class="breadcrumb__links">
+                        <a href="/">Home</a>
+                        <a href="/profile">User Profile</a>
+                        <a href="/address">address</a>
+                        <span>orders</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Breadcrumb Section End -->
+
+<div class="container-fluid ">
+    <div class="main-body">
+        <div class="row">
+            <div class="col-md-3 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex flex-column align-items-center text-center">
+                            <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin"
+                                class="rounded-circle" width="150">
+                            <div class="mt-3">
+                                <h4><%= locals.user.name %></h4>
+                                <p class="text-muted font-size-sm"><%= locals.user.email %></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card mt-3">
+                    <div class="user-headerrr">
+                        <div class="menu-itemmm"><h>Profile</h3></div><hr>
+                      </div>
+                
+                      <!-- Sidebar Menu -->
+                  
+                      <div class="menu-itemmm" ><a href="/addresses">Manage Address</a></div><hr>
+                      <div class="menu-itemmm" ><a href="/orders">Orders</a></div><hr>
+                      <div class="menu-itemmm"><a href="/wishlist">Wishlist</a></div><hr>
+                      <div class="menu-itemmm"><a href="/wallet">Wallet</a></div><hr>
+                      <div class="menu-itemmm" ><a href="#">Report a Bug</a></div><hr>
+                      <div class="menu-itemmm" ><a  href="/signout" >Logout</a></div><hr>
+                      
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="d-flex flex-column">
+                    <h1 class="mt-4 mb-3">Orders</h1>
+                    <div class="div" style="width: 85%; background-color: #fff; ">
+                        <div class="input-group ">
+                            <input type="text" class="form-control" placeholder="Recipient's username"
+                                aria-label="Recipient's username" aria-describedby="button-addon2">
+                            <button class="btn btn-dark" type="button" id="button-addon2">Search orders</button>
+                        </div>
+                    </div>
+
+                    <div class="card-body mt-4">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>Index</th>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Email</th>
+                                        <th scope="col">Total</th>
+                                        <th scope="col">Status</th>
+                                        <th scope="col">Date</th>
+                                        <th scope="col">Action</th>
+                                    
+                                    </tr>
+                                </thead>
+                                <tbody style="background-color: rgb(244, 242, 239);">
+                                <%if(order) {%>
+                                     <%order.forEach((item, i) => {%>
+                                          
+                                        <tr style="margin-bottom: 2rem;"> 
+                                            <td style="padding: 24px;"><%= i + 1%></td>
+                                            <td style="padding: 24px;"><%= item.user.name %></td>
+                                            <td style="padding: 24px;"><%= item.user.email %></td>
+                                            <td style="padding: 24px;"><%= item.totalAmount%></td>
+                                            <td style="padding: 24px;"><span class="badge rounded-pill alert-dark"><%= item.status%></span></td>
+                                            <% const formattedDate = item.date.toLocaleString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: true }); %>
+                                            <td style="padding: 24px;"><%= formattedDate%></td>
+                                            <td style="padding: 24px;">
+                                               <a href="/order-details?orderId=<%= item._id%>">More details</a>
+                                                <!-- dropdown //end -->
+                                            </td>
+                                           
+                                        </tr>
+
+
+
+                                     <%})%>
+                                    
+
+                                <%} else {%>
+                                    
+                                    <td>No Orders Found</td>
+
+                                <%}%>
+
+                                    
+                                   
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- table-responsive //end -->
+                    </div>
+
+                    
+
+                </div>
+
+            </div>
+    
+            </div>
+     </div>
+</div>
+
+
+<%- include('../layouts/user/footer1.ejs') -%>
+
+
+
+
+

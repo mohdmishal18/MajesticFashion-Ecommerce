@@ -1,0 +1,81 @@
+<%- include('../layouts/user/header.ejs') -%>
+
+<div class="wrapper">
+   
+  <div class="" style="margin-left: 10rem;">
+    <img src="/static/images/logo.png" alt="Mjestic" style="height: 33px; width: 44px;">
+</div>
+
+    
+
+    <form action="/signUp" method="post" onsubmit="return validate()">
+      <% if (messages.exist) { %>
+        <div class="alert alert-danger d-flex align-items-center" role="alert" id="existAlert">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2 " viewBox="0 0 16 16" role="img" aria-label="Warning:">
+              <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+            </svg>
+            <div >
+                <strong>Hey !</strong>
+              <%= messages.exist %>
+              
+            </div>
+          </div>
+    <% } %>
+    <% if (messages.error) { %>
+      <div class="alert alert-danger d-flex align-items-center" role="alert" id="existAlert">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2 " viewBox="0 0 16 16" role="img" aria-label="Warning:">
+            <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+          </svg>
+          <div >
+              <strong>Hey !</strong>
+            <%= messages.error %>
+            
+          </div>
+        </div>
+  <% } %>
+
+        <div class="input-box">
+          <input type="text" name="name" id="name" placeholder="Enter your name" required style="position: relative; z-index: 10;">
+          <div class="text-danger " id="userError"></div>
+          </div>
+
+        <div class="input-box">
+          <input type="email" name="email" id="email" placeholder="Enter your email" style="position: relative; z-index: 10;">
+          <div class="text-danger" id="emailError"></div>
+          </div>
+
+        <div class="input-box">
+            <input type="tel" name="mobile" id="phone" placeholder="Enter your phone" required style="position: relative; z-index: 10;">
+            <div class="text-danger" id="phoneErr"></div>
+          </div>
+     
+      <div class="input-box">
+        <input type="password" name="password" id="password" placeholder="Create password" required style="position: relative; z-index: 10;">
+        
+      </div>
+      <div class="text-danger" id="passwordError"></div>
+      <div class="input-box">
+        <input type="password"  name="conform" id="conform" placeholder="Comform password" required style="position: relative; z-index: 10;">
+        <div class="text-danger" id="passwordError2"></div>
+      </div>
+     
+      <div class="input-box button">
+        <input type="Submit" value="Signup" style=":hover{background-color: #ffff;}; margin-top: 1.3rem; ">
+      </div>
+
+      <div class="input-box" style="position: relative; ">
+        <img src="/static/images/google.png" alt="google logo"  style=" position:absolute; width: 30px; height:30px; top: 1.9rem; left: 9px;">
+        <a href="" class="btn btn-outline-dark" style="padding-top: .7rem;  padding-bottom: .7rem;  width: 22.5rem; margin-top: 1.3rem;">Log in with google</a>
+      </div>
+
+      <div class="text pt-2">
+        <h3>have an account? <a href="/login" style="color: rgb(48, 94, 150); ">Log in</a></h3>
+      </div>
+    </form>
+  </div>
+
+  <script src="js/user/form-validation.js"></script>
+
+<%- include('../layouts/user/footer.ejs') -%>
+
+<script src="/static/js/user/formValidation.js"></script>

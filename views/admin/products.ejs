@@ -1,0 +1,199 @@
+<%- include('../layouts/admin/header.ejs') -%>
+
+ <div class="screen-overlay"></div>
+ <aside class="navbar-aside" id="offcanvas_aside">
+    <div class="aside-top">
+        <a href=/admin/home class="brand-wrap">
+            <img src="/imgs/theme/Majestic.png" class="logo" alt="Majestic Dashboard" />
+        </a>
+        <div>
+            <button class="btn btn-icon btn-aside-minimize"><i class="text-muted material-icons md-menu_open"></i></button>
+        </div>
+    </div>
+    <nav>
+        <ul class="menu-aside">
+            <li class="menu-item">
+                <a class="menu-link" href="/admin/home">
+                    <i class="icon material-icons md-home"></i>
+                    <span class="text">Dashboard</span>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a class="menu-link" href="/admin/userlist">
+                    <i class="icon material-icons md-shopping_bag"></i>
+                    <span class="text">Customers</span>
+                </a>
+            </li>
+            <li class="menu-item active">
+                <a class="menu-link" href="/admin/product">
+                    <i class="icon material-icons md-shopping_cart"></i>
+                    <span class="text">Products</span>
+                </a>
+
+            </li>
+            <li class="menu-item">
+                <a class="menu-link" href="/admin/category">
+                    <i class="icon material-icons md-add_box"></i>
+                    <span class="text">Categories</span>
+                </a>
+               
+            </li>
+            <li class="menu-item">
+                <a class="menu-link" href="/admin/orders">
+                    <i class="icon material-icons md-store"></i>
+                    <span class="text">Orders</span>
+                </a>
+    
+            </li>
+            <li class="menu-item">
+                <a class="menu-link" href="/admin/coupon">
+                    <i class="icon material-icons md-monetization_on"></i>
+                    <span class="text">Coupon</span>
+                </a>
+
+            </li>
+            <li class="menu-item">
+                <a class="menu-link" href="/admin/banner">
+                    <i class="icon material-icons md-person"></i>
+                    <span class="text">Banner</span>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a class="menu-link" href="/admin/sales-report">
+                    <i class="icon material-icons md-monetization_on"></i>
+                    <span class="text">Sales</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</aside>
+        <main class="main-wrap">
+            <%- include('../partials/logout-dark.ejs') -%>
+            <section class="content-main">
+                <div class="content-header">
+                    <div>
+                        <h2 class="content-title card-title">Products List</h2>
+                        <p>Lorem ipsum dolor sit amet.</p>
+                    </div>
+                    <div>
+                        <a href="/admin/addproduct" class="btn btn-dark rounded font-md">Add &NonBreakingSpace; Products</a>
+                    </div>
+                </div>
+                <div class="card mb-4">
+                    <header class="card-header">
+                        <div class="row gx-3">
+                            <div class="col-lg-4 col-md-6 me-auto">
+                                <input type="text" placeholder="Search..." class="form-control" />
+                            </div>
+                        </div>
+                    </header>
+                    <!-- card-header end// -->
+                    <div class="card mb-4">
+                        <header class="card-header">
+                            <div class="row align-items-center">
+                                <div class="col col-check flex-grow-0">
+                                    <div class="form-check ms-2">
+                                        <input class="form-check-input" type="checkbox" value="" />
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-12 me-auto mb-md-0 mb-3">
+                                    <select class="form-select">
+                                        <option selected>All category</option>
+                                        <option>Electronics</option>
+                                        <option>Clothes</option>
+                                        <option>Automobile</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="col-md-2 col-6">
+                                    <select class="form-select">
+                                        <option selected>Status</option>
+                                        <option>Active</option>
+                                        <option>Disabled</option>
+                                        <option>Show all</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </header>
+                        <!-- card-header end// -->
+                        <div class="card-body">
+                            <div class="table-responsive" id="Reload">
+                                <table class="table table-hover">
+                                    <thead class="table-dark">
+                                        <tr>
+                                            <th>ID</th>
+                                            <th scope="col">Image</th>
+                                            <th scope="col">Product Name</th>
+                                            <th scope="col">Category</th>
+                                            <th scope="col">Description</th>
+                                            <!-- <th scope="col">Edit</th> -->
+                                            <th scope="col" class="text-center">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% if (locals.products && locals.products.length > 0) { %>
+                                            <% locals.products.map(function (product, index) { %>
+                                                <tr>
+                                                    <td><%= index + 1 %></td>
+                                                    <td>
+                                                        <img src="/assets/img/productImage/original/<%= product.variant[0]?.images[1]%> " alt="Product Image" style="width: 50px; height: 50px;">
+                                                    </td>
+                                                    <td><%= product.name %></td>
+                                                   
+                                                    <td><%= product.categoriesid.name %></td>
+                                                    <td width="30%"><%= product.description %></td>
+                                                    <!-- <td>
+                                                        <a class="btn btn-sm btn-brand rounded font-sm mt-15" href="/admin/edit-product?id=<%= product._id %>" >Edit</a>
+                                                    </td> -->
+                                                    <td class="text-center " >
+                                                        <a class="btn btn-sm btn-danger rounded font-sm mt-15 text-white"  data-user-id="<%= product._id  %>" data-initial-status="<%= product.is_Listed %>" onclick="listUnlist('<%= product._id %>')"  >
+                                                            <%= product.is_Listed?"Unlist":"List"  %>
+                                                        </a>
+                                                        <a class="btn btn-sm btn-dark rounded font-sm mt-15" href="/admin/variant/<%= product._id %>" >Variants</a>
+                                                    </td>
+                                                </tr>
+                                            <% }); %>
+                                        <% } else { %>
+                                            <tr>
+                                                <td colspan="7" class="text-center">No products available</td>
+                                            </tr>
+                                        <% } %>
+                                    </tbody>
+                                </table>
+                            <!-- table-responsive //end -->
+                          <div>
+                        </div>
+                        
+                        <!-- card-body end// -->
+                       
+                    </div>
+            </section>
+     </main>  
+ </div>
+
+<%- include('../layouts/admin/footer.ejs') -%>
+
+<script>
+    function listUnlist(productId)
+    {
+        const data = 
+        {
+            id : productId
+        }
+        $.ajax(
+            {
+                type : 'POST',
+                url : '/admin/listproduct',
+                data : JSON.stringify(data),
+                contentType : 'application/json',
+                success : (response) =>
+                {
+                    if(response.listed == true)
+                    {
+                        $('#Reload').load('/admin/product #Reload');
+                    }
+                }
+            }
+        )
+    }
+</script>

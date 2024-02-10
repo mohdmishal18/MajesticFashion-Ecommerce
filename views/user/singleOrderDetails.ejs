@@ -1,0 +1,437 @@
+<%- include('../layouts/user/header1.ejs') -%>
+
+ <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        a {
+            text-decoration: none;
+            
+        }
+
+        .status-checkboxes {
+            margin-top: .5rem;
+
+        }
+
+        .status-checkboxes .form-check {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .status-checkboxes .form-check-input {
+            margin-top: 0;
+            margin-right: 5px;
+            /* Adjust spacing between checkbox and label */
+        }
+
+        .status-checkboxes .form-check-label {
+            margin-bottom: 0;
+        }
+        
+    </style>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+    
+            a {
+                text-decoration: none;
+    
+            }
+    
+            .status-checkboxes {
+                margin-top: .5rem;
+    
+            }
+    
+            .status-checkboxes .form-check {
+                display: flex;
+                align-items: center;
+                margin-bottom: 1rem;
+            }
+    
+            .status-checkboxes .form-check-input {
+                margin-top: 0;
+                margin-right: 5px;
+                /* Adjust spacing between checkbox and label */
+            }
+    
+            .status-checkboxes .form-check-label {
+                margin-bottom: 0;
+            }
+    
+            .progress-bar {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                width: 70%;
+                margin: 50px auto;
+            }
+    
+            .step {
+                width: 20px;
+                height: 20px;
+                border: 2px solid #ddd;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 16px;
+            }
+    
+            .step.active {
+                background-color: #26a541;
+                color: white;
+                border-color: #26a541;
+            }
+    
+            .line {
+                flex-grow: 1;
+                height: 3px;
+                background-color: #ddd;
+            }
+    
+    
+            .container1 {
+                background-color: white;
+                padding: 20px;
+                border-radius: 8px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+                text-align: center;
+                width: 400px;
+            }
+    
+            h1 {
+                font-size: 24px;
+                margin: 0;
+            }
+    
+            .rating {
+                font-size: 20px;
+                margin: 10px 0;
+            }
+    
+            .stars {
+                font-size: 30px;
+                margin: 10px 0;
+            }
+    
+            .star {
+                cursor: pointer;
+                margin: 0 5px;
+            }
+    
+            .one {
+                color: rgb(255, 0, 0);
+            }
+    
+            .two {
+                color: rgb(255, 106, 0);
+            }
+    
+            .three {
+                color: rgb(251, 255, 120);
+            }
+    
+            .four {
+                color: rgb(255, 255, 0);
+            }
+    
+            .five {
+                color: rgb(24, 159, 14);
+            }
+    
+            textarea {
+                width: 90%;
+                padding: 10px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+            }
+    
+            button {
+                background-color: #007BFF;
+                color: white;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+            }
+    
+            button:hover {
+                background-color: #0056b3;
+            }
+    
+            .reviews {
+                margin-top: 20px;
+                text-align: left;
+            }
+    
+            .review {
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                padding: 10px;
+                margin: 10px 0;
+            }
+    
+            .review p {
+                margin: 0;
+            }
+    
+            .hide {
+                display: none;
+            }
+    
+            .fill1 {
+                position: absolute;
+                background-color: #26a541;
+                animation: fill-1 5s forwards, colors 5s forwards;
+                animation-iteration-count: 1;
+            }
+    
+            .fill2 {
+                position: absolute;
+                background-color: #26a541;
+                animation: fill-1 5s forwards;
+                animation-iteration-count: 1;
+                animation-delay: 4s;
+                visibility: hidden;
+            }
+    
+            .fill3 {
+                width: 0;
+                position: absolute;
+                background-color: #26a541;
+                animation: fill-1 5s forwards;
+                animation-iteration-count: 1;
+                animation-delay: 8s;
+                visibility: hidden;
+            }
+            .active-cancel {
+                background-color: red;
+            }
+            .step-cancel {
+                width: 20px;
+                height: 20px;
+                border: 2px solid #ddd;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 16px;
+    
+            }
+    
+            @keyframes fill-1 {
+                0% {
+                    width: 0;
+                    visibility: visible;
+                }
+    
+    
+                100% {
+                    width: 110px;
+                    visibility: visible;
+                }
+            }
+        </style>
+
+<!-- Breadcrumb Section Begin -->
+<section class="breadcrumb-option">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb__text">
+                    <h4>Majestic</h4>
+                    <div class="breadcrumb__links">
+                        <a href="/">Home</a>
+                        <a href="/profile">User Profile</a>
+                        <a href="/address">address</a>
+                        <span>orders</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Breadcrumb Section End -->
+
+
+
+<div class="container pb-5">
+    <div class="container-fluid">
+        <div
+                    style="padding: 24px; background-color: #fff; box-shadow: 0 2px 4px 0 rgba(0,0,0,.08); margin-top: 2rem;">
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="">
+                                <div class=""><span class="">Delivery Address</span></div>
+                                <div class="">
+                                    <div class="">
+                                        <div class="">
+                                            <%= address.name%>
+                                        </div>
+                                    </div>
+                                    <div class="">
+                                        <%= user.email%>
+                                    </div>
+                                    <div class="">
+                                        <%= address.addressline%>
+                                    </div>
+                                    <div class="">
+                                        <div><span class="">phone Number</span>
+                                            <div class="">
+                                                <%= address.phone%>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="col-3"><span class="">Your Rewards</span><a class="">
+                                <div class=""><img
+                                        src="https://rukminim1.flixcart.com/www/80/80/promos/15/07/2022/b24f2613-b89e-4e0a-8140-1316ad11f394.png?q=100"
+                                        class="">
+                                    <div class="_2kcozy">
+                                        <div>8 SuperCoins Cashback</div>
+                                        <div class="-gBnNp">Use it to save on your next order</div>
+                                    </div>
+                                </div>
+                            </a></div> -->
+                        <div class="col-5"><span class=""></span>
+                            <div class="row ">
+                                    <div><span class="">Download Invoice</span></div>
+                                </div><button class=""><span>Download</span></button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="mt-3">
+                    <div class=""
+                        style="background-color: #fff; box-shadow: 0 2px 4px 0 rgba(0,0,0,.08); padding: 24px;">
+                        <div class="">
+                            <div class="row">
+                                <div class="col-3">
+                                    <div class="row" style="position: relative;">
+                                        <div class="col-4"><a href="" target="_blank" rel="noopener noreferrer">
+                                                <div class="" style="height: 75px; width: 75px;">
+                                                    <img class="" alt=""
+                                                        src="/static/img/productImage/sharp/<%= product.productId.variant[product.product].images[0]%>">
+                                                </div>
+                                            </a></div>
+                                        <div class="col-8"><a class="" href="" id="productId" target="_blank"
+                                                style="font-size: 12px;" data-productId="<%= product.productId._id%>">
+                                                <%= product.productId.name%>
+                                            </a>
+                                            <div class="d-flex">
+                                                <p class="me-2"><span>Color: </span>
+                                                    <%= product.productId.variant[product.product].color%>
+                                                </p>
+                                                <p><span>Size: </span>
+                                                    <%= product.size%>
+                                                </p>
+                                            </div>
+                                            <div class="">
+                                                <div class="d-flex">
+                                                    <span class="">Total Price : <%= product.totalPrice %></span>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-5  d-flex flex-column justify-content-end align-items-center">
+                                    <h1 class="">Order Status : <%= product.status%></h1>
+                                    <%if(product.status==='canceled' ) {%>
+
+                                        <div style="padding: 50px;" class="d-flex justify-content-center align-items-end">
+                                            <div>
+                                                <h2 style="color: red;">Order Canceled !</h2>
+                                            </div>'
+                                        </div>
+
+                                        <%} else {%>
+                                            <div style="padding: 50px;" class="d-flex justify-content-center align-items-end">
+                                                <div>
+                                                    <button class="btn btn-lg btn-danger" onclick="cancelOrder('<%= order._id %>','<%= product.productId._id %>','<%= product.product %>')">Cancel Order</button>
+                                                </div>'
+                                            </div>
+
+
+                                            <%}%>
+
+
+
+                                </div>
+                            </div>
+                            <div class=""></div>
+                            <div></div>
+                        </div>
+                    </div>
+                </div>
+    </div>
+</div>
+
+
+<%- include('../layouts/user/footer1.ejs') -%>
+
+<script>
+        function cancelOrder(orderId, productId,index) {
+            console.log('Cancel Order:', { orderId, productId,index });
+
+            const data = {
+                orderId: orderId,
+                productId: productId,
+                index : index
+            };
+
+            fetch('/cancel-product', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            }).then((response) => {
+                console.log('Response Status:', response.status);
+
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+            }).then((data) => {
+                console.log('Response Data:', data);
+
+                if (data.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        text: 'Product successfully canceled'
+                    }).then(() => {
+                        window.location.reload()
+                    })
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        text: 'Failed to cancel product'
+                    });
+                }
+            }).catch((error) => {
+                console.error('Error:', error);
+            });
+        }
+
+    </script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<!-- Include jQuery before using it -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>

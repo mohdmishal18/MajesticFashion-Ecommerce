@@ -1,0 +1,176 @@
+<%- include('../layouts/admin/header.ejs') -%>
+
+<div class="screen-overlay"></div>
+        <aside class="navbar-aside" id="offcanvas_aside">
+            <div class="aside-top">
+                <a href=/admin/home class="brand-wrap">
+                    <img src="/imgs/theme/Majestic.png" class="logo" alt="Majestic Dashboard" />
+                </a>
+                <div>
+                    <button class="btn btn-icon btn-aside-minimize"><i class="text-muted material-icons md-menu_open"></i></button>
+                </div>
+            </div>
+            <nav>
+                <ul class="menu-aside">
+                    <li class="menu-item">
+                        <a class="menu-link" href="/admin/home">
+                            <i class="icon material-icons md-home"></i>
+                            <span class="text">Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a class="menu-link" href="/admin/userlist">
+                            <i class="icon material-icons md-shopping_bag"></i>
+                            <span class="text">Customers</span>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a class="menu-link" href="/admin/product">
+                            <i class="icon material-icons md-shopping_cart"></i>
+                            <span class="text">Products</span>
+                        </a>
+        
+                    </li>
+                    <li class="menu-item">
+                        <a class="menu-link" href="/admin/category">
+                            <i class="icon material-icons md-add_box"></i>
+                            <span class="text">Categories</span>
+                        </a>
+                       
+                    </li>
+                    <li class="menu-item">
+                        <a class="menu-link" href="/admin/orders">
+                            <i class="icon material-icons md-store"></i>
+                            <span class="text">Orders</span>
+                        </a>
+            
+                    </li>
+                    <li class="menu-item">
+                        <a class="menu-link" href="/admin/coupon">
+                            <i class="icon material-icons md-monetization_on"></i>
+                            <span class="text">Coupon</span>
+                        </a>
+        
+                    </li>
+                    <li class="menu-item">
+                        <a class="menu-link" href="/admin/banner"> 
+                            <i class="icon material-icons md-person"></i>
+                            <span class="text">Banner</span>
+                        </a>
+                    </li>
+                    <li class="menu-item active">
+                        <a class="menu-link" href="/admin/sales-report">
+                            <i class="icon material-icons md-monetization_on"></i>
+                            <span class="text">Sales</span>
+                        </a>
+                    </li>
+                    
+                </ul>
+            </nav>
+        </aside>
+        <main class="main-wrap">
+            <%- include('../partials/logout-dark.ejs') -%>
+                <div class="card-body">
+                    <a class="btn btn-primary mt-3 align-middle mb-10" href="/admin/sales-report">Back</a>
+                    <button onclick="exportTableToCSV()" class="btn btn-primary mt-3 align-middle mb-10">Download Report</button>
+                    <div class="table-responsive">
+                        <div class="table-responsive">
+                            <table class="table align-middle table-nowrap mb-0">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>Index</th>
+                                        <th scope="col">Order Id</th>
+                                        <th scope="col">User</th>
+                                        <th scope="col">Total</th>
+                                        <th scope="col">Date</th>
+                                        <th scope="col">Payment Mode</th>
+                                        <th class="text-center">Status</th>
+                                       </tr>
+                                </thead>
+                                <tbody>
+                                    <% let i = 0 %>
+                                    <% if(Array.isArray(orders)) {%>
+                                        <% orders.forEach((order) =>{ %>
+                                            <% order.products.forEach((product) =>{ %>
+                                                <% if(product.status === 'delivered'){ %>
+                                                    <% i++ %>
+                                                    <tr>
+                                                        <td><%= i %></td>
+                                                        <td><%= order._id %></td>
+                                                        <td><%= order.user.name %></td>
+                                                        <td><%= order.totalAmount %></td>
+                                                        <% const formattedDate = order.date.toLocaleString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: true }); %>
+                                                        <td><%= formattedDate %></td>
+                                                        <td><%= order.paymentMethod %></td>
+                                                        <td class="text-center"><%= product.status %></td>
+                                                    </tr>
+                                                <% } %>
+                                            <% }) %>
+                                        <% }) %>
+                                    <% }else{ %>
+                                        <tr>
+                                            <td>No datas available in this date</td>
+                                        </tr>
+                                    <% } %> 
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>  
+                    
+                </div>
+                    
+        </main>
+        
+
+
+<%- include('../layouts/admin/footer.ejs') -%>
+
+<!-- JSPDF and Autotable libraries -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jspdf-autotable"></script>
+
+ <!-- Your JavaScript code for exporting table to PDF -->
+<script>
+
+     // Function to extract data from the rendered table
+    function extractTableData() {
+        const tableRows = document.querySelectorAll('.table tbody tr');
+        const data = [];
+
+        tableRows.forEach((row) => {
+        const rowData = {};
+        const columns = row.querySelectorAll('td');
+        
+        columns.forEach((column, index) => {
+            // Assuming each column corresponds to a property in your data
+            const columnName = document.querySelector('.table thead th:nth-child(' + (index + 1) + ')').textContent.trim();
+            rowData[columnName] = column.textContent.trim();
+        });
+
+        data.push(rowData);
+        });
+
+        return data;
+    }
+
+    // Your table data (replace this with your actual table data)
+    const tableData = extractTableData();
+
+
+    // Function to generate CSV from the table
+    function exportTableToCSV() {
+        const csvContent = "data:text/csv;charset=utf-8," +
+            Object.keys(tableData[0]).join(",") + "\n" +
+            tableData.map(row => Object.values(row).join(",")).join("\n");
+
+        const encodedUri = encodeURI(csvContent);
+        const link = document.createElement("a");
+        link.setAttribute("href", encodedUri);
+        link.setAttribute("download", "orders_data.csv");
+        document.body.appendChild(link);
+        link.click();
+    }
+</script>
+
+
+

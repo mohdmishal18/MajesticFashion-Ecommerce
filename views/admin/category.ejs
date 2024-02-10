@@ -1,0 +1,313 @@
+<%- include('../layouts/admin/header.ejs') -%>
+
+<div class="screen-overlay"></div>
+        <aside class="navbar-aside" id="offcanvas_aside">
+    <div class="aside-top">
+        <a href=/admin/home class="brand-wrap">
+            <img src="/imgs/theme/Majestic.png" class="logo" alt="Majestic Dashboard" />
+        </a>
+        <div>
+            <button class="btn btn-icon btn-aside-minimize"><i class="text-muted material-icons md-menu_open"></i></button>
+        </div>
+    </div>
+    <nav>
+        <ul class="menu-aside">
+            <li class="menu-item">
+                <a class="menu-link" href="/admin/home">
+                    <i class="icon material-icons md-home"></i>
+                    <span class="text">Dashboard</span>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a class="menu-link" href="/admin/userlist">
+                    <i class="icon material-icons md-shopping_bag"></i>
+                    <span class="text">Customers</span>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a class="menu-link" href="/admin/product">
+                    <i class="icon material-icons md-shopping_cart"></i>
+                    <span class="text">Products</span>
+                </a>
+
+            </li>
+            <li class="menu-item active">
+                <a class="menu-link" href="/admin/category">
+                    <i class="icon material-icons md-add_box"></i>
+                    <span class="text">Categories</span>
+                </a>
+               
+            </li>
+            <li class="menu-item">
+                <a class="menu-link" href="/admin/orders">
+                    <i class="icon material-icons md-store"></i>
+                    <span class="text">Orders</span>
+                </a>
+    
+            </li>
+            <li class="menu-item">
+                <a class="menu-link" href="/admin/coupon">
+                    <i class="icon material-icons md-monetization_on"></i>
+                    <span class="text">Coupon</span>
+                </a>
+
+            </li>
+            <li class="menu-item">
+                <a class="menu-link" href="/admin/banner">
+                    <i class="icon material-icons md-person"></i>
+                    <span class="text">Banner</span>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a class="menu-link" href="/admin/sales-report">
+                    <i class="icon material-icons md-monetization_on"></i>
+                    <span class="text">Sales</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</aside>
+        <main class="main-wrap">
+            <%- include('../partials/logout-dark.ejs') -%>
+            <section class="content-main">
+                <div class="content-header">
+                    <div>
+                        <h2 class="content-title card-title">Category List</h2>
+                        <p>All Categories</p>
+                    </div>
+                    <div>
+                        <a href="/admin/addcategory" class="btn btn-dark rounded font-md">Add &NonBreakingSpace; Categories</a>
+                    </div>
+                </div>
+                <div class="card mb-4">
+                    <header class="card-header">
+                        <div class="row gx-3">
+                            <div class="col-lg-4 col-md-6 me-auto">
+                                <input type="text" placeholder="Search..." class="form-control" />
+                            </div>
+                        </div>
+                    </header>
+                    <!-- card-header end// -->
+                    <div class="card mb-4">
+                        <!-- card-header end// -->
+                        <div class="card-body" id="#ReloadCategory">
+                            <div class="table-responsive" id="Reload">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr class="table-dark">
+                                            <th>Name</th>
+                                            <th>Description</th>
+                                            <th>status</th>
+                                            <th>edit</th>
+                                            <th class="text-center">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% if(locals.categories){ %>
+                                            <% categories.map(function(value){ %>
+                                                <tr>
+                                                    <td><%= value.name %></td>
+                                                    <td width="30%"><%= value.description %></td>
+                                                    <% if(value.is_listed === true){ %>
+                                                        <td><a class="btn btn-sm btn-success rounded font-sm mt-15">Listed</a></td>
+                                                    <% }else{ %>
+                                                        <td><a class="btn btn-sm btn-warning rounded font-sm mt-15">Unlisted</a></td>
+                                                    <%}%>
+                                                    <!-- <td><a class="btn btn-sm btn-light rounded font-sm mt-15" onclick="openEditCategoryModal()">Edit</a></td> -->
+                                                    <td>
+                                                        <button class="btn btn-sm btn-light rounded font-sm mt-15" onclick="edit('<%= value.name %>','<%= value.description %>','<%= value._id %>')">Edit</button>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <a class="btn btn-sm btn-danger rounded font-sm mt-15 text-white"  data-user-id="<%= value._id  %>" data-initial-status="<%= value.is_listed %>" onclick="list('<%= value._id %>')" >
+                                                            <%= value.is_listed?"Unlist":"List"  %>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            <%});%>
+                                        <%}else{%>
+                                            <td colspan="5">No categories available</td>
+                                        <%}%>
+                                    </tbody>
+                                </table>
+                                
+                            </div>
+                            <!-- table-responsive //end -->
+                        </div>
+                        <!-- card-body end// -->
+                   </div>
+              </div>
+              <div class="pagination-area mt-30 mb-50">
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination justify-content-start">
+                            <li class="page-item active"><a class="page-link" href="#">01</a></li>
+                            <li class="page-item"><a class="page-link" href="#">02</a></li>
+                            <li class="page-item"><a class="page-link" href="#">03</a></li>
+                            <li class="page-item"><a class="page-link dot" href="#">...</a></li>
+                            <li class="page-item"><a class="page-link" href="#">16</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="#"><i class="material-icons md-chevron_right"></i></a>
+                            </li>
+                        </ul>
+                    </nav>
+              <div>
+            </div>
+            </div>
+        </div>
+            </section>
+     </main>  
+ </div>
+
+ <div class="modal fade" id="editCategoryModal" tabindex="-1" aria-labelledby="editCategoryModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editCategoryModalLabel">Edit Category</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <input type="text" hidden value="" id="id">
+                    <div class="mb-4">
+                        <label for="editCategoryName" class="form-label">Category Name</label>
+                        <input type="text" placeholder="Type here" class="form-control" id="name" name="name"/>
+                    </div>
+                    <div class="card-body">
+                        <div>
+                            <label class="form-label">Description</label>
+                            <textarea placeholder="Type here" class="form-control" rows="4" id="description" name="description" style="height: 250px;"></textarea>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-secondary font-sm mr-5" onclick="editCategory()">Update Category</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('../layouts/admin/footer.ejs') -%>
+
+<script>
+    function edit(name , description, id) {
+        $('#editCategoryModal').modal('show');
+
+
+        console.log(name);
+        console.log(description);
+        console.log(id);
+
+        const idInput = document.getElementById('id');
+        const inputName = document.getElementById('name');
+        const inputDescription = document.getElementById('description');
+
+        inputName.value = name;
+        inputDescription.value = description;
+
+        idInput.value = id;
+    }
+
+    function editCategory() {
+    const id = document.getElementById('id');
+    const inputName = document.getElementById('name');
+    const inputDescription = document.getElementById('description');
+
+    var data = {
+        id: id.value,
+        name: inputName.value,
+        description: inputDescription.value
+    };
+
+    console.log(inputName.value, inputDescription.value, 'post');
+    console.log(data);
+
+    if (data) {
+        $.ajax({
+            type: 'POST',
+            url: '/admin/editcategory',
+            data: JSON.stringify(data),
+            contentType: 'application/JSON',
+            success: function (res) {
+                if (res.duplicate) {
+                    // Handle duplicate category
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'This category already exists!',
+                    });
+                } else if (res.updated) {
+                    // Handle successful update
+                    $('#ReloadCategory').load('/admin/category #ReloadCategory');
+                } else {
+                    // Handle other errors
+                    console.log('Error during category update');
+                }
+            },
+            error: function (err) {
+                // Handle AJAX error
+                console.error('AJAX error:', err);
+            }
+        });
+    } else {
+        console.log('Did not receive data from edit category');
+    }
+}
+
+    
+
+    function list(id)
+    {
+        const data = {data : id}
+
+        console.log(data);
+
+        if(data)
+        {
+            Swal.fire(
+                {
+                    title : 'Are you sure',
+                    text : 'You want to List/Unlish category',
+                    icon : 'warning',
+                    showCancellation : true,
+                    confirmBottonColor : '#3085d6',
+                    cancelButtonColor : '#d33',
+                    confirButtonText : 'yes!'
+                }
+            )
+            .then((res) =>
+            {
+                if(res.isConfirmed)
+                {
+                    console.log("ajax");
+
+                    $.ajax(
+                        {
+                            type : 'POST',
+                            url : '/admin/list-unlist',
+                            data : JSON.stringify(data),
+                            contentType : 'application/JSON',
+                            success : (res) =>
+                            {
+                                if(res.listed)
+                                {
+                                    $('#Reload').load('/admin/category #Reload');
+                                }
+                            }
+                        }
+                    )
+                }
+                else
+                {
+                    console.log("error in list");
+                }
+            })
+            .catch((err) =>
+            {
+                console.log(err);
+            })
+        }
+    }
+
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

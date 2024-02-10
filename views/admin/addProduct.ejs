@@ -1,0 +1,242 @@
+<%- include('../layouts/admin/header.ejs') -%>
+
+<section class="content-main">
+    <div class="row">
+        <div class="col-9">
+        </div>
+        <div class="col-lg-6 mx-auto">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="content-header">
+                        <h2 class="content-title justify-content-start mx-auto">Add New Product</h2>
+                    </div>
+                    <form action="/admin/addproduct" method="post" enctype="multipart/form-data" onsubmit="return productValidation()">
+                        <div class="row gx-3">
+                            <div class="col-md-8 mb-4">
+                                <label for="product_title" class="form-label">Product Name</label>
+                                <input type="text" placeholder="Type here" class="form-control" id="product_name" name="name"/>
+                            </div>
+                            <div class="col-md-4 mb-4">
+                                <label for="product_title" class="form-label">Colors</label>
+                                <input type="text" placeholder="Type here" class="form-control" id="color" name="color"/>
+                            </div>
+                        </div>
+                        <div class="row gx-3">
+                            <div class="col-md-4 mb-3">
+                                <label for="product_sku" class="form-label">Quantity</label>
+                                <input type="number" placeholder="Type here" class="form-control" id="stock" name="quantity"/>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="product_color" class="form-label">Category</label>
+                                <select class="form-control" id="product-category" name="categoryID" id="category">
+                                    <% for(let i = 0; i < categories.length; i++) { %>
+                                        <option value="<%= categories[i].name %>"><%= categories[i].name %></option>
+                                    <% } %>
+                                </select>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="product_color" class="form-label">Sizes</label>
+                                <select class="form-control" id="product-category" name="sizes" multiple onmousedown="allowMultipleSelect(this)">
+                                    <option value="S">S</option>
+                                    <option value="M">M</option>
+                                    <option value="L">L</option>
+                                    <option value="XL">XL</option>
+                                    <option value="XXL">XXL</option>
+                                    <option value="XXXL">XXXL</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row gx-2">
+                            <div class="col-md-6 mb-3">
+                                <label for="product_brand" class="form-label">Price</label>
+                                <input type="text" placeholder="Type here" class="form-control" id="price" name="price"/>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="product_brand" class="form-label">Previous Price</label>
+                                <input type="text" placeholder="Type here" class="form-control" id="offerPrice" name="previousPrice"/>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div>
+                                <label class="form-label">Description</label>
+                                <textarea placeholder="Type here" id="description" class="form-control" rows="4" name="description"></textarea>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <label>Product Images</label>
+                            <div class="row" >
+                              <% for (let i = 1; i <= 4; i++) { %>
+                                <div class="col-lg-6 col-md-6 mb-3 rounded-image-preview">
+                                  <label for="imageInput<%= i %>" class="image-label">Image
+                                    <div class="rounded-image-preview">
+                                      <img id="imagePreview<%= i %>" alt="Preview">
+                                    </div>
+                                    <input name="images" type="file" accept="image/*" id="imageInput<%= i %>" class="imageInput" onchange="previewImage(this, 'imagePreview<%= i %>')">
+                                  </label>
+                                </div>
+                              <% } %>
+                            </div>
+                          </div>
+                         <div class="text-center">
+                            <a href="/admin/product" class="btn btn-primary">
+                                <span class="text" >Back</span>
+                            </a>
+                                <button type="submit" class="btn btn-secondary font-sm mr-5 ">Add to Products</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- card end// -->
+        </div>
+            <!-- card end// -->
+        </div>
+    </div>
+</section>
+
+<%- include('../layouts/admin/footer.ejs') -%>
+
+<script>
+
+    function productValidation() {
+
+
+        let pname = document.getElementById("product_name");
+        let pdiscription = document.getElementById("description");
+        let price = document.getElementById("price");
+        let oprice = document.getElementById("offerPrice");
+        let brand = document.getElementById('brand');
+        let color = document.getElementById('color');
+        let stock = document.getElementById('stock');
+        let category = document.getElementById('category');
+        let image = document.getElementById('imageInput1');
+        
+
+        if (pname.value.trim() === '') {
+            pname.style.border = 'solid 1px red'
+            setTimeout(function () {
+                pname.style.border = '';
+               
+            }, 3000);
+
+            return false;
+        }
+        else if (pdiscription.value.trim() === '' || pdiscription.value.trim().length < 20) {
+
+            pdiscription.style.border = 'solid 1px red';
+
+
+            setTimeout(() => {
+                pdiscription.style.border = '';
+                
+            }, 3000);
+
+            return false;
+
+        }
+        else if (price.value.trim() === '' || Number(price.value) <= 0 || isNaN(price.value)) {
+
+            price.style.border = 'solid 1px red';
+           
+            setTimeout(function () {
+                price.style.border = '';
+               
+            }, 3000);
+            return false;
+        }
+
+
+
+        else if (oprice.value.trim() === '' || Number(oprice.value) <= 0 || isNaN(oprice.value)) {
+            oprice.style.border = 'solid 1px red';
+           
+            setTimeout(function () {
+               oprice.style.border = '';
+                
+            }, 3000);
+            return false;
+        }
+
+        
+        else if (color.value.trim() === '') {
+                 color.style.border = 'solid 1px red';
+           
+            setTimeout(function () {
+                color.style.border = '';
+                
+            }, 3000);
+            return false
+
+        }
+        
+        else if (stock.value.trim() === '' || Number(stock.value) <= 0 || isNaN(stock.value)) {
+                 stock.style.border = 'solid 1px red';
+           
+            setTimeout(function () {
+                stock.style.border = '';
+                
+            }, 3000);
+            return false
+
+        }
+        else if (brand.value.trim() === '') {
+                 brand.style.border = 'solid 1px red';
+           
+            setTimeout(function () {
+                brand.style.border = '';
+                
+            }, 3000);
+            return false
+
+        }
+        else if (!category.value) {
+                 category.style.border = 'solid 1px red';
+           
+            setTimeout(function () {
+                category.style.border = '';
+                
+            }, 3000);
+            return false
+
+        }
+        else {
+
+            true;
+        }
+    }
+</script>
+
+<script>
+    function allowMultipleSelect(select) {
+        // Disable the default behavior of deselecting options
+        if (!event.ctrlKey) {
+            event.preventDefault();
+
+            // Toggle the selected state of the clicked option
+            const option = document.elementFromPoint(event.clientX, event.clientY);
+            if (option.tagName === 'OPTION') {
+                option.selected = !option.selected;
+            }
+        }
+    }
+
+
+    function previewImage(input, imageId) {
+        const preview = document.getElementById(imageId);
+        const file = input.files[0];
+
+        if (file) {
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                preview.src = e.target.result;
+            };
+
+            reader.readAsDataURL(file);
+        } else {
+            preview.src = "/assets/images/add Image.jpg";
+        }
+    }
+
+</script>
+
+
