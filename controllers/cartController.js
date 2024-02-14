@@ -36,8 +36,8 @@ const addToCart = async (req,res) =>
         // price of the variant 
 
         const product = await Product.findOne({_id : productId});
-        const price = product.variant[index].price;
-        const offerPrice = product.variant[index].previous_price;
+        const price = product.variant[index].previous_price;
+        const offerPrice = product.variant[index].price;
 
         const qnt = quantity ? quantity : 1;
 
