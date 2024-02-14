@@ -525,8 +525,6 @@ const loadAddressManagement = async (req,res) =>
 
 const addAddress = async (req,res) =>
 {
-
-    console.log("in add address");
     try
     {
         const 

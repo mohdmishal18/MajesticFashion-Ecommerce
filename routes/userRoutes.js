@@ -87,15 +87,13 @@ userRoute
 
     .delete('/deleteaddress',userController.deleteAddress)
 
-    // .post('/update-address',userController.updateaddress)
+    
 
     .get('/cart',cartController.loadCart)
 
     .post('/add-cart',cartController.addToCart)
 
     .post('/removeFromCart', cartController.removeFromCart)
-
-    // .post('/counter',cartController.changeQuantity)
 
     .post('/updateQuantity',cartController.updateQuantity)
 
