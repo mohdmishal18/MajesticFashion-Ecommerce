@@ -19,7 +19,6 @@ app.use(flash());
 app.use('/',userRoutes);
 app.use('/admin',adminRoutes);
 
-// hi
 const port = process.env.PORT || 3001;
 
 app.listen(port,() =>
