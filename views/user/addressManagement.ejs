@@ -21,7 +21,7 @@
 
 <div class="container container1">
     <div class="main-body">
-        <div class="row">
+        <div class="row" id="addressEdit">
             <div class="col-md-4 mb-3">
                 <div class="card">
                     <div class="card-body">
@@ -52,7 +52,7 @@
                       
                 </div>
             </div>
-            <div class="col-md-8" id="addressEdit">
+            <div class="col-md-8">
                 <div style="width: 100%; display: flex; justify-content: space-between;">
                     <div><h1>Addresses</h1></div>
                     <div>
@@ -561,7 +561,7 @@ function updateadress(addressId) {
     const name = document.getElementById('fullNameE').value;
     const addressLine = document.getElementById('addressE').value;
     const city = document.getElementById('cityE').value;
-    const state = document.getElementById('stateE').value;
+    const state = document.getElementById('stateE').value;  
     const pincode = document.getElementById('postCodeE').value;
     const phone = document.getElementById('mobileNumberE').value;
 
