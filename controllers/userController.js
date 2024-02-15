@@ -599,27 +599,30 @@ const deleteAddress = async(req,res) =>
 }
 
 // Edit Address
-const updateaddress = async (req, res) => {
+const editAddress = async (req, res) => {
     try {
-      const { name, addressline, city, state, pincode, phone, addressId } = req.body;
+        const userid = req.session.user;
+      const { id,name, addressLine, city, state, pincode, phone } = req.body;
       console.log("req body :", req.body);
   
       const find = {
-        'address._id': addressId
+        _id : userid,
+        'address._id': id
       }
   
       const update = {
-        'addresses.$.name': name,
-        'addresses.$.addressline': addressline,
-        'addresses.$.city': city,
-        'addresses.$.state': state,
-        'addresses.$.pincode': pincode,
-        'addresses.$.phone': phone
+        'address.$.name': name,
+        'address.$.addressline': addressLine,
+        'address.$.city': city,
+        'address.$.state': state,
+        'address.$.pincode': pincode,
+        'address.$.phone': phone
   
       }
   
       await User.updateOne(find, update)
-      res.json({ success: true })
+
+      res.json({ updated : true })
       console.log("updated");
     } catch (error) {
       res.status(400).send('edit request is failed')
@@ -722,5 +725,5 @@ module.exports =
     checkSession,
     changePassword,
     deleteAddress,
-    updateaddress
+    editAddress
 }

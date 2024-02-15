@@ -2,7 +2,7 @@ const express = require('express');
 const userRoute = express();
 const userController = require('../controllers/userController');
 const cartController = require('../controllers/cartController');
-const orderController = require('../controllers/orderController')
+const orderController = require('../controllers/orderController');
 const User = require('../models/userModel')
 // const userAuth = require('../middlewares/userAuth');
 const session = require("express-session");
@@ -87,7 +87,7 @@ userRoute
 
     .delete('/deleteaddress',userController.deleteAddress)
 
-    
+    .post('/edit-address',userController.editAddress)
 
     .get('/cart',cartController.loadCart)
 

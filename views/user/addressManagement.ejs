@@ -52,7 +52,7 @@
                       
                 </div>
             </div>
-            <div class="col-md-8">
+            <div class="col-md-8" id="addressEdit">
                 <div style="width: 100%; display: flex; justify-content: space-between;">
                     <div><h1>Addresses</h1></div>
                     <div>
@@ -75,9 +75,9 @@
                                   </p>
                                 </div>
                                 <div>
-                                    <!-- <button class="btn btn-dark" onclick="editaddress('<%= address._id %>','<%= address.name %>','<%= address.addressline %>','<%= address.city %>','<%= address.state%>','<%= address.pincode %>','<%= address.phone %>')">
+                                    <button class="btn btn-dark" onclick="edit('<%= address._id %>','<%= address.name %>','<%= address.addressline %>','<%= address.city %>','<%= address.state%>','<%= address.pincode %>','<%= address.phone %>')">
                                         Edit
-                                    </button> -->
+                                    </button>
                                     <button class="btn btn-danger" onclick="deletaddress('<%= user._id %>','<%= address._id %>')">
                                         remove
                                     </button>
@@ -98,7 +98,7 @@
             <div class="modal-header text-center">
                 <h5 class="modal-title" id="addVariantModalLabel">Add address</h5>
             </div>
-            <form method="post" id="reloadArea" action="" onsubmit="validInput()">
+            <form method="post" id="reloadArea" action="">
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="full-name" class="form-label">Full Name</label>
@@ -144,6 +144,62 @@
             </form>
         </div>
     </div>
+</div>
+
+<div class="modal fade" id="editAddress" tabindex="-1" aria-labelledby="addVariantModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+          <div class="modal-header text-center">
+              <h5 class="modal-title" id="addVariantModalLabel">Edit address</h5>
+          </div>
+          <form>
+              <div class="modal-body">
+                  <div class="form-group">
+                      <input type="text" hidden value="" id="id">
+
+                      <label for="full-name" class="form-label">Full Name</label>
+                      <input type="text" class="form-control" id="fullNameE" placeholder="fullNameE" name="fullName" value="" required>
+                  </div>
+          
+                  <div class="form-group">
+                      <label for="address-line1" class="form-label">Address</label>
+                      <input type="text" class="form-control" id="addressE" placeholder="Address Line 1" name="addressE" required>
+                  </div>
+          
+                  <div class="form-group">
+                      <label for="city" class="form-label">City</label>
+                      <input type="text" class="form-control" id="cityE" placeholder="City" name="cityE" required>
+                  </div>
+
+                  <div class="form-group">
+                      <label for="state" class="form-label">State</label>
+                      <select class="form-control" id="stateE" name="stateE" required>
+                          <option selected disabled>Select State</option>
+                         
+                          <option value="Kerala">Kerala</option>
+                          <option value="Tamilnadu">Tamilnadu</option>
+                          <option value="Karnataka">Karnataka</option>
+                          <option value="Maharashtra">Maharashtra</option>
+                        </select>
+                  </div>
+          
+                  <div class="form-group">
+                      <label for="postcode" class="form-label">Pincode</label>
+                      <input type="text" class="form-control" id="postCodeE" placeholder="Postcode" name="postcodeE" required>
+                  </div>
+          
+                  <div class="form-group">
+                      <label for="mobile-number" class="form-label">Mobile</label>
+                      <input type="tel" class="form-control" id="mobileNumberE" placeholder="Mobile Number" name="mobileNumberE" required>
+                  </div>
+              </div>
+          
+              <div class="modal-footer align-items-center">
+                  <button type="submit" class="btn btn-dark" onclick="editAddress(event)">Edit</button>
+              </div>
+          </form>
+      </div>
+  </div>
 </div>
 
 <%- include('../layouts/user/footer1.ejs') -%>
@@ -363,7 +419,7 @@ function clearform() {
 </script>
 
 <!-- // for update address -->
-<script>
+<!-- <script>
 function updateadress(addressId) {
 
 
@@ -471,6 +527,83 @@ function updateadress(addressId) {
     })
   }
 }
+</script> -->
+
+<script>
+  function edit(id , name, addressLine, city, state , pincode , phone)
+  {
+
+    $('#editAddress').modal('show');
+
+    const idInput = document.getElementById('id');
+    const nameInput = document.getElementById('fullNameE');
+    const addressInput = document.getElementById('addressE');
+    const cityInput = document.getElementById('cityE');
+    const stateInput = document.getElementById('stateE');
+    const pincodeInput = document.getElementById('postCodeE');
+    const phoneInput = document.getElementById('mobileNumberE');
+    console.log(stateInput.value)
+
+
+    idInput.value = id;
+    nameInput.value = name;
+    addressInput.value = addressLine;
+    cityInput.value = city;
+    stateInput.value = state;    
+    pincodeInput.value = pincode;
+    phoneInput.value = phone;
+  }
+
+  function editAddress(event)
+  {
+    event.preventDefault();
+    const id = document.getElementById('id').value;
+    const name = document.getElementById('fullNameE').value;
+    const addressLine = document.getElementById('addressE').value;
+    const city = document.getElementById('cityE').value;
+    const state = document.getElementById('stateE').value;
+    const pincode = document.getElementById('postCodeE').value;
+    const phone = document.getElementById('mobileNumberE').value;
+
+    const data = 
+    {
+      id : id,
+      name : name,
+      addressLine : addressLine,
+      city : city,
+      state : state,
+      pincode : pincode,
+      phone : phone
+    }
+    console.log(data);
+
+    if(data)
+    {
+      $.ajax({
+        
+        type : 'POST',
+        url : '/edit-address',
+        data : JSON.stringify(data),
+        contentType : 'application/JSON',
+        success : function(response)
+        {
+          if(response.updated)
+          {
+            Swal.fire
+            ({
+              icon: 'success',
+              title: 'updated',
+              text: 'address edited successfully...',
+            })
+            // Hide the modal
+            $('#editAddress').modal('hide');
+            $('#addressEdit').load('/address #addressEdit');
+          }
+        }
+      })
+    }
+
+  }
 </script>
 
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
