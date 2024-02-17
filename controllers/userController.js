@@ -4,11 +4,12 @@ const userOtpVerification = require('../models/userOTPverification');
 
 const bcrypt = require('bcrypt');
 const nodemailer = require('nodemailer');
+const crypto = require("crypto");
 
 const Product = require('../models/productModel');
 const Category = require('../models/categoryModel');
-
 const Cart = require('../models/cartModel')
+const Token = require('../models/tokenModel');
 
 //
 //Load home page,
@@ -673,6 +674,155 @@ const changePassword = async (req,res) =>
     }
 }
 
+///////////////// FORGOT PASSWORD SECTION ////////////////////////
+
+const loadForgotPassword = async (req,res) =>
+{
+    try
+    {
+        res.render('forgotPassword');
+    }
+    catch(error)
+    {
+        console.log(error);
+    }
+}
+
+const sendResetPassLink = async(email , res) =>
+{
+    try
+    {
+        email = email
+        const user = await User.findOne({email : email});
+        console.log("got the user : " ,user);
+
+        if(! user)
+        return res.status(400).send("User with this email does not exist !!");
+
+        let token = await Token.findOne({userId : user._id});
+        if(! token)
+        {
+            token = await new Token({userId : user._id, token : crypto.randomBytes(32).toString("hex")}).save();
+        }
+
+        let transporter = nodemailer.createTransport({
+            service : 'gmail',
+            host : 'smtp.gmail.com',
+            port : 465,
+            secure : true,
+            auth : 
+            {
+                user : 'mohdmishal18@gmail.com',
+                pass : 'sakt ggiw xepm nyym'
+            }
+        })
+
+        const resetPage = `http://localhost:3001/resetpassword/${user._id}/${token.token}`;
+
+        const mailOptions = 
+        {
+            from : 'mohdmishal18@gmail.com',
+            to : email,
+            subject : "Please verify your email",
+            html : `Your link here to reset your password is : ${resetPage}`
+        } 
+        
+        await transporter.sendMail(mailOptions);
+    }
+    catch(error)
+    {
+        console.log(error.message);
+    }
+}
+
+const sendResetPass = async (req,res) =>
+{
+    try
+    {
+        const email = req.body.mail;
+
+        await sendResetPassLink(email,res);
+        req.flash('success',"we send a reset password link to your email");
+        res.redirect('/login');
+    }
+    catch(error)
+    {
+        console.log(error.message);
+    }
+}
+
+// reset password page's link
+
+const resetPage = async (req,res) =>
+{
+    try
+    {
+        const userId = req.params.userId;
+        const token = req.params.token;
+        console.log("i got it :", userId, token);
+
+        res.render('resetPassword',{userId,token});
+    }
+    catch(error)
+    {
+        console.log(error.message);
+    }
+}
+
+const resetPassword = async (req,res) =>
+{
+    try
+    {
+        const user = req.body.userId;
+        console.log("The user is : ",user);
+
+        const userId = await User.findById(req.body.userId);
+
+        const {email} = userId;
+
+        const token = req.body.token;
+
+        console.log(userId);
+
+        if(! userId)
+        {
+            return res.status(400).send("invalid link or expired");
+        }
+
+        const tokenDoc = await Token.findOne(
+            {
+                userId : userId._id,
+                token : token
+            }
+        )
+
+        if(! tokenDoc)
+        {
+            return res.status(400).send("invalid link or expired");
+        }
+
+        let password = req.body.confirmpassword;
+
+        const securePass = await bcrypt.hash(password,10);
+
+        await User.updateOne(
+            {email : email},
+            {$set : {password : securePass}}
+        )
+
+        req.flash('success','successfully setted new password');
+        res.redirect('/login');
+        
+    }
+    catch(error)
+    {
+        console.log(error);
+        res.status(500).send("Internal Server Error")
+    }
+}
+
+///////////////// FORGOT PASSWORD SECTION ////////////////////////
+
 //
 // logout user
 //
@@ -725,5 +875,10 @@ module.exports =
     checkSession,
     changePassword,
     deleteAddress,
-    editAddress
+    editAddress,
+    loadForgotPassword,
+    sendResetPassLink,
+    sendResetPass,
+    resetPage,
+    resetPassword
 }

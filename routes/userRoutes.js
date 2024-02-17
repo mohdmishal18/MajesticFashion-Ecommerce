@@ -71,6 +71,18 @@ userRoute
 
     .post('/login',userController.verifyLogin)
 
+    // forgot password
+
+    .get('/forgotpassword',userController.loadForgotPassword)
+
+    .post('/forgotpassword',userController.sendResetPass)
+
+    .get('/resetpassword/:userId/:token',userController.resetPage)
+
+    .post('/resetpassword',userController.resetPassword)
+    
+    // forgot password
+
     .get('/shop',userController.loadShop)
 
     .get('/singleproduct',userController.loadSingleProduct)
