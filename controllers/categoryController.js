@@ -32,9 +32,12 @@ const addCategory = async (req,res) =>
     {
         console.log(req.body);
 
-        const {description,name} = req.body;
+        const {name} = req.body;
 
-        const existingCategory = await Category.findOne({name});
+        const lowercaseName = name.toLowerCase();
+
+        const existingCategory = await Category.findOne({ name: { $regex: new RegExp('^' + lowercaseName + '$', 'i') } });
+
 
         if(existingCategory)
         {
@@ -47,7 +50,7 @@ const addCategory = async (req,res) =>
             const category = new Category(
                 {
                     name : name,
-                    description : description,
+                    // description : description,
                     is_listed : 1
                 }
             )
@@ -114,10 +117,14 @@ const editCategory = async (req,res) =>
 {
     try
     {
-        const {id , name ,description} = req.body;
+        const {id , name } = req.body;
 
-        
-        const existingCategory = await Category.findOne({name});
+        const lowercaseName = name.toLowerCase();
+
+
+        const existingCategory = await Category.findOne({ name: { $regex: new RegExp('^' + lowercaseName + '$', 'i') } });
+
+        // const existingCategory = await Category.findOne({name});
 
         if(existingCategory)
         {
@@ -132,7 +139,7 @@ const editCategory = async (req,res) =>
                     $set : 
                     {
                         name : name,
-                        description :description
+                        // description :description
                     }
                 })
 

@@ -96,7 +96,7 @@
                                     <thead>
                                         <tr class="table-dark">
                                             <th>Name</th>
-                                            <th>Description</th>
+                                            <!-- <th>Description</th> -->
                                             <th>status</th>
                                             <th>edit</th>
                                             <th class="text-center">Action</th>
@@ -107,7 +107,7 @@
                                             <% categories.map(function(value){ %>
                                                 <tr>
                                                     <td><%= value.name %></td>
-                                                    <td width="30%"><%= value.description %></td>
+                                                    
                                                     <% if(value.is_listed === true){ %>
                                                         <td><a class="btn btn-sm btn-success rounded font-sm mt-15">Listed</a></td>
                                                     <% }else{ %>
@@ -115,7 +115,7 @@
                                                     <%}%>
                                                     <!-- <td><a class="btn btn-sm btn-light rounded font-sm mt-15" onclick="openEditCategoryModal()">Edit</a></td> -->
                                                     <td>
-                                                        <button class="btn btn-sm btn-light rounded font-sm mt-15" onclick="edit('<%= value.name %>','<%= value.description %>','<%= value._id %>')">Edit</button>
+                                                        <button class="btn btn-sm btn-light rounded font-sm mt-15" onclick="edit('<%= value.name %>','<%= value._id %>')">Edit</button>
                                                     </td>
                                                     <td class="text-center">
                                                         <a class="btn btn-sm btn-danger rounded font-sm mt-15 text-white"  data-user-id="<%= value._id  %>" data-initial-status="<%= value.is_listed %>" onclick="list('<%= value._id %>')" >
@@ -171,12 +171,12 @@
                         <label for="editCategoryName" class="form-label">Category Name</label>
                         <input type="text" placeholder="Type here" class="form-control" id="name" name="name"/>
                     </div>
-                    <div class="card-body">
+                    <!-- <div class="card-body">
                         <div>
                             <label class="form-label">Description</label>
                             <textarea placeholder="Type here" class="form-control" rows="4" id="description" name="description" style="height: 250px;"></textarea>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="text-center">
                         <button type="submit" class="btn btn-secondary font-sm mr-5" onclick="editCategory()">Update Category</button>
                     </div>
@@ -189,20 +189,20 @@
 <%- include('../layouts/admin/footer.ejs') -%>
 
 <script>
-    function edit(name , description, id) {
+    function edit(name , id) {
         $('#editCategoryModal').modal('show');
 
 
         console.log(name);
-        console.log(description);
+        // console.log(description);
         console.log(id);
 
         const idInput = document.getElementById('id');
         const inputName = document.getElementById('name');
-        const inputDescription = document.getElementById('description');
+        // const inputDescription = document.getElementById('description');
 
         inputName.value = name;
-        inputDescription.value = description;
+        // inputDescription.value = description;
 
         idInput.value = id;
     }
@@ -210,15 +210,15 @@
     function editCategory() {
     const id = document.getElementById('id');
     const inputName = document.getElementById('name');
-    const inputDescription = document.getElementById('description');
+    // const inputDescription = document.getElementById('description');
 
     var data = {
         id: id.value,
         name: inputName.value,
-        description: inputDescription.value
+        // description: inputDescription.value
     };
 
-    console.log(inputName.value, inputDescription.value, 'post');
+    console.log(inputName.value, 'post');
     console.log(data);
 
     if (data) {
@@ -310,4 +310,9 @@
 
 </script>
 
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<!-- Add this to your HTML file -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+<!-- Add this to your HTML file before your script that uses jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
