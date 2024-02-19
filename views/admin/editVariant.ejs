@@ -28,7 +28,7 @@
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="variant_sizes" class="form-label">Sizes</label>
-                                    <select class="form-control" id="sizes" name="sizes" multiple onmousedown="allowMultipleSelect(this)">
+                                    <select class="form-control" id="sizes" name="sizes" multiple onmousedown="allowMultipleSelect(this)" required>
                                         <option value="S">S</option>
                                         <option value="M">M</option>
                                         <option value="L">L</option>
@@ -55,7 +55,7 @@
                                         <div class="col-lg-6 col-md-6 mb-3 rounded-image-preview">
                                             <label for="variant_imageInput<%= i %>" class="image-label">Image
                                                 <div class="rounded-image-preview">
-                                                    <img id="imagePreview2<%= i %>" alt="Preview" src="/assets/productImage/original/<%= product.images[i - 1] %>">
+                                                    <img id="imagePreview2<%= i %>" alt="Preview" src="/assets/img/productImage/original/<%= product.images[i - 1] %>">
                                                 </div>
                                                 <input name="images" type="file" value="<%= product.images[i - 1] %>" accept="image/*" id="image<%= i %>"
                                                     class="imageInput" onchange="previewImage2(this, 'imagePreview2<%= i %>')">
@@ -68,7 +68,6 @@
                         <div  class="d-flex justify-content-center">
                             <button type="submit" class="btn btn-primary">Edit variant</button>
                         </div>
-                        
                     </form>
                 </div>
             </div>
@@ -118,69 +117,47 @@
 
 <script>
 
-    function editVariant() {
+function editVariant() {
+    let color = document.getElementById('color');
+    let stock = document.getElementById('stock');
+    let sizesSelect = document.getElementById('sizes');
+    let price = document.getElementById('price');
+    let offerPrice = document.getElementById('offerPrice');
 
-
-        
-        let price = document.getElementById("price");
-        let oprice = document.getElementById("offerPrice");
-        let color = document.getElementById('color');
-        let stock = document.getElementById('stock');
-        let image = document.getElementById('image1');
-        
-        
-
-
-
-
-        
-     if (price.value.trim() === '' || Number(price.value) <= 0 || isNaN(price.value) ) {
-
-            price.style.border = 'solid 1px red';
-           
-            setTimeout(function () {
-                price.style.border = '';
-               
-            }, 3000);
-            return false;
-        }
-
-
-
-        else if (oprice.value.trim() === '' || Number(oprice.value) <= 0 || isNaN(oprice.value)) {
-            oprice.style.border = 'solid 1px red';
-           
-            setTimeout(function () {
-               oprice.style.border = '';
-                
-            }, 3000);
-            return false;
-        }
-        
-        else if (color.value.trim() === '') {
-                 color.style.border = 'solid 1px red';
-           
-            setTimeout(function () {
-                color.style.border = '';
-                
-            }, 3000);
-            return false
-
-        }
-        
-        else if (stock.value.trim() === '' || Number(stock.value) <= 0 || isNaN(stock.value)) {
-                 stock.style.border = 'solid 1px red';
-           
-            setTimeout(function () {
-                stock.style.border = '';
-                
-            }, 3000);
-            return false
-
-        }
-        else {
-
-            true;
-        }
+    if (color.value.trim() === '') {
+        showErrorAlert('Color is required.');
+        return false;
+    } else if (stock.value.trim() === '' || Number(stock.value) <= 0 || isNaN(stock.value)) {
+        showErrorAlert('Invalid Quantity. Please enter a valid quantity.');
+        return false;
+    } else if (sizesSelect.selectedOptions.length === 0) {
+        showErrorAlert('At least one size must be selected.');
+        return false;
+    } else if (price.value.trim() === '' || Number(price.value) <= 0 || isNaN(price.value)) {
+        showErrorAlert('Invalid Price. Please enter a valid amount.');
+        return false;
+    } else if (offerPrice.value.trim() === '' || Number(offerPrice.value) <= 0 || isNaN(offerPrice.value)) {
+        showErrorAlert('Invalid Offer Price. Please enter a valid amount.');
+        return false;
     }
+
+    // Other validations can be added if needed
+
+    return true;
+
+    function showErrorAlert(message) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Validation Error',
+            text: message,
+        });
+        setTimeout(() => {
+            Swal.close();
+        }, 3000);
+    }
+}
+
+
 </script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>

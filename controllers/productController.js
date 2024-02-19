@@ -281,67 +281,67 @@ const loadEditVariant = async (req,res) =>
     }
 }
 
-const editVariant = async (req,res) =>
-{
-    try
-    {
+const editVariant = async (req, res) => {
+    try {
         console.log("in edit variant");
         const id = req.body.id;
-        
         const index = req.body.index;
 
-        console.log(id,index);
+        console.log(id, index);
 
         console.log(req.body);
 
         const newSizes = Array.isArray(req.body.sizes) ? req.body.sizes : [req.body.sizes];
         const newImages = [];
 
-        for(let i = 0; i < req.files.length; i++)
-        {
-            newImages.push(req.files[i].filename);
+        if (req.files && req.files.length > 0) {
+            for (let i = 0; i < req.files.length; i++) {
+                newImages.push(req.files[i].filename);
 
-            const selectPath = path.resolve(__dirname, '..', 'public', 'assets', 'img' , 'productImage', 'sharp', `${req.files[i].filename}`  );
+                const selectPath = path.resolve(__dirname, '..', 'public', 'assets', 'img', 'productImage', 'sharp', `${req.files[i].filename}`);
 
-            await sharp(req.files[i].path).resize(500, 500).toFile(selectPath);
-
+                await sharp(req.files[i].path).resize(500, 500).toFile(selectPath);
+            }
+        } else {
+            // Use existing images if available
+            const existingImages = req.body.images || []; // Ensure it's defined and provide an empty array if not
+            newImages.push(...existingImages);
         }
 
-        const quantity = parseInt(req.body.quantity)
-        const previous_price = parseInt(req.body.previousPrice)
+        const quantity = parseInt(req.body.quantity);
+        const previous_price = parseInt(req.body.previousPrice);
         const price = parseInt(req.body.price);
 
-        return Product.findOne({_id : id},{variant : 1})
-        .then(() =>
-        {
-            return Product.updateOne({_id : id},
-                {
-                    $set : 
-                    {
-                        [`variant.${index}.price`] : price,
-                        [`variant${index}.previous_price`] : previous_price,
-                        [`variant.${index}.color`] : req.body.color,
-                        [`variant.${index}.sizes`] : newSizes,
-                        [`variant.${index}.images`] : newImages,
-                        [`variant.${index}.quantity`] : quantity,
-                    }
-                })
-                .then(() =>
-                {
-                    res.redirect(`/admin/variant/${id}`);
-                })
-                .catch((error) =>
-                {
-                    console.log(error, "err");
-                })
-        })
+        return Product.findOne({ _id: id }, { variant: 1 })
+            .then((product) => {
+                // Use product.variant[index].images if available
+                const existingImages = product.variant[index].images || [];
+                newImages.push(...existingImages);
 
-    }
-    catch(error)
-    {
+                return Product.updateOne({ _id: id },
+                    {
+                        $set:
+                        {
+                            [`variant.${index}.price`]: price,
+                            [`variant${index}.previous_price`]: previous_price,
+                            [`variant.${index}.color`]: req.body.color,
+                            [`variant.${index}.sizes`]: newSizes,
+                            [`variant.${index}.images`]: newImages,
+                            [`variant.${index}.quantity`]: quantity,
+                        }
+                    })
+                    .then(() => {
+                        res.redirect(`/admin/variant/${id}`);
+                    })
+                    .catch((error) => {
+                        console.log(error, "err");
+                    });
+            });
+    } catch (error) {
         console.log(error);
     }
-}
+};
+
 
 module.exports = 
 {

@@ -72,7 +72,7 @@
                                     <div class="rounded-image-preview">
                                       <img id="imagePreview<%= i %>" alt="Preview">
                                     </div>
-                                    <input name="images" type="file" accept="image/*" id="imageInput<%= i %>" class="imageInput" onchange="previewImage(this, 'imagePreview<%= i %>')">
+                                    <input name="images" type="file" accept="image/*" id="imageInput<%= i %>" class="imageInput" onchange="previewImage(this, 'imagePreview<%= i %>')" multiple>
                                   </label>
                                 </div>
                               <% } %>
@@ -106,8 +106,9 @@
     let brand = document.getElementById('brand');
     let color = document.getElementById('color');
     let stock = document.getElementById('stock');
+    let imageInputs = document.querySelectorAll('.imageInput'); // Assuming all image inputs have the 'imageInput' class
     let category = document.getElementById('category');
-    let image = document.getElementById('imageInput1');
+    
     // Check if at least one size is selected
     let selectedSizes = sizesContainer.querySelectorAll('.selected-size');
 
@@ -138,7 +139,10 @@
     }else if (sizesSelect.selectedOptions.length === 0) {
         showErrorAlert('At least one size must be selected.');
         return false;
-    } else {
+    } else if (!checkImageInputs(imageInputs)) {
+        showErrorAlert('At least one image must be selected.');
+        return false;
+    }else {
         return true;
     }
 
@@ -151,6 +155,15 @@
         setTimeout(() => {
             Swal.close();
         }, 3000);
+    }
+
+    function checkImageInputs(inputs) {
+        for (let i = 0; i < inputs.length; i++) {
+            if (inputs[i].files.length > 0) {
+                return true;
+            }
+        }
+        return false;
     }
 }
 
