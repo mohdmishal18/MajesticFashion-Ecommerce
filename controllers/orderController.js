@@ -182,7 +182,7 @@ const loadMyOrder = async (req,res) =>
         const userid = req.session.user?._id;
         console.log(typeof userid, userid);
 
-        const order = await Order.find({user : userid}).populate('user');
+        const order = await Order.find({user : userid}).populate('user').sort({date : -1})
         console.log(order);
 
         res.render('myOrders',{order : order});
