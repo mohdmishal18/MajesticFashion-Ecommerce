@@ -41,6 +41,31 @@ const isLogOut = async (req,res,next)=>{
         console.log(error.message);
     }
 }
+
+const userAuth = (req, res, next) => {
+    try {
+        if(req.session.user) {
+            next();
+        } else {
+           res.redirect('/');
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+const isLogined = (req, res, next) => {
+    try {
+        if(req.session.user) {
+            res.redirect('/')
+        } else {
+            next();
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 const authlogg = async(req,res,next)=>{
     try{
             if(req.session.user){
@@ -55,5 +80,7 @@ const authlogg = async(req,res,next)=>{
 module.exports={
     isLogin,
     isLogOut,
-    authlogg
+    authlogg,
+    userAuth,
+    isLogined
 }

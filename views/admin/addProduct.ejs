@@ -28,7 +28,8 @@
                             </div>
                             <div class="col-md-4 mb-3">
                                 <label for="product_color" class="form-label">Category</label>
-                                <select class="form-control" id="product-category" name="categoryID" id="category">
+                                <select class="form-control" id="category" name="categoryID">
+                                    <option value="">select category</option>
                                     <% for(let i = 0; i < categories.length; i++) { %>
                                         <option value="<%= categories[i].name %>"><%= categories[i].name %></option>
                                     <% } %>
@@ -36,7 +37,7 @@
                             </div>
                             <div class="col-md-4 mb-3">
                                 <label for="product_color" class="form-label">Sizes</label>
-                                <select class="form-control" id="product-category" name="sizes" multiple onmousedown="allowMultipleSelect(this)">
+                                <select class="form-control" id="product-category" name="sizes" multiple onmousedown="allowMultipleSelect(this)" required>
                                     <option value="S">S</option>
                                     <option value="M">M</option>
                                     <option value="L">L</option>
@@ -98,111 +99,61 @@
 <script>
 
     function productValidation() {
+    let pname = document.getElementById("product_name");
+    let pdiscription = document.getElementById("description");
+    let price = document.getElementById("price");
+    let oprice = document.getElementById("offerPrice");
+    let brand = document.getElementById('brand');
+    let color = document.getElementById('color');
+    let stock = document.getElementById('stock');
+    let category = document.getElementById('category');
+    let image = document.getElementById('imageInput1');
+    // Check if at least one size is selected
+    let selectedSizes = sizesContainer.querySelectorAll('.selected-size');
 
-
-        let pname = document.getElementById("product_name");
-        let pdiscription = document.getElementById("description");
-        let price = document.getElementById("price");
-        let oprice = document.getElementById("offerPrice");
-        let brand = document.getElementById('brand');
-        let color = document.getElementById('color');
-        let stock = document.getElementById('stock');
-        let category = document.getElementById('category');
-        let image = document.getElementById('imageInput1');
-        
-
-        if (pname.value.trim() === '') {
-            pname.style.border = 'solid 1px red'
-            setTimeout(function () {
-                pname.style.border = '';
-               
-            }, 3000);
-
-            return false;
-        }
-        else if (pdiscription.value.trim() === '' || pdiscription.value.trim().length < 20) {
-
-            pdiscription.style.border = 'solid 1px red';
-
-
-            setTimeout(() => {
-                pdiscription.style.border = '';
-                
-            }, 3000);
-
-            return false;
-
-        }
-        else if (price.value.trim() === '' || Number(price.value) <= 0 || isNaN(price.value)) {
-
-            price.style.border = 'solid 1px red';
-           
-            setTimeout(function () {
-                price.style.border = '';
-               
-            }, 3000);
-            return false;
-        }
-
-
-
-        else if (oprice.value.trim() === '' || Number(oprice.value) <= 0 || isNaN(oprice.value)) {
-            oprice.style.border = 'solid 1px red';
-           
-            setTimeout(function () {
-               oprice.style.border = '';
-                
-            }, 3000);
-            return false;
-        }
-
-        
-        else if (color.value.trim() === '') {
-                 color.style.border = 'solid 1px red';
-           
-            setTimeout(function () {
-                color.style.border = '';
-                
-            }, 3000);
-            return false
-
-        }
-        
-        else if (stock.value.trim() === '' || Number(stock.value) <= 0 || isNaN(stock.value)) {
-                 stock.style.border = 'solid 1px red';
-           
-            setTimeout(function () {
-                stock.style.border = '';
-                
-            }, 3000);
-            return false
-
-        }
-        else if (brand.value.trim() === '') {
-                 brand.style.border = 'solid 1px red';
-           
-            setTimeout(function () {
-                brand.style.border = '';
-                
-            }, 3000);
-            return false
-
-        }
-        else if (!category.value) {
-                 category.style.border = 'solid 1px red';
-           
-            setTimeout(function () {
-                category.style.border = '';
-                
-            }, 3000);
-            return false
-
-        }
-        else {
-
-            true;
-        }
+    if (pname.value.trim() === '') {
+        showErrorAlert('Product Name is required.');
+        return false;
+    } else if (pdiscription.value.trim() === '' || pdiscription.value.trim().length < 20) {
+        showErrorAlert('Description is required and should be at least 20 characters long.');
+        return false;
+    } else if (price.value.trim() === '' || Number(price.value) <= 0 || isNaN(price.value)) {
+        showErrorAlert('Invalid Price. Please enter a valid amount.');
+        return false;
+    } else if (oprice.value.trim() === '' || Number(oprice.value) <= 0 || isNaN(oprice.value)) {
+        showErrorAlert('Invalid Offer Price. Please enter a valid amount.');
+        return false;
+    } else if (color.value.trim() === '') {
+        showErrorAlert('Color is required.');
+        return false;
+    } else if (stock.value.trim() === '' || Number(stock.value) <= 0 || isNaN(stock.value)) {
+        showErrorAlert('Invalid Stock. Please enter a valid quantity.');
+        return false;
+    } else if (brand.value.trim() === '') {
+        showErrorAlert('Brand is required.');
+        return false;
+    } else if (category.value.trim() === '') {
+        showErrorAlert('Category is required.');
+        return false;
+    }else if (sizesSelect.selectedOptions.length === 0) {
+        showErrorAlert('At least one size must be selected.');
+        return false;
+    } else {
+        return true;
     }
+
+    function showErrorAlert(message) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Validation Error',
+            text: message,
+        });
+        setTimeout(() => {
+            Swal.close();
+        }, 3000);
+    }
+}
+
 </script>
 
 <script>
@@ -240,3 +191,4 @@
 </script>
 
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>

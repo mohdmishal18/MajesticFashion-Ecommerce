@@ -65,33 +65,36 @@ userRoute
     .get('/signup',auth.isLogOut,userController.loadSignup)
     .post('/signup',userController.insertUser)
 
+    /////////////// otp ========================================
+
     .get('/otp',auth.isLogOut,userController.loadotp)
     .post('/otp',userController.verifyOtp)
     .post('/resend',userController.resentOTP)
 
     .post('/login',userController.verifyLogin)
 
-    // forgot password
+    // forgot password=================================================
 
-    .get('/forgotpassword',userController.loadForgotPassword)
+    .get('/forgotpassword',auth.isLogOut,userController.loadForgotPassword)
 
     .post('/forgotpassword',userController.sendResetPass)
 
-    .get('/resetpassword/:userId/:token',userController.resetPage)
+    .get('/resetpassword/:userId/:token',auth.isLogOut,userController.resetPage)
 
     .post('/resetpassword',userController.resetPassword)
     
-    // forgot password
-
+    // shop ==========================================================
     .get('/shop',userController.loadShop)
 
     .get('/singleproduct',userController.loadSingleProduct)
 
     .get('/logout',userController.userLogout)
 
-    .get('/profile',userController.loadUserProfile)
+    // user profile ==========================================
 
-    .get('/address',userController.loadAddressManagement)
+    .get('/profile',auth.userAuth,userController.loadUserProfile)
+
+    .get('/address',auth.userAuth,userController.loadAddressManagement)
 
     .post('/edit-profile',userController.editProfile)
 
@@ -101,31 +104,37 @@ userRoute
 
     .post('/edit-address',userController.editAddress)
 
+    // cart management =========================================
+
     .get('/cart',cartController.loadCart)
 
-    .post('/add-cart',cartController.addToCart)
+    .post('/add-cart',auth.authlogg,cartController.addToCart)
 
-    .post('/removeFromCart', cartController.removeFromCart)
+    .post('/removeFromCart',auth.authlogg, cartController.removeFromCart)
 
-    .post('/updateQuantity',cartController.updateQuantity)
+    .post('/updateQuantity',auth.authlogg,cartController.updateQuantity)
 
     .post('/checkSession',userController.checkSession)
 
-    .get('/check-out',cartController.proceedToCheckout)
+    .get('/check-out',auth.authlogg,cartController.proceedToCheckout)
 
-    .post('/place-order',orderController.placeOrder)
+    .post('/place-order',auth.authlogg,orderController.placeOrder)
 
-    .post('/verifyPayment', orderController.verifyPayment)
+    .post('/verifyPayment',auth.authlogg, orderController.verifyPayment)
 
-    .get('/successpage',orderController.successPage)
+    .get('/successpage',auth.authlogg,orderController.successPage)
 
-    .get('/orders',orderController.loadMyOrder)
+    // order section =============================================
 
-    .get('/order-details',orderController.loadOrderDetails)
+    .get('/orders',auth.userAuth,orderController.loadMyOrder)
 
-    .get('/single-orderDetails',orderController.loadSingleOrderDetails)
+    .get('/order-details',auth.userAuth,orderController.loadOrderDetails)
+
+    .get('/single-orderDetails',auth.userAuth,orderController.loadSingleOrderDetails)
 
     .post('/cancel-product',orderController.cancelOrder)
+
+    // change password ================================================
     
     .post('/change-password',userController.changePassword)
 

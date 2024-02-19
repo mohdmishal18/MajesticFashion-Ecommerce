@@ -58,14 +58,13 @@ adminRoute
     .post('/list-unlist',categoryController.listCategory)
 
     //order management
-    .get('/orders',adminController.loadOrder)
-    .get('/orderdetails',adminController.singleOrderDetails)
+    .get('/orders',auth.isLogin,adminController.loadOrder)
+    .get('/orderdetails',auth.isLogin,adminController.singleOrderDetails)
     .post('/change-orderStatus',adminController.changeOrderStatus)
 
     //sales Report.
-    .get('/sales-report',adminController.salesReport)
+    .get('/sales-report',auth.isLogin,adminController.salesReport)
     .post('/order-report',adminController.orderReport)
-
 
 
 module.exports = adminRoute;
