@@ -1,5 +1,5 @@
 const Product = require('../models/productModel');
-const Wishlist = require('../models/wishlistModal')
+const Wishlist = require('../models/wishlistModal');
 const User = require('../models/userModel');
 
 const addToWishlist = async (req, res) =>
@@ -65,5 +65,3 @@ module.exports =
 {
     addToWishlist
 }
-
-

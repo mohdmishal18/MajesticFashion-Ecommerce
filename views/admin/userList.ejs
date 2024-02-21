@@ -156,7 +156,7 @@
                 <!-- card end// -->
             </section>
         </main>
-
+        <div id="page" data-page="<%= currentPage %>"></div>
 
 <%- include('../layouts/admin/footer.ejs') -%>
 
@@ -165,6 +165,7 @@
 
     function blockUnblock(userId)
     {
+        const page = document.getElementById('page').getAttribute('data-page')
         const data = {userId : userId}
         console.log(data);
         const btn = document.getElementById('button' + userId);
@@ -209,7 +210,7 @@
                     {
                         if(response.block === true)
                         {
-                            $('#Reload').load('/admin/userlist #Reload', null,() =>
+                            $('#Reload').load(`/admin/userlist?page=${page} #Reload`, null,() =>
                             {
                                 Swal.fire({
                                     title : `${stat+"ed"}`,
