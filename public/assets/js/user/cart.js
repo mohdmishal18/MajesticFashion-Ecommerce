@@ -14,7 +14,7 @@ function addToDb(productid, vIndex) {
           showConfirmButton: true,
           confirmButtonText: 'OK',
       }).then(() => {
-          window.location.href = '/login'; // Change '/login' to the actual URL of your login page
+          window.location.href = '/login'; 
       });
       return;
   }
@@ -78,7 +78,7 @@ function addToDb(productid, vIndex) {
 const addToCart = (productid) =>  {
 
     const index = document.getElementById('productName').getAttribute('data-index')
-    console.log(productid, index)
+    console.log("blah blah blah",productid, index)
   try {
     
     

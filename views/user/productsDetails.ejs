@@ -240,19 +240,19 @@
                             <h4 data-index="0" id="productName" class="p-2">
                                 <%= product.name %>
                             </h4>
-                            <div class="rating">
+                            <!-- <div class="rating">
                                 <i class="fa fa-star"></i>
                                 <i class="fa fa-star"></i>
                                 <i class="fa fa-star"></i>
                                 <i class="fa fa-star"></i>
                                 <i class="fa fa-star-o"></i>
                                 <span> - 5 Reviews</span>
-                            </div>
+                            </div> -->
                             <%const discount=(product.variant[index].price - product.variant[index].previous_price) /
                                 product.variant[index].price%>
                                 <%const percentageDiscount=discount * 100%>
                                     <%const off=Math.floor(percentageDiscount)%>
-                                        <h3 class="p-2">₹<%= product.variant[index].previous_price%><span> ₹<%=
+                                        <h3 class="p-2"><s>₹<%= product.variant[index].previous_price%></s><span> ₹<%=
                                                         product.variant[index].price%></span> <span class=""
                                                     style="color: rgb(51, 181, 51); text-decoration: none; font-size: 16px;">
                                                     <%= off %>% off
@@ -308,9 +308,9 @@
                                                 <button type="button" onclick="return addToCart('<%= product._id%>');" class="primary-btn">Add to Cart</button>
                                             <% } %>
                                         </div>
-                                        <div class="product__details__btns__option">
+                                        <div class="product__details__btns__option" onclick="return addToWishlist('<%= product._id %>')">
                                             <a href="#"><i class="fa fa-heart"></i> add to wishlist</a>
-                                            <a href="#"><i class="fa fa-exchange"></i> Add To Compare</a>
+                                            <!-- <a href="#"><i class="fa fa-exchange"></i> Add To Compare</a> -->
                                         </div>
 
                         </div>
@@ -695,6 +695,7 @@
     <script src="/static/js/owl.carousel.min.js"></script>
     <script src="/static/js/main.js"></script>
     <script src="/static/js/user/cart.js"></script>
+    <script src="/static/js/user/wishlist.js"></script>
     </body>
     
     </html>

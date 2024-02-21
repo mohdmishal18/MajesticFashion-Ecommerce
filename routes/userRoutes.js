@@ -3,6 +3,7 @@ const userRoute = express();
 const userController = require('../controllers/userController');
 const cartController = require('../controllers/cartController');
 const orderController = require('../controllers/orderController');
+const wishlistController = require('../controllers/wishlistController');
 const User = require('../models/userModel')
 // const userAuth = require('../middlewares/userAuth');
 const session = require("express-session");
@@ -124,6 +125,10 @@ userRoute
 
     .get('/successpage',auth.authlogg,orderController.successPage)
 
+    // search filter pagination 
+
+    .post('/search', userController.filter)
+
     // order section =============================================
 
     .get('/orders',auth.userAuth,orderController.loadMyOrder)
@@ -137,6 +142,10 @@ userRoute
     // change password ================================================
     
     .post('/change-password',userController.changePassword)
+
+    // wishlist section 
+
+    .post('/add-wish',wishlistController.addToWishlist)
 
     
     
