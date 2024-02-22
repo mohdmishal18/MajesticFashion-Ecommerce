@@ -12,7 +12,7 @@ const loadWishlist = async (req,res) =>
         const userId = req.session.user?._id;
         const products = await Wishlist.find({ user: userId }).populate("products.productId");
 
-        const product = products[0].products;
+        const product = products[0]?.products;
 
         res.render('wishlist',{product : product});
     }
@@ -28,22 +28,21 @@ const addToWishlist = async (req, res) =>
     {
         const {productId , index} = req.body;
         const userId = req.session.user?._id;
-
-        console.log("the datas for wishlist are  : ",productId, index);
-
         const wishlist = await Wishlist.findOne({user : userId})
 
         if(wishlist)
         {
-            const exists = await Wishlist.findOne({user : userId, 'products.productId' : productId, index : index});
-            if(! exists)
+            const exists = await Wishlist.findOne({user : userId, 'products.productId' : productId, 'products.index' : index});
+            console.log("the duplicate : ", exists);
+            if(!exists)
             {
                 const data = 
                 {
                     productId : productId,
                     index : index
                 }
-                await wishlist.updateOne(
+                console.log("The data", data);
+                await Wishlist.updateOne(
                     {user : userId},
                     {
                         $push : 
@@ -52,11 +51,12 @@ const addToWishlist = async (req, res) =>
                         }
                     }
                 )
+
             }
-            // else
-            // {
-            //     res.json({already : true});
-            // }
+            else
+            {
+                return res.json({already : true});
+            }
         }
         else
         {
@@ -70,7 +70,11 @@ const addToWishlist = async (req, res) =>
                 user : userId,
                 products : data,
             })
-            await newWishlist.save();
+
+            if(newWishlist)
+            {
+              await newWishlist.save();
+            }
         }
         res.json({wishlist : true})
     }

@@ -24,6 +24,41 @@
     <link rel="stylesheet" href="/static/css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="/static/css/style.css" type="text/css">
 
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&display=swap"
+    rel="stylesheet">
+
+    <script src="https://kit.fontawesome.com/7669beee6a.js" crossorigin="anonymous"></script>
+
+    <!-- 
+        
+        Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="/imgs/theme/Majestic-white.png" />
+    <style>
+        a{
+                text-decoration: none;
+                color: black; /* Set the desired color */
+
+        }  
+        a:hover 
+        {
+            text-decoration: none;
+            color: black; /* Set the same color as the default or a different one */
+        }
+        /* Remove default link styles */
+
+        /* Style links on hover */
+        a:hover {
+        color: your-desired-hover-color;
+        }
+
+        /* Optional: Remove the underline on hover */
+        a:hover {
+        text-decoration: none;
+        }
+    </style>
+
+
     <style>
         .goto {
             margin: 0;
@@ -152,9 +187,14 @@
                 </div>
                 <div class="col-lg-3 col-md-3">
                     <div class="header__nav__option">
-                        <a href="#" class="search-switch"><img src="/static/img/icon/search.png" alt=""></a>
-                        <a href="#"><img src="/static/img/icon/heart.png" alt=""></a>
-                        <a href="#"><img src="/static/img/icon/cart.png" alt=""> <span></span></a>
+                        <a href="/wishlish/"><i class="fa-regular fa-heart fa-lg"></i></a>
+                        <a href="/cart/"><i class="fa-solid fa-cart-shopping fa-lg"></i></a>
+                        <%if(locals.user){%>
+                            <a href="/profile/"><i class="fa-regular fa-user fa-lg"></i></a>
+                            <a href="/logout" class="btn btn-dark">Logout</a>
+                        <%} else {%>
+                            <a href="/login" class="btn btn-dark">Login</a>
+                        <%}%>
                     </div>
                 </div>
             </div>

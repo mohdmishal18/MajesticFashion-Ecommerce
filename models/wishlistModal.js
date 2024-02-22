@@ -24,6 +24,11 @@ const wishlistSchema = mongoose.Schema(
                     required : true
                 },
 
+                addedOn : 
+                {
+                    type : Date,
+                    default : Date.now
+                }
             }
         ]
     }

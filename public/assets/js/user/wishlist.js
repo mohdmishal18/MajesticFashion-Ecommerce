@@ -54,6 +54,16 @@ function toWishlist(productId, vIndex)
                         }
                     }
                 }
+                else if(response.already)
+                {
+                    Swal.fire({
+                        title : "Already in Wishlist",
+                        text : "The product is already in the  wishlist",
+                        icon : 'warning',
+                        showConfirmButton : true,
+                        confirmButtonText : 'OK'
+                    })
+                }
                 else
                 {
                     Swal.fire({

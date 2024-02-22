@@ -24,6 +24,42 @@
     <link rel="stylesheet" href="/static/css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="/static/css/style.css" type="text/css">
 
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&display=swap"
+    rel="stylesheet">
+
+    <script src="https://kit.fontawesome.com/7669beee6a.js" crossorigin="anonymous"></script>
+
+    <!-- 
+        
+        Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="/imgs/theme/Majestic-white.png" />
+
+    <style>
+        a{
+                text-decoration: none;
+                color: black; /* Set the desired color */
+
+        }  
+        a:hover 
+        {
+            text-decoration: none;
+            color: black; /* Set the same color as the default or a different one */
+        }
+        /* Remove default link styles */
+
+        /* Style links on hover */
+        a:hover {
+        color: your-desired-hover-color;
+        }
+
+        /* Optional: Remove the underline on hover */
+        a:hover {
+        text-decoration: none;
+        }
+    </style>
+
+
     <style>
         .goto {
             margin: 0;
@@ -150,13 +186,40 @@
                         </ul>
                     </nav>
                 </div>
+                <!-- <div class="col-lg-3 col-md-3">
+                    <div class="header__nav__option">
+                        <a href="/wishlist/"><i class="fa-regular fa-heart fa-lg"></i></a>
+                        <a href="/cart/"><i class="fa-solid fa-cart-shopping fa-lg"></i></a>
+                        
+                        <li class="dropdown nav-item">
+                            <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownAccount" aria-expanded="false">
+                                <i class="fa-regular fa-user fa-lg"></i>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownAccount">
+                                <% if(locals.user) { %>
+                                    <a class="dropdown-item text-dark" href="/profile/"><i class="fa-regular fa-user fa-lg"></i> Profile</a>
+                                    <a class="dropdown-item text-danger" href="/logout"><i class="fa-regular fa-sign-out-alt fa-lg"></i> Logout</a>
+                                <% } else { %>
+                                    <a class="dropdown-item text-dark" href="/login"><i class="fa-regular fa-sign-in-alt fa-lg"></i> Login</a>
+                                <% } %>
+                            </div>
+                        </li>
+                    </div>
+                </div> -->
+
                 <div class="col-lg-3 col-md-3">
                     <div class="header__nav__option">
-                        <a href="#" class="search-switch"><img src="/static/img/icon/search.png" alt=""></a>
-                        <a href="#"><img src="/static/img/icon/heart.png" alt=""></a>
-                        <a href="#"><img src="/static/img/icon/cart.png" alt=""> <span></span></a>
+                        <a href="/wishlish/"><i class="fa-regular fa-heart fa-lg"></i></a>
+                        <a href="/cart/"><i class="fa-solid fa-cart-shopping fa-lg"></i></a>
+                        <%if(locals.user){%>
+                            <a href="/profile/"><i class="fa-regular fa-user fa-lg"></i></a>
+                            <a href="/logout" class="btn btn-dark">Logout</a>
+                        <%} else {%>
+                            <a href="/login" class="btn btn-dark">Login</a>
+                        <%}%>
                     </div>
                 </div>
+                
             </div>
             <div class="canvas__open"><i class="fa fa-bars"></i></div>
         </div>
@@ -193,6 +256,7 @@
                             <thead>
                                 <tr>
                                     <th>Product</th>
+                                    <th>Added On</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -207,13 +271,18 @@
                                             <div class="product__cart__item__text">
                                                 <h6 style="font-size: 12px;"><%= item.productId.name %></h6>
                                                 <h5 style="font-size: 15px;">₹<%= item.productId.variant[item.index].price %></h5>
-                                                 
+                                                <h5 style="font-size: 15px;"><%= item.productId.variant[item.index].color %></h5>
                                             </div>
+                                        </td>
+                                        
+                                        <% const formattedDate = item.addedOn.toLocaleString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: true }); %>
+
+                                        <td>
+                                            <%= formattedDate %>
                                         </td>
                                         
                                         <td class="cart__close" >
                                             <i class="fa fa-close"></i>
-                                            <button type="button" onclick="addToCart()" class="btn  btn-dark">Add to cart</button>
                                         </td>
                                     </tr>
     
@@ -236,7 +305,7 @@
       <% }else{ %>
         <div style="display: flex; justify-content: center; align-items: center; height: 30rem;">
             <div style="text-align: center;">
-                <img src="/assets/img/emptycart.webp" alt="Empty Cart Image" style="width: 150px; height: 150px; margin-bottom: 20px;">
+                <img src="/assets/img/wishlist.png" alt="Empty Cart Image" style="width: 400px; height: 300px; margin-bottom: 20px;">
                 <p style="font-size: 1.5rem; color: #555;">Your Wishlist is currently empty.</p>
                 <a href="/shop" class="btn btn-outline-dark btn-lg">Explore Our Shop</a>
             </div>
