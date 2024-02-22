@@ -1,6 +1,26 @@
+const mongoose = require('mongoose');
+
+
 const Product = require('../models/productModel');
 const Wishlist = require('../models/wishlistModal');
 const User = require('../models/userModel');
+
+const loadWishlist = async (req,res) =>
+{
+    try
+    {
+        const userId = req.session.user?._id;
+        const products = await Wishlist.find({ user: userId }).populate("products.productId");
+
+        const product = products[0].products;
+
+        res.render('wishlist',{product : product});
+    }
+    catch(error)
+    {
+        console.log(error);
+    }
+}
 
 const addToWishlist = async (req, res) =>
 {
@@ -63,5 +83,6 @@ const addToWishlist = async (req, res) =>
 
 module.exports = 
 {
-    addToWishlist
+    addToWishlist,
+    loadWishlist
 }

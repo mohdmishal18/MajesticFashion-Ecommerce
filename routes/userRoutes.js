@@ -143,7 +143,9 @@ userRoute
     
     .post('/change-password',userController.changePassword)
 
-    // wishlist section 
+    // wishlist section =======================================
+
+    .get('/wishlist',wishlistController.loadWishlist)
 
     .post('/add-wish',wishlistController.addToWishlist)
 
