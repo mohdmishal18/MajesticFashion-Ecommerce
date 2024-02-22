@@ -265,13 +265,13 @@
                                     <tr>
                                         <td class="product__cart__item">
                                             <div class="product__cart__item__pic">
-    
                                                 <img class="" style="width: 100px; height: 100px;" src="/static/img/productImage/sharp/<%= item.productId.variant[item.index].images[0] %>" alt="">
                                             </div>
                                             <div class="product__cart__item__text">
                                                 <h6 style="font-size: 12px;"><%= item.productId.name %></h6>
                                                 <h5 style="font-size: 15px;">₹<%= item.productId.variant[item.index].price %></h5>
                                                 <h5 style="font-size: 15px;"><%= item.productId.variant[item.index].color %></h5>
+                                                <h5 style="font-size: 15px; color: red;">Only <%= item.productId.variant[item.index].quantity %> Left!</h5>
                                             </div>
                                         </td>
                                         
