@@ -6,7 +6,7 @@ const loadCoupon = async (req,res) =>
 {
     try
     {
-        res.render('coupon');
+        res.render('couponManagement');
     }
     catch(error)
     {

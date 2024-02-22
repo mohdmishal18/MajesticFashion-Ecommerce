@@ -2,12 +2,12 @@ const express = require('express');
 const adminRoute = express();
 const session = require('express-session');
 
-const adminController = require('../controllers/adminController');
-
 const config = require('../config/config');
 
+const adminController = require('../controllers/adminController');
 const categoryController = require('../controllers/categoryController');
 const productController = require('../controllers/productController');
+const couponController = require('../controllers/couponController');
 
 adminRoute.use(session({
     secret : config.sessionSecret,
@@ -49,8 +49,8 @@ adminRoute
     .get('/editvariant',auth.isLogin,productController.loadEditVariant)
     .post('/editvariant',multer.array('images'),productController.editVariant)
     .post('/listproduct',productController.listProduct)
-    //Category Mangement.
 
+    //Category Mangement.
     .get('/category',auth.isLogin,categoryController.loadCategory)
     .get('/addcategory',auth.isLogin,categoryController.loadAddCategory)
     .post('/addcategory',categoryController.addCategory)
@@ -65,6 +65,9 @@ adminRoute
     //sales Report.
     .get('/sales-report',auth.isLogin,adminController.salesReport)
     .post('/order-report',adminController.orderReport)
+
+    // coupon management .
+    .get('/coupon', couponController.loadCoupon);
 
 
 module.exports = adminRoute;
