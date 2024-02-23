@@ -6,7 +6,8 @@ const loadCoupon = async (req,res) =>
 {
     try
     {
-        res.render('couponManagement');
+        const coupon = await Coupon.find({});
+        res.render('couponManagement',{coupon : coupon});
     }
     catch(error)
     {
@@ -47,7 +48,24 @@ const editCoupon = async(req,res) =>
 {
     try
     {
+        console.log("in edit coupon");
+        const {id, name , activated, expiry , discount ,limit} = req.body;
 
+        console.log("the datas are ", req.body);
+
+        await Coupon.updateOne({_id : id},
+            {
+                $set : 
+                {
+                    name : name,
+                    activatedDate : activated,
+                    expiryDate : expiry,
+                    discount : discount,
+                    limit : limit
+                }
+            })
+            
+            res.json({updated : true})
     }
     catch(error)
     {
@@ -59,7 +77,7 @@ const deleteCoupon = async(req,res) =>
 {
     try 
     {
-
+       
     }
     catch(error)
     {
@@ -70,5 +88,7 @@ const deleteCoupon = async(req,res) =>
 module.exports = 
 {
     loadCoupon,
-    addCoupon
+    addCoupon,
+    editCoupon,
+
 }
