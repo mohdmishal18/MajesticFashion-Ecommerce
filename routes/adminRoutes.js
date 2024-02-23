@@ -67,7 +67,9 @@ adminRoute
     .post('/order-report',adminController.orderReport)
 
     // coupon management .
-    .get('/coupon', couponController.loadCoupon);
+    .get('/coupon', couponController.loadCoupon)
+    .post('/createCoupon',couponController.addCoupon)
+    
 
 
 module.exports = adminRoute;

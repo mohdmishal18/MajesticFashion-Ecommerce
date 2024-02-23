@@ -26,6 +26,11 @@ const couponSchema = mongoose.Schema
         required : true
     },
 
+    discount : 
+    {
+        type : Number
+    },
+
     usedUsers : 
     {
         type : Array,

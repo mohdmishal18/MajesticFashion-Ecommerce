@@ -16,9 +16,26 @@ const loadCoupon = async (req,res) =>
 
 const addCoupon = async (req,res) =>
 {
+    const {name,activate,expiry,limit,discount} = req.body;
+
+    const firstname = name.split("").slice(0, 4).join("");
+    const randomString = Math.random().toString(36).substring(2, 7);
+    const randomNumber = `${Math.floor(1000 + Math.random() * 9000)}`;
+
     try
     {
+        const coupon = new Coupon({
+            name : name,
+            code : `${firstname}${randomString}${randomNumber}`,
+            activatedDate : activate,
+            expiryDate : expiry,
+            discount : discount,
+            limit : limit
+        })
 
+        await coupon.save();
+
+        res.redirect('/admin/coupon');
     }
     catch(error)
     {
@@ -53,5 +70,5 @@ const deleteCoupon = async(req,res) =>
 module.exports = 
 {
     loadCoupon,
-
+    addCoupon
 }

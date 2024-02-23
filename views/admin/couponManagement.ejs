@@ -1,0 +1,238 @@
+<%- include('../layouts/admin/header.ejs') -%>
+
+    <div class="screen-overlay"></div>
+    <aside class="navbar-aside" id="offcanvas_aside">
+        <div class="aside-top">
+            <a href=/admin/home class="brand-wrap">
+                <img src="/imgs/theme/Majestic.png" class="logo" alt="Majestic Dashboard" />
+            </a>
+            <div>
+                <button class="btn btn-icon btn-aside-minimize"><i
+                        class="text-muted material-icons md-menu_open"></i></button>
+            </div>
+        </div>
+        <nav>
+            <ul class="menu-aside">
+                <li class="menu-item">
+                    <a class="menu-link" href="/admin/home">
+                        <i class="icon material-icons md-home"></i>
+                        <span class="text">Dashboard</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a class="menu-link" href="/admin/userlist">
+                        <i class="icon material-icons md-shopping_bag"></i>
+                        <span class="text">Customers</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a class="menu-link" href="/admin/product">
+                        <i class="icon material-icons md-shopping_cart"></i>
+                        <span class="text">Products</span>
+                    </a>
+
+                </li>
+                <li class="menu-item active">
+                    <a class="menu-link" href="/admin/category">
+                        <i class="icon material-icons md-add_box"></i>
+                        <span class="text">Categories</span>
+                    </a>
+
+                </li>
+                <li class="menu-item">
+                    <a class="menu-link" href="/admin/orders">
+                        <i class="icon material-icons md-store"></i>
+                        <span class="text">Orders</span>
+                    </a>
+
+                </li>
+                <li class="menu-item">
+                    <a class="menu-link" href="/admin/coupon">
+                        <i class="icon material-icons md-monetization_on"></i>
+                        <span class="text">Coupon</span>
+                    </a>
+
+                </li>
+                <li class="menu-item">
+                    <a class="menu-link" href="/admin/banner">
+                        <i class="icon material-icons md-person"></i>
+                        <span class="text">Banner</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a class="menu-link" href="/admin/sales-report">
+                        <i class="icon material-icons md-monetization_on"></i>
+                        <span class="text">Sales</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+    <main class="main-wrap">
+        <%- include('../partials/logout-dark.ejs') -%>
+            <section class="content-main">
+                <div class="content-header">
+                    <div>
+                        <h2 class="content-title card-title">Coupon List</h2>
+                        <p>All Coupon</p>
+                    </div>
+                    <div>
+                        <button href="#" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#addCoupon">
+                            <i class="material-icons md-plus"></i> Create coupon
+                        </button>
+                    </div>
+                </div>
+                <div class="card mb-4">
+                    <header class="card-header">
+                        <div class="row gx-3">
+                            <div class="col-lg-4 col-md-6 me-auto">
+                                <input type="text" placeholder="Search..." class="form-control" />
+                            </div>
+                        </div>
+                    </header>
+                    <!-- card-header end// -->
+                    <div class="card mb-4">
+                        <!-- card-header end// -->
+                        <div class="card-body" id="#ReloadCategory">
+                            <div class="table-responsive" id="Reload">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr class="table-dark">
+                                            <th>Name</th>
+                                            <!-- <th>Description</th> -->
+                                            <th>status</th>
+                                            <th>edit</th>
+                                            <th class="text-center">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                    </tbody>
+                                </table>
+
+                            </div>
+                            <!-- table-responsive //end -->
+                        </div>
+                        <!-- card-body end// -->
+                    </div>
+                </div>
+                <div class="pagination-area mt-30 mb-50">
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination justify-content-start">
+                            <li class="page-item active"><a class="page-link" href="#">01</a></li>
+                            <li class="page-item"><a class="page-link" href="#">02</a></li>
+                            <li class="page-item"><a class="page-link" href="#">03</a></li>
+                            <li class="page-item"><a class="page-link dot" href="#">...</a></li>
+                            <li class="page-item"><a class="page-link" href="#">16</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="#"><i class="material-icons md-chevron_right"></i></a>
+                            </li>
+                        </ul>
+                    </nav>
+                    <div>
+                    </div>
+                </div>
+                </div>
+            </section>
+    </main>
+    </div>
+
+
+
+    <!-- Create Coupon Modal -->
+    <div class="modal fade" id="addCoupon" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">
+                        Create coupon
+                    </h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="/admin/createCoupon" method="post">
+                        <label for="form-label">Name</label>
+                        <input type="text" name="name" placeholder="Enter coupon name" class="form-control" />
+
+                        <label for="form-label">Activation date</label>
+                        <input type="date" name="activate"  class="form-control" />
+
+                        <label for="form-label">Expire date</label>
+                        <input type="date" name="expiry"  class="form-control" />
+
+                        <label for="form-label">Limit</label>
+                        <input type="text" name="limit" placeholder="enter how many user can use"
+                            class="form-control" />
+
+                        <label for="form-label">Dicount amount</label>
+                        <input type="text" name="discount" placeholder="enter how many user can use"
+                            class="form-control" />
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                Close
+                            </button>
+                            <button type="submit" class="btn btn-primary">
+                                Create Coupon
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit coupon Modal -->
+
+    <div class="modal fade" id="addCoupon" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">
+                        Edit coupon
+                    </h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="/admin/create-coupon" method="post">
+                        <label for="form-label">Name</label>
+                        <input type="text" name="name" placeholder="Enter coupon name" class="form-control" />
+
+                        <label for="form-label">Activation date</label>
+                        <input type="text" name="adate" placeholder="dd-mm-yyyy" class="form-control" />
+
+                        <label for="form-label">Expire date</label>
+                        <input type="text" name="edate" placeholder="dd-mm-yyyy" class="form-control" />
+
+                        <label for="form-label">Limit of use</label>
+                        <input type="text" name="limit" placeholder="enter how many user can use"
+                            class="form-control" />
+
+                        <label for="form-label">Dicount amount</label>
+                        <input type="text" name="damount" placeholder="enter how many user can use"
+                            class="form-control" />
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                Close
+                            </button>
+                            <button type="submit" class="btn btn-primary">
+                                Save changes
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <%- include('../layouts/admin/footer.ejs') -%>
+
+
+        <!-- Add this to your HTML file -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+        <!-- Add this to your HTML file before your script that uses jQuery -->
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
