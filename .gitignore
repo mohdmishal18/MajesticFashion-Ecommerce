@@ -1,2 +1,37 @@
+# Node.js
+node_modules/
+
+# Build files
+build/
+dist/
+
+# Logs
+*.log
+
+# Environment variables
 .env
-node_modules
+
+# Dependency lock files
+package-lock.json
+yarn.lock
+
+# User-specific files
+.DS_Store
+.vscode/
+.idea/
+
+# Production build
+public/
+
+# MongoDB
+*.mdb
+*.ldb
+
+# Editor/IDE specific files
+*.sublime-project
+*.sublime-workspace
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
