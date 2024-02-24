@@ -100,9 +100,10 @@
                                         <tr class="table-dark">
                                             <th>Name</th>
                                             <th>Coupon Code</th>
-                                            <th>Start Date</th>
-                                            <th>Start Date</th>
-                                            <th class="text-center">Discount Amount</th>
+                                            <th>Activated Date</th>
+                                            <th>expiry Date</th>
+                                            <th>Minimum Spend</th>
+                                            <th>Discount Amount</th>
                                             <th>Ramaining</th>
                                             <th>Status</th>
                                             <th class="text-center">Action</th>
@@ -110,40 +111,57 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <% if(Array.isArray(coupon) && coupon.length > 0){ %>
-                                            <% coupon.map((coup) =>{%>
+                                        <% if(Array.isArray(coupon) && coupon.length> 0){ %>
+                                            <% coupon.map((coup)=>{%>
                                                 <tr>
-                                                    <td><%= coup.name %></td>
-                                                    <td><%= coup.code %></td>
-                                                    <td><%= coup.activatedDate %></td>
-                                                    <td><%= coup.expiryDate %></td>
-                                                    <td class="text-center"><%= coup.discount %></td>
-                                                    <td><%= coup.limit%></td>
                                                     <td>
-                                                        <a class="btn btn-sm btn-dark"  id="button" href="">
+                                                        <%= coup.name %>
+                                                    </td>
+                                                    <td>
+                                                        <%= coup.code %>
+                                                    </td>
+                                                    <td>
+                                                        <%= coup.activatedDate %>
+                                                    </td>
+                                                    <td>
+                                                        <%= coup.expiryDate %>
+                                                    </td>
+                                                    <td>
+                                                        <%= coup.minAmountSpend %>
+                                                    </td>
+                                                    <td>
+                                                        <%= coup.discount %>
+                                                    </td>
+                                                    <td>
+                                                        <%= coup.limit%>
+                                                    </td>
+                                                    <td>
+                                                        <a class="btn btn-sm btn-dark" id="button" href="">
                                                             List
-                                                         </a>
+                                                        </a>
                                                     </td>
                                                     <td class="text-center">
-                                                         <button class="btn btn-sm btn-dark"  id="button" onclick="editCoupon('<%= coup._id %>','<%= coup.name%>','<%= coup.activatedDate%>','<%=coup.expiryDate%>','<%=coup.discount%>','<%=coup.limit%>')">
+                                                        <button class="btn btn-sm btn-dark" id="button"
+                                                            onclick="editCoupon('<%= coup._id %>','<%= coup.name%>','<%= coup.activatedDate%>','<%=coup.expiryDate%>','<%=coup.discount%>','<%=coup.limit%>','<%=coup.minimum%>')">
                                                             Edit
-                                                         </button>
-                                                         <button class="btn btn-sm btn-dark"  id="button">
+                                                        </button>
+                                                        <button class="btn btn-sm btn-dark" id="button">
                                                             Delete
-                                                         </button>
+                                                        </button>
                                                     </td>
                                                     <td>
                                                         <a class="btn" onclick="deleteCoupon('<%= coup._id %>')">
-                                                            <i class="fa-solid fa-trash fa-xl" style="color: #000000;"></i>
+                                                            <i class="fa-solid fa-trash fa-xl"
+                                                                style="color: #000000;"></i>
                                                         </a>
                                                     </td>
                                                 </tr>
-                                           <% }) %>
-                                       <% } else{%>
-                                        <td colspan="8" class="text-center">
-                                            No coupons available.
-                                        </td>
-                                        <%}%>
+                                                <% }) %>
+                                                    <% } else{%>
+                                                        <td colspan="8" class="text-center">
+                                                            No coupons available.
+                                                        </td>
+                                                        <%}%>
                                     </tbody>
                                 </table>
 
@@ -192,18 +210,20 @@
                         <input type="text" name="name" placeholder="Enter coupon name" class="form-control" />
 
                         <label for="form-label">Activation date</label>
-                        <input type="date" name="activate"  class="form-control" />
+                        <input type="date" name="activate" class="form-control" />
 
                         <label for="form-label">Expire date</label>
-                        <input type="date" name="expiry"  class="form-control" />
+                        <input type="date" name="expiry" class="form-control" />
 
                         <label for="form-label">Limit</label>
-                        <input type="text" name="limit" placeholder="enter how many user can use"
+                        <input type="text" name="limit" placeholder="number of times can be used"
                             class="form-control" />
 
                         <label for="form-label">Dicount amount</label>
-                        <input type="text" name="discount" placeholder="enter how many user can use"
-                            class="form-control" />
+                        <input type="text" name="discount" placeholder="discount amount" class="form-control" />
+
+                        <label for="form-label">Minimum amount Spend</label>
+                        <input type="text" name="minAmountSpend" placeholder="min amount" class="form-control" />
 
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
@@ -233,23 +253,27 @@
                 <div class="modal-body">
                     <form>
                         <label for="form-label">Name</label>
-                        <input type="text" name="name" id="nameE" value="" placeholder="Enter coupon name" class="form-control" />
+                        <input type="text" name="name" id="nameE" value="" placeholder="Enter coupon name"
+                            class="form-control" />
 
                         <input type="text" name="couponId" id="id" value="" hidden>
 
                         <label for="form-label">Activation date</label>
-                        <input type="date" name="activatedDate" id="activatedDateE" placeholder="dd-mm-yyyy" class="form-control" />
+                        <input type="date" name="activatedDate" id="activatedDateE" placeholder="dd-mm-yyyy"
+                            class="form-control" />
 
                         <label for="form-label">Expire date</label>
-                        <input type="date" name="expiryDate" id="expiryDateE" placeholder="dd-mm-yyyy" class="form-control" />
+                        <input type="date" name="expiryDate" id="expiryDateE" placeholder="dd-mm-yyyy"
+                            class="form-control" />
 
                         <label for="form-label">Limit of use</label>
-                        <input type="text" name="limit" id="limitE" placeholder="enter how many user can use"
-                            class="form-control" />
+                        <input type="text" name="limit" id="limitE" class="form-control" />
 
                         <label for="form-label">Dicount amount</label>
-                        <input type="text" name="discount" id="discountE" placeholder="enter how many user can use"
-                            class="form-control" />
+                        <input type="text" name="discount" id="discountE" class="form-control" />
+
+                        <label for="form-label">Minimum amount Spend</label>
+                        <input type="text" name="minimum" id="minimumE" class="form-control" />
 
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
@@ -269,145 +293,140 @@
 
     <%- include('../layouts/admin/footer.ejs') -%>
 
-    <script>
-        function editCoupon(couponId,name,activatedDate,expiryDate,discount,limit)
-        {
-            $('#editCoupon').modal('show');
+        <script>
+            function editCoupon(couponId, name, activatedDate, expiryDate, discount, limit,minimum) {
+                $('#editCoupon').modal('show');
 
-            const idInput = document.getElementById('id');
-            const nameInput = document.getElementById('nameE');
-            const AcitvatedInput = document.getElementById('activatedDateE');
-            const expiryInput = document.getElementById('expiryDateE');
-            const discountInput = document.getElementById('discountE');
-            const LimitInput = document.getElementById('limitE');
+                const idInput = document.getElementById('id');
+                const nameInput = document.getElementById('nameE');
+                const AcitvatedInput = document.getElementById('activatedDateE');
+                const expiryInput = document.getElementById('expiryDateE');
+                const discountInput = document.getElementById('discountE');
+                const minimumInput = document.getElementById('minimumE');
+                const LimitInput = document.getElementById('limitE');
 
-            idInput.value = couponId;
-            nameInput.value = name;
-            AcitvatedInput.value = activatedDate;
-            expiryInput.value = expiryDate;
-            discountInput.value = discount;
-            LimitInput.value = limit;
-        }
-
-
-        function Edit(event)
-        {
-            event.preventDefault();
-
-            const id = document.getElementById('id').value;
-            const name = document.getElementById('nameE').value;
-            const activated = document.getElementById('activatedDateE').value;
-            const expiry = document.getElementById('expiryDateE').value;
-            const discount = document.getElementById('discountE').value;
-            const limit = document.getElementById('limitE').value;
-
-            const data = 
-            {
-                id : id ,
-                name : name,
-                activated : activated ,
-                expiry : expiry,
-                discount : discount,
-                limit : limit 
+                idInput.value = couponId;
+                nameInput.value = name;
+                AcitvatedInput.value = activatedDate;
+                expiryInput.value = expiryDate;
+                discountInput.value = discount;
+                minimumInput.value = minimum;
+                LimitInput.value = limit;
             }
 
-            console.log("the datas are ",data);
 
-            if(data)
-            {
-                $.ajax({
-                type: 'POST',
-                url: '/admin/editCoupon',
-                data: JSON.stringify(data),
-                contentType: 'application/JSON',
-                success: function (response) {
-                    Swal.fire({
-                        title: 'Are you sure?',
-                        text: 'Do you want to update the address?',
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Yes, update it!'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            if (response.updated) {
-                                Swal.fire({
-                                    icon: 'success',
-                                    title: 'Updated',
-                                    text: 'Address edited successfully...',
-                                });
-                                // Hide the modal
-                                $('#editCoupon').modal('hide');
-                                $('#couponReload').load('/admin/coupon #couponReload');
-                            } else {
-                                // Handle the case where response.updated is false
-                                Swal.fire({
-                                    icon: 'error',
-                                    title: 'Error',
-                                    text: 'Failed to update the address. Please try again.',
-                                });
-                            }
+            function Edit(event) {
+                event.preventDefault();
+
+                const id = document.getElementById('id').value;
+                const name = document.getElementById('nameE').value;
+                const activated = document.getElementById('activatedDateE').value;
+                const expiry = document.getElementById('expiryDateE').value;
+                const discount = document.getElementById('discountE').value;
+                const minimum = document.getElementById('minimumE').value
+                const limit = document.getElementById('limitE').value;
+
+                const data =
+                {
+                    id: id,
+                    name: name,
+                    activated: activated,
+                    expiry: expiry,
+                    discount: discount,
+                    minimum : minimum,
+                    limit: limit
+                }
+
+                console.log("the datas are ", data);
+
+                if (data) {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/admin/editCoupon',
+                        data: JSON.stringify(data),
+                        contentType: 'application/JSON',
+                        success: function (response) {
+                            Swal.fire({
+                                title: 'Are you sure?',
+                                text: 'Do you want to update the address?',
+                                icon: 'warning',
+                                showCancelButton: true,
+                                confirmButtonColor: '#3085d6',
+                                cancelButtonColor: '#d33',
+                                confirmButtonText: 'Yes, update it!'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    if (response.updated) {
+                                        Swal.fire({
+                                            icon: 'success',
+                                            title: 'Updated',
+                                            text: 'Address edited successfully...',
+                                        });
+                                        // Hide the modal
+                                        $('#editCoupon').modal('hide');
+                                        $('#couponReload').load('/admin/coupon #couponReload');
+                                    } else {
+                                        // Handle the case where response.updated is false
+                                        Swal.fire({
+                                            icon: 'error',
+                                            title: 'Error',
+                                            text: 'Failed to update the address. Please try again.',
+                                        });
+                                    }
+                                }
+                            });
+                        },
+                        error: function (xhr, status, error) {
+                            // Handle Ajax errors
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: 'An error occurred during the request. Please try again .',
+                            });
                         }
                     });
-                },
-                error: function (xhr, status, error) {
-                    // Handle Ajax errors
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: 'An error occurred during the request. Please try again .',
-                    });
+
                 }
-            });
-
             }
-        }
 
 
 
-        function deleteCoupon(id)
-        {
-            const data = 
-            {
-                id : id
-            }
-            fetch('/admin/deleteCoupon',
-            {
-                method : 'DELETE',
-                headers : 
+            function deleteCoupon(id) {
+                const data =
                 {
-                    'Content-Type' : 'application/json',
-                },
-                body : JSON.stringify(data)
-            })
-            .then((response) =>
-            {
-                if(response.ok)
-                {
-                    return response.json()
+                    id: id
                 }
-                throw new Error('Delete request is failed')
-            })
-            .then(() =>
-            {
-                Swal.fire({
-                    title: 'Success',
-                    icon: 'success',
-                    text: 'Coupon is deleted successfully'
-                })
-                .then(() =>
-                {
-                    window.location.reload()
-                })
-            })
-            .catch((error) =>
-            {
-                Swal.fire('Error', 'Failed to deleting Coupon', 'error')
-                console.log(error);
-            })
-        }
-    </script>
+                fetch('/admin/deleteCoupon',
+                    {
+                        method: 'DELETE',
+                        headers:
+                        {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(data)
+                    })
+                    .then((response) => {
+                        if (response.ok) {
+                            return response.json()
+                        }
+                        throw new Error('Delete request is failed')
+                    })
+                    .then(() => {
+                        Swal.fire({
+                            title: 'Success',
+                            icon: 'success',
+                            text: 'Coupon is deleted successfully'
+                        })
+                            .then(() => {
+                                window.location.reload()
+                            })
+                    })
+                    .catch((error) => {
+                        Swal.fire('Error', 'Failed to deleting Coupon', 'error')
+                        console.log(error);
+                    })
+            }
+        </script>
 
 
         <!-- Add this to your HTML file -->

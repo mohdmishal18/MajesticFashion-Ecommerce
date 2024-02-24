@@ -31,6 +31,11 @@ const couponSchema = mongoose.Schema
         type : Number
     },
 
+    minAmountSpend : 
+    {
+        type : Number
+    },
+
     usedUsers : 
     {
         type : Array,

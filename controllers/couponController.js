@@ -17,7 +17,7 @@ const loadCoupon = async (req,res) =>
 
 const addCoupon = async (req,res) =>
 {
-    const {name,activate,expiry,limit,discount} = req.body;
+    const {name,activate,expiry,limit,discount,minAmountSpend} = req.body;
 
     const firstname = name.split("").slice(0, 4).join("");
     const randomString = Math.random().toString(36).substring(2, 7);
@@ -31,6 +31,7 @@ const addCoupon = async (req,res) =>
             activatedDate : activate,
             expiryDate : expiry,
             discount : discount,
+            minAmountSpend : minAmountSpend,
             limit : limit
         })
 
