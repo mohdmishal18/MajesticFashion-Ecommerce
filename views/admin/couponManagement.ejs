@@ -106,6 +106,7 @@
                                             <th>Ramaining</th>
                                             <th>Status</th>
                                             <th class="text-center">Action</th>
+                                            <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -118,19 +119,30 @@
                                                     <td><%= coup.expiryDate %></td>
                                                     <td class="text-center"><%= coup.discount %></td>
                                                     <td><%= coup.limit%></td>
-                                                    <td>Unlisted</td>
-                                                    <td class="text-center">
+                                                    <td>
                                                         <a class="btn btn-sm btn-dark"  id="button" href="">
                                                             List
                                                          </a>
+                                                    </td>
+                                                    <td class="text-center">
                                                          <button class="btn btn-sm btn-dark"  id="button" onclick="editCoupon('<%= coup._id %>','<%= coup.name%>','<%= coup.activatedDate%>','<%=coup.expiryDate%>','<%=coup.discount%>','<%=coup.limit%>')">
                                                             Edit
                                                          </button>
+                                                         <button class="btn btn-sm btn-dark"  id="button">
+                                                            Delete
+                                                         </button>
+                                                    </td>
+                                                    <td>
+                                                        <a class="btn" onclick="deleteCoupon('<%= coup._id %>')">
+                                                            <i class="fa-solid fa-trash fa-xl" style="color: #000000;"></i>
+                                                        </a>
                                                     </td>
                                                 </tr>
                                            <% }) %>
                                        <% } else{%>
-
+                                        <td colspan="8" class="text-center">
+                                            No coupons available.
+                                        </td>
                                         <%}%>
                                     </tbody>
                                 </table>
@@ -350,6 +362,50 @@
             });
 
             }
+        }
+
+
+
+        function deleteCoupon(id)
+        {
+            const data = 
+            {
+                id : id
+            }
+            fetch('/admin/deleteCoupon',
+            {
+                method : 'DELETE',
+                headers : 
+                {
+                    'Content-Type' : 'application/json',
+                },
+                body : JSON.stringify(data)
+            })
+            .then((response) =>
+            {
+                if(response.ok)
+                {
+                    return response.json()
+                }
+                throw new Error('Delete request is failed')
+            })
+            .then(() =>
+            {
+                Swal.fire({
+                    title: 'Success',
+                    icon: 'success',
+                    text: 'Coupon is deleted successfully'
+                })
+                .then(() =>
+                {
+                    window.location.reload()
+                })
+            })
+            .catch((error) =>
+            {
+                Swal.fire('Error', 'Failed to deleting Coupon', 'error')
+                console.log(error);
+            })
         }
     </script>
 

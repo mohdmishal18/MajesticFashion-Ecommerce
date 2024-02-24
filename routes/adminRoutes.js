@@ -70,7 +70,7 @@ adminRoute
     .get('/coupon', couponController.loadCoupon)
     .post('/createCoupon',couponController.addCoupon)
     .post('/editCoupon', couponController.editCoupon)
-    
+    .delete('/deleteCoupon',couponController.deleteCoupon)
 
 
 

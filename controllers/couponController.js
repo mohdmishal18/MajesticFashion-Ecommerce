@@ -77,7 +77,10 @@ const deleteCoupon = async(req,res) =>
 {
     try 
     {
-       
+       const {id} = req.body
+
+       await Coupon.deleteOne({_id : id})
+       res.json({deleted : true});
     }
     catch(error)
     {
@@ -90,5 +93,5 @@ module.exports =
     loadCoupon,
     addCoupon,
     editCoupon,
-
+    deleteCoupon
 }
