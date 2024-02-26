@@ -4,6 +4,8 @@ const userController = require('../controllers/userController');
 const cartController = require('../controllers/cartController');
 const orderController = require('../controllers/orderController');
 const wishlistController = require('../controllers/wishlistController');
+const couponController = require('../controllers/couponController'); 
+
 const User = require('../models/userModel')
 // const userAuth = require('../middlewares/userAuth');
 const session = require("express-session");
@@ -149,9 +151,15 @@ userRoute
 
     .post('/add-wish',wishlistController.addToWishlist)
 
+    //checking coupon.
+    .post('/coupon-check',couponController.couponCheck)
+
+    // invoice download.
+    .get('/invoice',orderController.invoice);
+
+
     
-    
-    
+
 
 module.exports = userRoute;
 

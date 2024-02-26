@@ -46,7 +46,7 @@ const couponSchema = mongoose.Schema
     limit : 
     {
         type : Number,
-        default : 0,
+        default : -1,
     },
 
     isActive : 

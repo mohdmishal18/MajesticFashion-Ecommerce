@@ -160,7 +160,7 @@
             <div class="container">
                 <div class="row">
                     <!-- Address Accordion -->
-                    <div class="col">
+                    <div class="col-lg-4">
                         <div class="accordion" id="accordionAddress">
                             
                             <!-- Address Select Accordion -->
@@ -212,7 +212,7 @@
                                                                                                 <%= el.phone %><br>
                                                                                                     <span
                                                                                                         style="font-weight: bold;">Email:</span>
-                                                                                                    <%= el.email %><br>
+                                                                                                    <%= user.email %><br>
                                                                          </p>
                                                                 </address>
                                                                 
@@ -244,7 +244,7 @@
                     </div>
         
                     <!-- Payment Accordion -->
-                    <div class="col">
+                    <div class="col-lg-4">
                         <div class="accordion" id="accordionPayment">
                             <div class="accordion-item">
                                 <h2 class="accordion-header">
@@ -291,27 +291,38 @@
                             </div>
                         </div>
                     </div>
-                        <div class="col">
-                            <div class="checkout__order">
-                                <h4 class="order__title" style="border-bottom: none;">Your order</h4>
-                                <!-- Your order content here -->
-                                <% let subtotal = 0, totalItem = 0 %>
-                                <% products.forEach((product, index) => { %>
-                                    <% subtotal += product.totalPrice %>
-                                    <% totalItem += product.quantity %>
-                                <% }) %>
-                                <ul class="checkout__total__all">
-                                    <li>Price (<%= totalItem %> <%= totalItem > 1 ? "items" : "item" %>)<span style="color: #111111;">₹<%= subtotal %></span></li>
-                                    <% if (subtotal > 1000) { %>
-                                        <li>Delivery Charges<span style="color: green;"><del style="color: black;">₹80</del> Free</span></li>
-                                    <% } else { %>
-                                        <li>Delivery Charges<span style="color: black;">₹80</span></li>
-                                    <% } %>
-                                    <li style="font-weight: 600;" id="subtotal">Amount payable<span style="color: #111111;">₹<%= subtotal %></span></li>
-                                </ul>
-                                <button type="button" onclick="placeOrder('<%= subtotal %>')" class="site-btn">PLACE ORDER</button>
-                            </div>
+                    <div class="col-lg-4">
+                        <!-- Coupon Apply Section -->
+                        <div class="cart__discount" style="margin-bottom: 30px !important;">
+                            <h6>Discount codes</h6>
+                           <div class="d-flex">
+                            <input type="text" class="form-control" id="applyCoupon" placeholder="Coupon code">
+                            <button type="button" class="btn btn-dark" onclick="return applyCoupon();">Apply</button>
+                           </div>
                         </div>
+        
+                        <!-- Your Orders Section -->
+                        <div class="checkout__order mt-4">
+                            <h4 class="order__title" style="border-bottom: none;">Your order</h4>
+                            <!-- Your order content here -->
+                            <% let subtotal = 0, totalItem = 0 %>
+                            <% products.forEach((product, index) => { %>
+                                <% subtotal += product.totalPrice %>
+                                <% totalItem += product.quantity %>
+                            <% }) %>
+                            <ul class="checkout__total__all">
+                                <li>Price (<%= totalItem %> <%= totalItem > 1 ? "items" : "item" %>)<span style="color: #111111;">₹<%= subtotal %></span></li>
+                                <% if (subtotal > 1000) { %>
+                                    <li>Delivery Charges<span style="color: green;"><del style="color: black;">₹80</del> Free</span></li>
+                                <% } else { %>
+                                    <li>Delivery Charges<span style="color: black;">₹80</span></li>
+                                <% } %>
+                                <li style="font-weight: 600;" id="subtotal">Amount payable<span id="discountedAmount" style="color: #111111;">₹<%= subtotal %></span></li>
+                            </ul>
+                            <input type="text" id="total" hidden value="<%=subtotal%>">
+                            <button type="button" id="place-order" onclick="placeOrder('<%= subtotal %>')" class="site-btn" data-subtotal="<%= subtotal%>"  data-productPrice="">PLACE ORDER</button>
+                        </div>
+                    </div>
                 </div>
         
                 <!-- Order Summary -->
@@ -555,7 +566,10 @@
                 const paymet_method = payment ? payment.value : null;
 
                 if(paymet_method) {
-
+                    const total = document.getElementById('place-order').getAttribute('data-subtotal')
+                    const isCouponApplied = document.getElementById('place-order').getAttribute('data-couponApplied');
+                    console.log(isCouponApplied)
+                    const value = isCouponApplied ? document.getElementById('place-order').getAttribute('data-couponCode') : false;
                     const subtotal = total;
                 if(subtotal) {
 
@@ -563,6 +577,7 @@
                         index: index,
                         payment_method: paymet_method,
                         subtotal: subtotal,
+                        isCoupon : value
                     }
                     console.log(data)
                     $.ajax({
@@ -626,9 +641,7 @@
         }
     }
 
-</script>
 
-<script>
     function razorPay(order)
     {
         try
@@ -666,6 +679,8 @@
 
             rzp1.on('payment.failed', (err) => {
                 console.log(err);
+
+                res.json({ fail: true, message: "Payment failed" });
             })
             rzp1.open();
 
@@ -708,6 +723,86 @@
                 }
             }
         );
+    }
+</script>
+
+<script>
+    function applyCoupon()
+    {
+        const couponCode = document.getElementById('applyCoupon').value;
+        const total = document.getElementById('total').value;
+
+        if(couponCode)
+        {
+
+            document.getElementById('place-order').setAttribute('data-couponCode',`${couponCode}`)
+            const data = {couponCode : couponCode,total : total}
+            $.ajax({
+                type : "POST",
+                url : "/coupon-check",
+                data : JSON.stringify(data),
+                contentType : 'application/json',
+                success : (response) =>
+                {
+                    if(response.used)
+                    {
+                        fireSwal(response.message);
+                    }
+                    else if(response.limit)
+                    {
+                        fireSwal(response.message)
+                    }
+                    else if(response.expired)
+                    {
+                        fireSwal(response.message)
+                    }
+                    else if(response.min)
+                    {
+                        fireSwal(response.message)
+                    }
+                    else if(response.notAvailable)
+                    {
+                        fireSwal(response.message)
+                    }
+                    else if(response.success)
+                    {
+                        document.getElementById('place-order').setAttribute('data-subtotal', `${response.subtotal}`);
+                        document.getElementById('discountedAmount').innerText = `₹${response.subtotal}`
+                        document.getElementById('place-order').setAttribute('data-couponApplied', '1')
+                        Swal.fire({
+                            position : "center",
+                            icon : 'success',
+                            title : 'Coupon applied',
+                            timer : 1500         
+                        })
+                    }
+                }
+            })
+        }
+        else
+        {
+            console.log("no coupon code");
+            Swal.fire({
+                position : 'center',
+                icon : "error",
+                title : "Please enter a coupon Code !!!",
+                timer : 1500
+            })
+        }
+    }
+</script>
+
+<script>
+    function fireSwal(text) {
+
+        Swal.fire({
+            positon: "center",
+            icon: "error",
+            title: `${text}`,
+            showConfirmButton: false,
+            timer: 1500,
+        });
+
     }
 </script>
 

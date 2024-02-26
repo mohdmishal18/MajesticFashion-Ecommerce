@@ -155,7 +155,7 @@ const proceedToCheckout = async (req,res) =>
         
 
         console.log(cart);
-        res.render('checkOut', {address : userAddress, products : products});
+        res.render('checkOut', {address : userAddress, products : products,user : user});
     }
     catch(error)
     {
@@ -179,7 +179,7 @@ const updateQuantity = async (req,res ) =>
         console.log(price, 'price')
         const cart = await Cart.findOne({ user: userid, "products.productId": productId });
         console.log(cart, 'cart');
-        const cartProduct = cart.products.find((pro) => pro.product === index && pro.size === size);
+        const cartProduct = cart.products.find((pro) => pro.product === index);
         console.log(cartProduct);
         const quantity = cartProduct.quantity;
         console.log(quantity);

@@ -104,8 +104,7 @@
                                             <th>expiry Date</th>
                                             <th>Minimum Spend</th>
                                             <th>Discount Amount</th>
-                                            <th>Ramaining</th>
-                                            <th>Status</th>
+                                            <th>Coupon Limit</th>
                                             <th class="text-center">Action</th>
                                             <th></th>
                                         </tr>
@@ -135,18 +134,10 @@
                                                     <td>
                                                         <%= coup.limit%>
                                                     </td>
-                                                    <td>
-                                                        <a class="btn btn-sm btn-dark" id="button" href="">
-                                                            List
-                                                        </a>
-                                                    </td>
                                                     <td class="text-center">
                                                         <button class="btn btn-sm btn-dark" id="button"
-                                                            onclick="editCoupon('<%= coup._id %>','<%= coup.name%>','<%= coup.activatedDate%>','<%=coup.expiryDate%>','<%=coup.discount%>','<%=coup.limit%>','<%=coup.minimum%>')">
+                                                            onclick="editCoupon('<%= coup._id %>','<%= coup.name%>','<%= coup.activatedDate%>','<%=coup.expiryDate%>','<%=coup.discount%>','<%=coup.limit%>','<%=coup.minAmountSpend%>')">
                                                             Edit
-                                                        </button>
-                                                        <button class="btn btn-sm btn-dark" id="button">
-                                                            Delete
                                                         </button>
                                                     </td>
                                                     <td>
@@ -215,15 +206,14 @@
                         <label for="form-label">Expire date</label>
                         <input type="date" name="expiry" class="form-control" />
 
-                        <label for="form-label">Limit</label>
-                        <input type="text" name="limit" placeholder="number of times can be used"
-                            class="form-control" />
-
                         <label for="form-label">Dicount amount</label>
                         <input type="text" name="discount" placeholder="discount amount" class="form-control" />
 
                         <label for="form-label">Minimum amount Spend</label>
                         <input type="text" name="minAmountSpend" placeholder="min amount" class="form-control" />
+
+                        <label for="form-label">Coupon Limit</label>
+                        <input type="text" name="limit" placeholder="min amount" class="form-control" />
 
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
@@ -266,14 +256,16 @@
                         <input type="date" name="expiryDate" id="expiryDateE" placeholder="dd-mm-yyyy"
                             class="form-control" />
 
-                        <label for="form-label">Limit of use</label>
-                        <input type="text" name="limit" id="limitE" class="form-control" />
 
                         <label for="form-label">Dicount amount</label>
                         <input type="text" name="discount" id="discountE" class="form-control" />
 
                         <label for="form-label">Minimum amount Spend</label>
                         <input type="text" name="minimum" id="minimumE" class="form-control" />
+
+                        <label for="form-label">Coupon Limit</label>
+                        <input type="text" id="limitE" name="limiitt" class="form-control" />
+
 
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
@@ -303,7 +295,7 @@
                 const expiryInput = document.getElementById('expiryDateE');
                 const discountInput = document.getElementById('discountE');
                 const minimumInput = document.getElementById('minimumE');
-                const LimitInput = document.getElementById('limitE');
+                const limitInput = document.getElementById('limitE');
 
                 idInput.value = couponId;
                 nameInput.value = name;
@@ -311,7 +303,7 @@
                 expiryInput.value = expiryDate;
                 discountInput.value = discount;
                 minimumInput.value = minimum;
-                LimitInput.value = limit;
+                limitInput.value = limit;
             }
 
 
@@ -323,7 +315,7 @@
                 const activated = document.getElementById('activatedDateE').value;
                 const expiry = document.getElementById('expiryDateE').value;
                 const discount = document.getElementById('discountE').value;
-                const minimum = document.getElementById('minimumE').value
+                const minimum = document.getElementById('minimumE').value;
                 const limit = document.getElementById('limitE').value;
 
                 const data =
@@ -334,7 +326,7 @@
                     expiry: expiry,
                     discount: discount,
                     minimum : minimum,
-                    limit: limit
+                    limit : limit
                 }
 
                 console.log("the datas are ", data);

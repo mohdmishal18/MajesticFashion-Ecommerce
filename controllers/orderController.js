@@ -3,6 +3,8 @@ const Cart = require('../models/cartModel');
 const Order = require('../models/orderModel');
 const User = require('../models/userModel')
 const Product = require('../models/productModel');
+const Coupon = require('../models/couponModal')
+
 const Razorpay = require('razorpay');
 const crypto = require('crypto');
 
@@ -20,7 +22,7 @@ const placeOrder = async (req, res) =>
     {
         console.log(req.body);
         const userId = req.session.user?._id;
-        const { index, payment_method, subtotal } = req.body
+        const { index, payment_method, subtotal ,isCoupon} = req.body
         
         const cart = await Cart.findOne({ user: userId }).populate( 'products.productId' );
         const products = cart.products;
@@ -50,6 +52,48 @@ const placeOrder = async (req, res) =>
        
           const order_details =  await order.save()
           const oderId = order_details._id;
+
+        const coupon = await Coupon.findOne({ code: isCoupon });
+        if (isCoupon) {
+            if (coupon.limit >= coupon.usedUsers.length) {
+                const cart = await Cart.findOne({ user: userId });
+
+                let discount = 0;
+                console.log(coupon.discount, "discount amount");
+
+                if (coupon.percentage) {
+                } else if (coupon.discount) {
+                console.log(coupon.discount, cart.products.length);
+
+                const div = coupon.discount / cart.products.length;
+                discount = Math.round(div);
+                console.log(discount + "discount", "div: " + div);
+                }
+
+                cartAmount = cart.products.forEach(async (el, i) => {
+                  console.log(el);
+
+                    await Order.findByIdAndUpdate(
+                        { _id: oderId },
+                        {
+                        $set: {
+                            [`products.${i}.coupon`]:
+                            el.totalPrice >= discount
+                                ? el.totalPrice - discount
+                                : el.totalPrice,
+                        },
+                        }
+                    );
+                });
+                await Coupon.updateOne(
+                { code: isCoupon },
+                { $push: { userUsed: userId } }
+                );
+            } else {
+                res.json({ fail: true, massage: "Coupon limit exceeds" });
+            }
+        }
+
 
         // Cash on delivery.
         if(order_details.status === 'placed') 
@@ -90,7 +134,7 @@ const placeOrder = async (req, res) =>
                     console.log(err);
                 }
                 console.log("this is the order : ",order);
-                res.json({ order });
+                 res.json({ order });
             });
         }
     } 
@@ -275,6 +319,18 @@ const cancelOrder = async (req, res) => {
     }
   };
 
+  const invoice = async(req,res) =>
+  {
+    try
+    {
+        res.render('invoice');
+    }
+    catch(error)
+    {
+        console.log(error);
+    }
+  }
+
 module.exports =
 {
     placeOrder,
@@ -284,5 +340,5 @@ module.exports =
     loadSingleOrderDetails,
     cancelOrder,
     verifyPayment,
-    
+    invoice
 }
