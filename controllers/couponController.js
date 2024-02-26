@@ -102,7 +102,7 @@ const couponCheck = async (req,res) =>
         const coupon = await Coupon.findOne({code : couponCode});
         if(coupon)
         {
-            const alreadyUsed = coupon.usedUsers.find((user) => user === userId)
+            const alreadyUsed = coupon.usedUsers.find((user) => user.userId === userId)
 
             const count = coupon.limit < coupon.usedUsers;
             const limitOfCoupon = coupon.limit === -1 ? false : count;

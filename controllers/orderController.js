@@ -54,7 +54,7 @@ const placeOrder = async (req, res) =>
           const oderId = order_details._id;
 
         const coupon = await Coupon.findOne({ code: isCoupon });
-        if (isCoupon) {
+        if (coupon) {
             if (coupon.limit >= coupon.usedUsers.length) {
                 const cart = await Cart.findOne({ user: userId });
 
@@ -85,10 +85,14 @@ const placeOrder = async (req, res) =>
                         }
                     );
                 });
-                await Coupon.updateOne(
-                { code: isCoupon },
-                { $push: { userUsed: userId } }
-                );
+
+                coupon.usedUsers.push({userId : userId});
+                await coupon.save();
+
+                // await Coupon.updateOne(
+                // { code: isCoupon },
+                // { $push: { userUsed: userId } }
+                // );
             } else {
                 res.json({ fail: true, massage: "Coupon limit exceeds" });
             }
