@@ -294,22 +294,12 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- <div class="col-3"><span class="">Your Rewards</span><a class="">
-                                <div class=""><img
-                                        src="https://rukminim1.flixcart.com/www/80/80/promos/15/07/2022/b24f2613-b89e-4e0a-8140-1316ad11f394.png?q=100"
-                                        class="">
-                                    <div class="_2kcozy">
-                                        <div>8 SuperCoins Cashback</div>
-                                        <div class="-gBnNp">Use it to save on your next order</div>
-                                    </div>
-                                </div>
-                            </a></div> -->
-                        <!-- <div class="col-5"><span class=""></span>
-                            <div class="row ">
-                                    <div><span class="">Download Invoice</span></div>
-                                </div><button class=""><span>Download</span></button>
-                            </div>
-                        </div> -->
+
+                        <div class="col-8">
+                             <%if(product.status === 'delivered') {%>
+                                    <a style="margin-left: 30rem;"  href="/invoice?orderId=<%= orderId%>&index=<%=index%>" class="btn btn-primary col-3 "><span>Invoice</span></a>
+                                <%}%>
+                        </div>
                     </div>
 
                 </div>
@@ -345,8 +335,11 @@
                                             </div>
                                             <div class="">
                                                 <div class="d-flex">
-                                                    <span class="">Total Price : <%= product.totalPrice %></span>
-
+                                                    <%if(product.coupon === 0){%>
+                                                        <span class="">Total Price : <%= product.totalPrice %></span>
+                                                    <%}else{%>
+                                                    <span class="">Total Price : <%= product.coupon %></span>
+                                                    <%}%>
                                                 </div>
                                             </div>
                                         </div>

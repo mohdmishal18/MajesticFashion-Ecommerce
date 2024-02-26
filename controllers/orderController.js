@@ -327,7 +327,16 @@ const cancelOrder = async (req, res) => {
   {
     try
     {
-        res.render('invoice');
+        const {orderId,index} = req.query;
+        const order = await Order.findOne({_id : orderId})
+        .populate('user')
+        .populate('products.productId');
+
+        res.render('invoice',{
+            orders : order,
+            order : order.products[index],
+            deliveryAddress : order.deliveryDetails,
+        });
     }
     catch(error)
     {
