@@ -2,6 +2,9 @@ const mongoDB = require('./config/mongodb');
 mongoDB.connectDB();
 
 const express = require("express");
+const dotenv = require('dotenv');
+dotenv.config();
+
 const app = express();
 const path = require("path");
 const flash = require("express-flash");
