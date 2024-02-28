@@ -67,7 +67,7 @@ adminRoute
     .post('/order-report',adminController.orderReport)
 
     // coupon management .
-    .get('/coupon', couponController.loadCoupon)
+    .get('/coupon',auth.isLogin, couponController.loadCoupon)
     .post('/createCoupon',couponController.addCoupon)
     .post('/editCoupon', couponController.editCoupon)
     .delete('/deleteCoupon',couponController.deleteCoupon)

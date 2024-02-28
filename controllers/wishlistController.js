@@ -84,9 +84,24 @@ const addToWishlist = async (req, res) =>
     }
 }
 
+const remWish = async(req,res)=>{
+    try {
+      const { productId,index } = req.body;
+      const userId = req.session.user._id;
+      await Wishlist.updateOne({ user : userId},{$pull : { products :{ productId : productId ,index : index}}})
+      res.json({ removed : true })
+      console.log("removed pro");
+      console.log(productId);
+    } catch (error) {
+      res.status(404).send('removeWishlist request is failed')
+      console.log(error);
+    }
+  }
+
 
 module.exports = 
 {
     addToWishlist,
-    loadWishlist
+    loadWishlist,
+    remWish
 }

@@ -810,7 +810,7 @@ const resetPassword = async (req,res) =>
             {$set : {password : securePass}}
         )
 
-        req.flash('success','successfully setted new password');
+        req.flash('success','successfully setted new password'); 
         res.redirect('/login');
         
     }

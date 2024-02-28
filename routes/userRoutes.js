@@ -5,6 +5,7 @@ const cartController = require('../controllers/cartController');
 const orderController = require('../controllers/orderController');
 const wishlistController = require('../controllers/wishlistController');
 const couponController = require('../controllers/couponController'); 
+const productController = require('../controllers/productController')
 
 const User = require('../models/userModel')
 // const userAuth = require('../middlewares/userAuth');
@@ -128,8 +129,7 @@ userRoute
     .get('/successpage',auth.authlogg,orderController.successPage)
 
     // search filter pagination 
-
-    .post('/search', userController.filter)
+    .post('/search',productController.filter)
 
     // order section =============================================
 
@@ -141,7 +141,7 @@ userRoute
 
     .post('/cancel-product',orderController.cancelOrder)
 
-    // change password ================================================
+    // change password ========================================
     
     .post('/change-password',userController.changePassword)
 
@@ -150,12 +150,14 @@ userRoute
     .get('/wishlist',wishlistController.loadWishlist)
 
     .post('/add-wish',wishlistController.addToWishlist)
+    
+    .post('/remWish',wishlistController.remWish)
 
     //checking coupon.
     .post('/coupon-check',couponController.couponCheck)
 
     // invoice download.
-    .get('/invoice',orderController.invoice);
+    .get('/invoice',auth.userAuth,orderController.invoice);
 
 
     

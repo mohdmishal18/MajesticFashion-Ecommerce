@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt');
 const Order = require('../models/orderModel');
 const Category = require('../models/categoryModel');
 const Product = require('../models/productModel');
+const adminHelpers = require("../helpers/adminHelper");
 
 // load login page.
 const loadLogin = async (req,res) =>
@@ -266,6 +267,31 @@ const loadDashboard = async (req,res) =>
         ])
         //const latestOrders = await Order.find({}).sort({ date: -1 }).populate('user').limit(limit).skip((page - 1) * limit).exec()
 
+        const bestSellingProducts = await Order.aggregate([
+            {
+              $unwind: '$products', // Flatten the products array
+            },
+            {
+              $match: {
+                'products.status': 'placed',
+              },
+            },
+            {
+              $group: {
+                _id: '$products.productId',
+                totalQuantity: { $sum: '$products.quantity' },
+                productName: { $first: '$products.name' },
+                // category: { $first: '$products.categoriesid' }, // Replace 'category' with the actual field name for category in your Product model
+              },
+            },
+            {
+              $sort: { totalQuantity: -1 }, // Sort by totalQuantity in descending order
+            },
+            {
+              $limit: 10, // Limit to the top 10 products
+            },
+          ]);
+
         res.render('adminDashboard',
         {
             orders,
@@ -283,7 +309,9 @@ const loadDashboard = async (req,res) =>
             latestOrders,
             next,
             previous,
-            totalPages
+            totalPages,
+            products : bestSellingProducts,
+
         });
     }
     catch(error)

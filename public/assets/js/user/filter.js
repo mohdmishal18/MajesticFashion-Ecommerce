@@ -97,7 +97,6 @@ $(document).ready(function () {
                         // Create the outer container div with class "col-lg-4 col-md-6 col-sm-6"
                         const outerContainer = document.createElement("div");
                         outerContainer.className = "col-lg-4 col-md-6 col-sm-6";
-
                         // Create the main product item div with class "product__item"
                         const productItemDiv = document.createElement("div");
                         productItemDiv.className = "product__item";
@@ -108,13 +107,13 @@ $(document).ready(function () {
 
                         // Create the product image anchor element
                         const productImageAnchor = document.createElement("a");
-                        productImageAnchor.href = `/productDetails?id=${el._id}&index=0`;
+                        productImageAnchor.href = `/singleproduct?id=${el._id}&index=0`;
 
                         // Create the product image element
                         const productImage = document.createElement("img");
                         productImage.className = "product__item__pic set-bg";
                         productImage.style.width = "19rem";
-                        productImage.src = `/img/productImage/sharp/${el.variant[0].images[0]}`;
+                        productImage.src = `/static/img/productImage/sharp/${el.variant[0].images[0]}`;
                         productImage.alt = "";
 
                         // Append the product image element to the anchor element
@@ -125,13 +124,13 @@ $(document).ready(function () {
                         productHoverList.className = "product__hover";
 
                         // Create the list items for product hover actions
-                        const productHoverItems = ["heart", "compare", "search"];
+                        const productHoverItems = ["heart"];
 
                         productHoverItems.forEach((item) => {
                             const listItem = document.createElement("li");
                             const anchor = document.createElement("a");
                             const img = document.createElement("img");
-                            img.src = `img/icon/${item}.png`;
+                            img.src = `/assets/img/icon/${item}.png`;
                             img.alt = "";
                             anchor.appendChild(img);
                             listItem.appendChild(anchor);
@@ -155,43 +154,43 @@ $(document).ready(function () {
                         addToCartLink.className = "add-cart";
                         addToCartLink.textContent = "+ Add To Cart";
 
-                        const ratingDiv = document.createElement("div");
-                        ratingDiv.className = "rating";
-                        for (let i = 0; i < 5; i++) {
-                            const star = document.createElement("i");
-                            star.className = "fa fa-star-o";
-                            ratingDiv.appendChild(star);
-                        }
+                        // const ratingDiv = document.createElement("div");
+                        // ratingDiv.className = "rating";
+                        // for (let i = 0; i < 5; i++) {
+                        //     const star = document.createElement("i");
+                        //     star.className = "fa fa-star-o";
+                        //     ratingDiv.appendChild(star);
+                        // }
 
                         const priceHeading = document.createElement("h5");
-                        priceHeading.textContent = el.variant[0].offerPrice;
+                        priceHeading.textContent ="₹"+ el.variant[0].price;
 
                         // Append text elements to the product text container
                         productTextContainerDiv.appendChild(productNameHeading);
                         productTextContainerDiv.appendChild(addToCartLink);
-                        productTextContainerDiv.appendChild(ratingDiv);
+                        // productTextContainerDiv.appendChild(ratingDiv);
                         productTextContainerDiv.appendChild(priceHeading);
 
                         // Create the product color select container div with class "product__color__select"
-                        const colorSelectContainerDiv = document.createElement("div");
-                        colorSelectContainerDiv.className = "product__color__select";
+                        // const colorSelectContainerDiv = document.createElement("div");
+                        // colorSelectContainerDiv.className = "product__color__select";
 
                         // Create and append radio input elements to the color select container
-                        const radioColors = ["pc-4", "pc-5", "pc-6"];
-                        radioColors.forEach((color) => {
-                            const label = document.createElement("label");
-                            label.htmlFor = color;
-                            const input = document.createElement("input");
-                            input.type = "radio";
-                            input.id = color;
-                            label.appendChild(input);
-                            colorSelectContainerDiv.appendChild(label);
-                        });
+                        // const radioColors = ["pc-4", "pc-5", "pc-6"];
+                        // radioColors.forEach((color) => {
+                        //     const label = document.createElement("label");
+                        //     label.htmlFor = color;
+                        //     const input = document.createElement("input");
+                        //     input.type = "radio";
+                        //     input.id = color;
+                        //     label.appendChild(input);
+                        //     colorSelectContainerDiv.appendChild(label);
+                        // });
 
                         // Append all sub-containers to the main product item div
                         productItemDiv.appendChild(productImageContainerDiv);
                         productItemDiv.appendChild(productTextContainerDiv);
-                        productItemDiv.appendChild(colorSelectContainerDiv);
+                        // productItemDiv.appendChild(colorSelectContainerDiv);
 
                         // Append the main product item div to the outer container div
                         outerContainer.appendChild(productItemDiv);
@@ -201,46 +200,46 @@ $(document).ready(function () {
                     });
                 }
               
-                renderPagination(response.totalPage, response.page)
+                // renderPagination(response.totalPage, response.page)
             }
         })
     }
 });
 
 
-    function renderPagination(pages, currentPage,) {
-       console.log(pages, currentPage)
-        const paginationContainer = document.getElementById('paginationContainer');
-        paginationContainer.innerHTML = '';
+    // function renderPagination(pages, currentPage,) {
+    //    console.log(pages, currentPage)
+    //     const paginationContainer = document.getElementById('paginationContainer');
+    //     paginationContainer.innerHTML = '';
 
-        if (pages !== 0) {
-            const ul = document.createElement('ul');
-            ul.className = 'pagination';
+    //     if (pages !== 0) {
+    //         const ul = document.createElement('ul');
+    //         ul.className = 'pagination';
 
         
 
-            for (let i = 1; i <= pages; i++) {
-                const pageButton = createPaginationButton(i, pages);
-                ul.appendChild(pageButton);
-            }
+    //         for (let i = 1; i <= pages; i++) {
+    //             const pageButton = createPaginationButton(i, pages);
+    //             ul.appendChild(pageButton);
+    //         }
 
           
 
-            paginationContainer.appendChild(ul);
-        }
-    }
+    //         paginationContainer.appendChild(ul);
+    //     }
+    // }
 
-    function createPaginationButton(text, totalPage) {
-        const li = document.createElement('li');
-        li.className = 'page-item';
+    // function createPaginationButton(text, totalPage) {
+    //     const li = document.createElement('li');
+    //     li.className = 'page-item';
 
-        const button = document.createElement('button');
-        button.className = 'btn btn-outline-dark paginator';
-        button.type = 'button';
-        button.textContent = text;
-        button.dataset.totalPage = totalPage;
+    //     const button = document.createElement('button');
+    //     button.className = 'btn btn-outline-dark paginator';
+    //     button.type = 'button';
+    //     button.textContent = text;
+    //     button.dataset.totalPage = totalPage;
 
-        li.appendChild(button);
+    //     li.appendChild(button);
 
-        return li;
-    }
+    //     return li;
+    // }

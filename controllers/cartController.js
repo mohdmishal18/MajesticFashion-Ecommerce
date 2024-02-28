@@ -149,13 +149,15 @@ const proceedToCheckout = async (req,res) =>
         const user = await User.findOne({_id : userid});
         const cart = await Cart.findOne({user : userid}).populate('products.productId');
 
+        const totalMoney = cart.products.reduce((total, product) => total + product.totalPrice, 0);
+        console.log(totalMoney);
         const userAddress = user.address;
         const products = cart.products
 
         
 
         console.log(cart);
-        res.render('checkOut', {address : userAddress, products : products,user : user});
+        res.render('checkOut', {address : userAddress, products : products,user : user,cart : cart,totalMoney});
     }
     catch(error)
     {

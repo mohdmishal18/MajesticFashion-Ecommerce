@@ -219,25 +219,9 @@
                                             <div class="shop__sidebar__categories">
                                                 <ul class="nice-scroll">
                                                     <% category.forEach((el) => {%>
-                                                        <div class="shop_filters"><span class="cetagory"><%= el.name %></span></div>
+                                                        <div class="shop_filters"><span class="cetagory"><%= el.name %></span><span>(20)</span></div>
                                                         
                                                    <%})%>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card">
-                                    <div class="card-heading">
-                                        <a data-toggle="collapse" data-target="#collapseThree">Filter Price</a>
-                                    </div>
-                                    <div id="collapseThree" class="collapse show" data-parent="#accordionExample">
-                                        <div class="card-body">
-                                            <div class="shop__sidebar__price">
-                                                <ul>
-                                                    <%for(let i = 0 ; i < 6; i++) {%>
-                                                        <li class="shop_filters price"><%= i * 500%>-<%= (i + 1) * 500%></li>
-                                                    <%}%>
                                                 </ul>
                                             </div>
                                         </div>
@@ -255,19 +239,20 @@
                                     <p>Showing 1–12 of 126 results</p>
                                 </div>
                             </div>
-                            <!-- <div class="col-lg-6 col-md-6 col-sm-6">
+                            <div class="col-lg-6 col-md-6 col-sm-6">
                                 <div class="shop__product__option__right">
                                     <p>Sort by Price:</p>
-                                   <select>
-                                        <option value="">Low To High</option>
-                                        <option value="">$0 - $55</option>
-                                        <option value="">$55 - $100</option>
+                                    <select name="sort" id="sortbyPrice" >
+                                        <option value="increacing">Low To High</option>
+                                        <option value="decreasing">High To Low</option>
+                                        
                                     </select>
-                                </div> 
-                            </div> -->
+                                </div>
+                            </div>
+
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row" id="productContainer">
                         <%product.forEach((item, i) => {%>
 
                             <%if(item.categoriesid.is_listed) {%>
@@ -278,13 +263,14 @@
                                     <div class="product__item">
                                         <div class="product__item__pic set-bg" >
     
-                                            <a href="/singleproduct?id=<%= item._id %>&index=0"><img class="product__item__pic set-bg" style="width: 19rem;" src="/static/img/ProductImage/sharp/<%= item.variant[0]?.images[0]%>" alt=""></a>
-                                            <ul class="product__hover">
-                                                <li><a href="#"><img src="/assets/img/icon/heart.png" alt=""></a></li> 
-                                                <!-- <li><a href="#"><img src="/static/img/icon/compare.png" alt=""> <span>Compare</span></a>
-                                                </li> -->
-                                                <!-- <li><a href="#"><img src="/static/img/icon/search.png" alt=""></a></li> -->
-                                            </ul>
+                                                <a href="/singleproduct?id=<%= item._id %>&index=0"><img class="product__item__pic set-bg" style="width: 19rem;" src="/static/img/ProductImage/sharp/<%= item.variant[0]?.images[0]%>" alt=""></a>
+                                                <ul class="product__hover">
+                                                    <li><a href="#"><img src="/assets/img/icon/heart.png" alt=""></a></li> 
+                                                    <!-- <li><a href="#"><img src="/static/img/icon/compare.png" alt=""> <span>Compare</span></a>
+                                                    </li> -->
+                                                    <!-- <li><a href="#"><img src="/static/img/icon/search.png" alt=""></a></li> -->
+                                                </ul>
+                                                
                                         </div>
                                         <div class="product__item__text">
                                             <h6><%=item.name %></h6>
@@ -426,6 +412,8 @@
     <script src="/static/js/main.js"></script>
     <script src="/static/js/user/filter.js"></script>
 
+
+
 </body>
     
-    </html>
+</html>

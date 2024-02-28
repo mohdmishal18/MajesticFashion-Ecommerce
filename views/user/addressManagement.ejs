@@ -213,7 +213,7 @@ function trimvalue(elementId) {
 
   }
 
-  function validInput() {
+  function validInputt() {
     const fields = [
       'full-name',
       'address-line1',
@@ -274,6 +274,7 @@ function trimvalue(elementId) {
     return true
 
     // ===================== FUNCTION ADD ADDRESS 
+
   }
 
   function addAddress(event) 
@@ -304,7 +305,7 @@ function trimvalue(elementId) {
             phone:phone,
             }
             console.log(data);
-        if(validInput())
+        if(validInputt())
         {
               Swal.fire({
             title: 'Are you sure?',
@@ -419,6 +420,67 @@ function trimvalue(elementId) {
     phoneInput.value = phone;
   }
 
+  function validInputt() {
+    const fields = [
+      'fullNameE',
+      'addressE',
+      'cityE',
+      'stateE',
+      'postCodeE',
+      'mobileNumberE'
+    ];
+
+    for (let fieldId of fields) {
+      const value = trimvalue(fieldId)
+      if (value === '') {
+        Swal.fire({
+          title: 'error',
+          text: `please enter ${value === 'postCodeE' ? 'a valid' : 'a '} ${fieldId.replace(/([A-z])/g, ' $1').toLowerCase()}`,
+          icon: 'error'
+        })
+        return false
+      }
+
+      if (fieldId == 'mobileNumberE' && value.length !== 10) {
+        Swal.fire({
+          title: 'error',
+          text: 'Please enter a 10-digit phone number containing only numeric characters.',
+          icon: 'error'
+        });
+        return false;
+      }
+
+      if (fieldId === 'postCodeE' && !/^\d{6}$/.test(value) || value == '') {
+        Swal.fire({
+          title: 'error',
+          text: "please enter a valid 6-digit postcode",
+          icon: 'error'
+        })
+        return false
+      }
+
+      if (fieldId === 'cityE' && value == '') {
+        Swal.fire({
+          title: 'error',
+          text: "Enter your city",
+          icon: 'error'
+        })
+        return false
+      }
+
+      // if (fieldId === 'state' && value == '') {
+      //   Swal.fire({
+      //     title: 'error',
+      //     text: "Enter your state",
+      //     icon: 'error'
+      //   })
+      //   return false
+      // }
+
+    }
+    return true
+  }
+
   function editAddress(event)
   {
     event.preventDefault();
@@ -442,7 +504,7 @@ function trimvalue(elementId) {
     }
     console.log(data);
 
-    if(data)
+    if(validInputt())
     {
       $.ajax({
         

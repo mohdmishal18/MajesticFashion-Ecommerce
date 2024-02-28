@@ -282,7 +282,7 @@
                                         </td>
                                         
                                         <td class="cart__close" >
-                                            <i class="fa fa-close"></i>
+                                            <button class="btn btn-danger btn-block mt-2" onclick="removeWishlist('<%= item.productId._id %>','<%=item.index%>')">Remove</button>
                                         </td>
                                     </tr>
     
@@ -398,6 +398,32 @@
     <!-- Search End -->
 
     <%- include('../layouts/user/footer1.ejs') -%>
+
+
+
+    <script>
+
+
+        function removeWishlist(ProductId,index){
+          console.log(ProductId);
+          const data = {
+            productId : ProductId,
+            index : index
+          }
+          fetch('/remWish',{
+            method : 'POST',
+            headers : {
+              'Content-Type' : 'application/json'
+            },
+            body : JSON.stringify(data)
+          }).then((response)=>{
+        if(response.ok){
+        window.location.reload()
+        }
+          })
+        }
+    
+      </script>
 
 
 

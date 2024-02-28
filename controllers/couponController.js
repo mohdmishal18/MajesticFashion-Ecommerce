@@ -18,14 +18,16 @@ const loadCoupon = async (req,res) =>
 
 const addCoupon = async (req,res) =>
 {
-    const {name,activate,expiry,limit,discount,minAmountSpend} = req.body;
-
-    const firstname = name.split("").slice(0, 4).join("");
-    const randomString = Math.random().toString(36).substring(2, 7);
-    const randomNumber = `${Math.floor(1000 + Math.random() * 9000)}`;
-
+    
     try
     {
+        const {name,activate,expiry,limit,discount,minAmountSpend} = req.body;
+
+        const firstname = name.split("").slice(0, 4).join("");
+        const randomString = Math.random().toString(36).substring(2, 7);
+        const randomNumber = `${Math.floor(1000 + Math.random() * 9000)}`;
+
+
         const coupon = new Coupon({
             name : name,
             code : `${firstname}${randomString}${randomNumber}`,
