@@ -1,7 +1,7 @@
 
 const isLogin=async(req,res,next)=>{
     try {
-        console.log('howrrruuuu', req.session.user);
+        console.log('in isLogin middleware', req.session.user);
 
         if(req.session.user){
             if (req.path === '/login') {

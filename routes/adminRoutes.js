@@ -10,7 +10,7 @@ const productController = require('../controllers/productController');
 const couponController = require('../controllers/couponController');
 
 adminRoute.use(session({
-    secret : config.sessionSecret,
+    secret : process.env.SESSION_SECRET,
     resave : false,
     saveUninitialized : false
 }));

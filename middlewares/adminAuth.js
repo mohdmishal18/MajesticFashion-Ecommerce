@@ -21,7 +21,7 @@ const isLogout= async(req,res,next)=>{
         }
         
    else{
- res.redirect('/admin/home')
+        res.redirect('/admin/home')
    }
      
        

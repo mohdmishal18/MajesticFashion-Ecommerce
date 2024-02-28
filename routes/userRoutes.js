@@ -13,7 +13,7 @@ const session = require("express-session");
 const config = require('../config/config');
 
 userRoute.use(session({
-    secret:config.sessionSecret,
+    secret:process.env.SESSION_SECRET,
     resave:false,
     saveUninitialized:false
 }));

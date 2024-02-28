@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="zxx">
 
@@ -469,7 +468,7 @@
                     </div>
                 
                     <div class="modal-footer align-items-center">
-                        <button type="submit" class="btn btn-dark" onclick="addAddress()">Add Address</button>
+                        <button type="submit" class="btn btn-dark" onclick="addAddress(event)">Add Address</button>
                     </div>
                 </form>
             </div>
@@ -552,9 +551,9 @@
   }
 
 
-    function addAddress() 
+    function addAddress(event) 
     {
-        // event.preventDefault()
+        event.preventDefault()
             const fields = [
                 { id: 'full-name', name: 'Full Name' },
                 { id: 'address-line1', name: 'Address Line 1' },

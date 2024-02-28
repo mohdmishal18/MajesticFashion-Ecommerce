@@ -18,7 +18,7 @@ app.use('/static',express.static(path.join(__dirname, 'public/assets')));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(flash());
-
+app.use(nocache());
 app.use('/',userRoutes);
 app.use('/admin',adminRoutes);
 
