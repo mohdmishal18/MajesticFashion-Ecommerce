@@ -1,9 +1,13 @@
 const mongoose = require('mongoose');
+const dotenv = require('dotenv');
+dotenv.config();
+
+const DB = process.env.DATABASE;
 
 module.exports = {
     connectDB : ()=>
     {
-        mongoose.connect('mongodb://127.0.0.1:27017/Majestic')
+        mongoose.connect(DB)
         .then(() =>
         {
             console.log("Database connected");
