@@ -15,13 +15,11 @@ const walletSchema = mongoose.Schema(
             default : 0,
         },
 
-        walltetHistory : 
+        walletHistory : 
         {
             type : Array
         }
     }
 )
 
-const Wallet = mongoose.model('Wallet',walletSchema);
-
-module.exports = Wallet;
+module.exports = mongoose.model("Wallet", walletSchema);

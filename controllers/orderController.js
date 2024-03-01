@@ -6,14 +6,18 @@ const Product = require('../models/productModel');
 const Coupon = require('../models/couponModal');
 const Wallet = require('../models/walletModel');
 
+const dotenv = require('dotenv');
+dotenv.config();
+
 const Razorpay = require('razorpay');
 const crypto = require('crypto');
 
-
+const key_id = process.env.KEY_ID;
+const key_secret = process.env.KEY_SECRET;
 
 var instance = new Razorpay({
-    key_id: 'rzp_test_EVAgzuOOSxsbao',
-    key_secret: 'GbPWn8lPZ5PaFJZ3wPis9KW4',
+    key_id: key_id,
+    key_secret: key_secret
   });
 
   
@@ -134,11 +138,13 @@ const placeOrder = async (req, res) =>
                 }
 
                 await Wallet.findOneAndUpdate(
-                    {user : userId},
-                    {$inc : {amount : -subtotal}},
-                    {$push : {walletHistory : data}}
-                )
-
+                    { user: userId },
+                    {
+                        $inc: { amount: -subtotal },
+                        $push: { walletHistory: data }
+                    }
+                );
+                
                 await Order.findOneAndUpdate(
                     {_id : oderId},
                     {$set : {status : "placed"}}
