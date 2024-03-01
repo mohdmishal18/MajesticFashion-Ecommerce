@@ -668,13 +668,29 @@
                             {
                                 location.href = '/successpage';
                             }
+                            else if(response.wallet)
+                            {
+                                location.href = '/successpage';
+                            }
                             else if(response.order)
                             {
                                 razorPay(response.order);
                             }
-                            else
+                            else if(response.fail)
                             {
-                                console.log("money error");
+                                fireSwal(response.message)
+                            }
+                            else if(response.money)
+                            {
+                                console.log('money error')
+                                    Swal.fire({
+
+                                        title: "Wallet don't have enough money",
+                                        text: "Please choose another payment option",
+                                        icon: "error",
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    })
                             }
                         }
 

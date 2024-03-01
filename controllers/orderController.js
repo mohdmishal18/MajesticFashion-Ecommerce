@@ -3,7 +3,8 @@ const Cart = require('../models/cartModel');
 const Order = require('../models/orderModel');
 const User = require('../models/userModel')
 const Product = require('../models/productModel');
-const Coupon = require('../models/couponModal')
+const Coupon = require('../models/couponModal');
+const Wallet = require('../models/walletModel');
 
 const Razorpay = require('razorpay');
 const crypto = require('crypto');
@@ -52,7 +53,6 @@ const placeOrder = async (req, res) =>
        
           const order_details =  await order.save()
           const oderId = order_details._id;
-
         const coupon = await Coupon.findOne({ code: isCoupon });
         if (coupon) {
             if (coupon.limit >= coupon.usedUsers.length) {
@@ -89,15 +89,10 @@ const placeOrder = async (req, res) =>
                 coupon.usedUsers.push({userId : userId});
                 await coupon.save();
 
-                // await Coupon.updateOne(
-                // { code: isCoupon },
-                // { $push: { userUsed: userId } }
-                // );
             } else {
                 res.json({ fail: true, massage: "Coupon limit exceeds" });
             }
         }
-
 
         // Cash on delivery.
         if(order_details.status === 'placed') 
@@ -119,6 +114,58 @@ const placeOrder = async (req, res) =>
             }
 
                 res.json({success: true});
+        }
+        //Wallet
+        else if(payment_method ===  "Wallet")
+        {
+            console.log("wallet payment entered");
+
+            const wallet = await Wallet.findOne({user : userId});
+
+            console.log("the wallet is : ",wallet);
+            
+            if(subtotal <= wallet.amount)
+            {
+                console.log('there is money in wallet');
+                const data = 
+                {
+                    amount : subtotal,
+                    date : new Date(),
+                }
+
+                await Wallet.findOneAndUpdate(
+                    {user : userId},
+                    {$inc : {amount : -subtotal}},
+                    {$push : {walletHistory : data}}
+                )
+
+                await Order.findOneAndUpdate(
+                    {_id : oderId},
+                    {$set : {status : "placed"}}
+                )
+
+                // decrementing the quantity
+                for(let i = 0; i < cart.products.length; i++) 
+                {
+                    const productId = products[i].productId;
+                    const index = products[i].product;
+                    const productQuantity = products[i].quantity;
+                    console.log(typeof productQuantity, productQuantity)
+                        await Product.updateOne({_id: productId}, {
+                            $inc: {
+                                [`variant.${index}.quantity`]: - productQuantity
+                            }
+                        })
+                }
+
+                await Cart.deleteOne({user : userId})
+                console.log("wallet success");
+                res.json({wallet : true});
+            }
+            else
+            {
+                res.json({money : true})
+            }
         }
         //Razor Pay.
         else if(order_details.status === 'pending')

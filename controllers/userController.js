@@ -10,6 +10,7 @@ const Product = require('../models/productModel');
 const Category = require('../models/categoryModel');
 const Cart = require('../models/cartModel')
 const Token = require('../models/tokenModel');
+const Wallet = require('../models/walletModel');
 
 //
 //Load home page,
@@ -103,6 +104,8 @@ const insertUser = async (req,res) =>
                     is_blocked : false,
                     verified : false
                 }
+
+                
             );
 
             await user.save();
@@ -243,6 +246,7 @@ const verifyOtp = async (req,res) =>
             
             if(user.verified)
             {
+                
                 if(! user.is_blocked)
                 {
                     req.session.user = 
@@ -254,6 +258,8 @@ const verifyOtp = async (req,res) =>
                     console.log(user.name);
                     console.log("success");
 
+                    const wallet = new Wallet({user : user._id})
+                    await wallet.save();
                     res.redirect('/');
                 }
                 else
