@@ -18,22 +18,22 @@ $(document).ready(function () {
     const cetagory = document.querySelectorAll('.cetagory');
 
     cetagory.forEach((el) => {
-        console.log(el)
+        // console.log(el)
         el.addEventListener('click', (event) => {
             console.log('cet')
             data.cetagory = event.target.innerHTML;
             searchFilterSort();
         })
     })
-    const brand = document.querySelectorAll('.brand');
-    brand.forEach((el) => {
-        console.log(el)
-        el.addEventListener('click', (event) => {
-            console.log('brand')
-            data.brand = event.target.innerHTML;
-            searchFilterSort();
-        })
-    })
+    // const brand = document.querySelectorAll('.brand');
+    // brand.forEach((el) => {
+    //     console.log(el)
+    //     el.addEventListener('click', (event) => {
+    //         console.log('brand')
+    //         data.brand = event.target.innerHTML;
+    //         searchFilterSort();
+    //     })
+    // })
     const price = document.querySelectorAll('.price');
     price.forEach((el) => {
         console.log(el)
@@ -44,41 +44,48 @@ $(document).ready(function () {
         })
     })
 
-    const btn = document.getElementById('searchBtn');
-    btn.addEventListener('click', () => {
-        const searchData = document.getElementById('search-input').value;
-        searchFilterSort(searchData);
-    })
+    const searchInput = document.getElementById('search-input');
+    let searchTimeout;
 
-    // pagination function
-    // const paginator = document.querySelectorAll('.paginator');
-    // paginator.forEach((el) => {
-    //    el.addEventListener('click', (event) => {
-    //     console.log(event.target.innerHTML);
-    //        data.page = event.target.innerHTML;
-    //        searchFilterSort();
-    //    })
-    // })
+    searchInput.addEventListener('input', (event) => {
+        // Clear the previous timeout if it exists
+        if (searchTimeout) {
+            clearTimeout(searchTimeout);
+        }
+
+        // Set a new timeout to delay the search
+        searchTimeout = setTimeout(() => {
+            // Call your search function with the current value of the search input
+            const searchData = event.target.value;
+            searchFilterSort(searchData);
+        }, 500); // Delay of 500 milliseconds (0.5 seconds)
+    });
+
+    //pagination function
+    const paginator = document.querySelectorAll('.paginator');
+    paginator.forEach((el) => {
+       el.addEventListener('click', (event) => {
+        console.log(event.target.innerHTML);
+           data.page = event.target.innerHTML;
+           searchFilterSort();
+       })
+    })
    
     paginationContainer.addEventListener('click', (event) => {
         if (event.target.classList.contains('paginator')) {
-            
-           
             console.log(event.target.innerHTML, 'heeee');
             data.page = event.target.innerHTML;
             searchFilterSort();
         }
     });
- 
 
-
-    console.log('goot here')
+    console.log('got here')
 
     function searchFilterSort(searchData) {
         console.log('hiii')
 
         if (searchData) {
-            data.search = searchData;
+            data.search = searchData.trim() || '';
         }
 
         console.log(data, 'hello');
@@ -200,46 +207,44 @@ $(document).ready(function () {
                     });
                 }
               
-                // renderPagination(response.totalPage, response.page)
+                renderPagination(response.totalPage, response.page)
             }
         })
     }
 });
 
 
-    // function renderPagination(pages, currentPage,) {
-    //    console.log(pages, currentPage)
-    //     const paginationContainer = document.getElementById('paginationContainer');
-    //     paginationContainer.innerHTML = '';
+    function renderPagination(pages, currentPage,) {
+       console.log(pages, currentPage)
+        const paginationContainer = document.getElementById('paginationContainer');
+        paginationContainer.innerHTML = '';
 
-    //     if (pages !== 0) {
-    //         const ul = document.createElement('ul');
-    //         ul.className = 'pagination';
+        if (pages !== 0) {
+            const ul = document.createElement('ul');
+            ul.className = 'pagination';
 
-        
+            for (let i = 1; i <= pages; i++) {
+                // Use Math.ceil to ensure correct totalPage calculation
+                const totalPage = Math.ceil(pages);
+                const pageButton = createPaginationButton(i, totalPage);
+                ul.appendChild(pageButton);
+            }
 
-    //         for (let i = 1; i <= pages; i++) {
-    //             const pageButton = createPaginationButton(i, pages);
-    //             ul.appendChild(pageButton);
-    //         }
+            paginationContainer.appendChild(ul);
+        }
+    }
 
-          
+    function createPaginationButton(text, totalPage) {
+        const li = document.createElement('li');
+        li.className = 'page-item';
 
-    //         paginationContainer.appendChild(ul);
-    //     }
-    // }
+        const button = document.createElement('button');
+        button.className = 'btn btn-outline-dark paginator';
+        button.type = 'button';
+        button.textContent = text;
+        button.dataset.totalPage = totalPage;
 
-    // function createPaginationButton(text, totalPage) {
-    //     const li = document.createElement('li');
-    //     li.className = 'page-item';
+        li.appendChild(button);
 
-    //     const button = document.createElement('button');
-    //     button.className = 'btn btn-outline-dark paginator';
-    //     button.type = 'button';
-    //     button.textContent = text;
-    //     button.dataset.totalPage = totalPage;
-
-    //     li.appendChild(button);
-
-    //     return li;
-    // }
+        return li;
+    }

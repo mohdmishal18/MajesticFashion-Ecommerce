@@ -380,14 +380,31 @@ const loadShop = async (req,res) =>
 {
     try
     {
+        const page = req.query.page ? parseInt(req.query.page) : 1;
+        const limit = 6; 
+
         const id = req.session.user
         const user = await User.findOne({_id:id})
         const cetagory = await Category.find({is_listed: true});
-        const product = await Product.find({is_Listed: true, }).populate('categoriesid');
+
+        const productCount = await Product.find({ is_Listed: true }).countDocuments();
+        const totalPage = Math.ceil(productCount / limit);
+
+        const product = await Product.find({is_Listed: true, })
+        .populate('categoriesid')
+        .skip((page - 1) * limit)
+        .limit(limit)
         
-        // console.log(product[2].variant[0].images[0])
         console.log("product loaded")
-        res.render('shop', {category: cetagory, product: product,user : user});
+        res.render('shop', {
+            category: cetagory,
+            product: product,
+            user : user,
+            page,
+            totalPage,
+            results : product.length,
+            
+        })
  
     }
     catch(error)

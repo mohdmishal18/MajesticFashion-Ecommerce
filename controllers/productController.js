@@ -1,4 +1,3 @@
-
 const User = require('../models/userModel');
 const bcrypt = require('bcrypt');
 const Product = require('../models/productModel');
@@ -346,6 +345,7 @@ const editVariant = async (req, res) => {
 const filter = async (req,res) =>
 {
     try {
+        
         const search = req.body.search ? req.body.search : "";
         const sort = req.body.sort === "increacing" ? 1 : -1;
         const cetagory = req.body.cetagory ? req.body.cetagory : false;
@@ -360,18 +360,27 @@ const filter = async (req,res) =>
         })
           .sort({ "variant.0.price": sort })
           .populate("categoriesid");
-        const totalPage = productCount.length
+
+          const totalPage = Math.ceil(productCount.length / 6);
+
         const products = await Product.find({
           name: { $regex: search, $options: "i" },
         })
-          .sort({ "variant.0.price": sort })
-          .populate("categoriesid")
+        .sort({ "variant.0.price": sort })
+        .populate("categoriesid")
+        .skip((page-1) * 6)
+        .limit(6)
+
         console.log(products);
-        if (products) {
-          if (cetagory || brand || price) {
+
+        if (products)
+        {
+          if (cetagory || brand || price)
+          {
             let product = [];
     
-            if (cetagory) {
+            if (cetagory)
+            {
               const result = products.filter(
                 (el, i) => el.categoriesid.name == cetagory
               );
@@ -384,17 +393,18 @@ const filter = async (req,res) =>
             //   res.status(200).json({ pass: true, product: result });
             // }
     
-            if (price) {
+            if (price)
+            {
               const array = cetagory ? product : products;
               const result = array.filter(
                 (el, i) =>
-                  el.variant[0].offerPrice >= parseInt(price[0]) &&
-                  el.variant[0].offerPrice <= parseInt(price[1])
+                  el.variant[0].price >= parseInt(price[0]) &&
+                  el.variant[0].price <= parseInt(price[1])
               );
               res.status(200).json({ pass: true, product: result });
             }
             res.status(200).json({ pass: true, product: product });
-          } else {
+            }else{
             res
               .status(200)
               .json({ pass: true, product: products, page, totalPage });
@@ -416,5 +426,4 @@ module.exports =
     editVariant,
     listProduct,
     filter,
-
 }
