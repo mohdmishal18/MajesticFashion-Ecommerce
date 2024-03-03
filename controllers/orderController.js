@@ -133,8 +133,11 @@ const placeOrder = async (req, res) =>
                 console.log('there is money in wallet');
                 const data = 
                 {
+                    orderId : oderId,
                     amount : subtotal,
                     date : new Date(),
+                    type : "debit",
+                    reason : "purchase"
                 }
 
                 await Wallet.findOneAndUpdate(
@@ -361,16 +364,23 @@ const cancelOrder = async (req, res) => {
         {
             console.log(data, "this is the data");
             const quantity = data.products[Pindex].quantity;
-
+            const amount = data.products[Pindex].coupon > 0 ? 
+            data.products[Pindex].coupon : data.products[Pindex].totalPrice;
 
             if(data.paymentMethod === 'Razorpay' || 'Wallet')
             {
-                const amount = data.products[Pindex].coupon > 0 ? 
-                data.products[Pindex].coupon : data.products[Pindex].totalPrice;
                 
+                const datas = 
+                {
+                    orderId : orderId,
+                    amount : amount,
+                    date : new Date(),
+                    type : "credit",
+                    reason : "cancel product"
+                }
                 await Wallet.updateOne(
                     {user : userId},
-                    {$set : {amount : amount}}
+                    {$inc : {amount : amount},$push : {walletHistory : datas}}
                 );
             }
 
