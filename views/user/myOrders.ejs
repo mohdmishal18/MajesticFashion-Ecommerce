@@ -1,40 +1,5 @@
 <%- include('../layouts/user/header1.ejs') -%>
 
- <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        a {
-            text-decoration: none;
-            
-        }
-
-        .status-checkboxes {
-            margin-top: .5rem;
-
-        }
-
-        .status-checkboxes .form-check {
-            display: flex;
-            align-items: center;
-            margin-bottom: 1rem;
-        }
-
-        .status-checkboxes .form-check-input {
-            margin-top: 0;
-            margin-right: 5px;
-            /* Adjust spacing between checkbox and label */
-        }
-
-        .status-checkboxes .form-check-label {
-            margin-bottom: 0;
-        }
-        
-    </style>
-
 <!-- Breadcrumb Section Begin -->
 <section class="breadcrumb-option">
     <div class="container">
@@ -45,7 +10,6 @@
                     <div class="breadcrumb__links">
                         <a href="/">Home</a>
                         <a href="/profile">User Profile</a>
-                        <a href="/address">address</a>
                         <span>orders</span>
                     </div>
                 </div>
@@ -78,11 +42,12 @@
                 
                       <!-- Sidebar Menu -->
                   
-                      <div class="menu-itemmm" ><a href="/addresses">Manage Address</a></div><hr>
+                      <div class="menu-itemmm" ><a href="/address">Manage Address</a></div><hr>
                       <div class="menu-itemmm" ><a href="/orders">Orders</a></div><hr>
-                      <div class="menu-itemmm"><a href="/wishlist">Wishlist</a></div><hr>
+                      <!-- <div class="menu-itemmm"><a href="/wishlist">Wishlist</a></div><hr> -->
                       <div class="menu-itemmm"><a href="/wallet">Wallet</a></div><hr>
-                      <div class="menu-itemmm" ><a href="#">Report a Bug</a></div><hr>
+                      <div class="menu-itemmm"><a href="/myCoupon">MyCoupons</a></div><hr>
+                      <!-- <div class="menu-itemmm" ><a href="#">Report a Bug</a></div><hr> -->
                       <div class="menu-itemmm" ><a  href="/signout" >Logout</a></div><hr>
                       
                 </div>
@@ -107,7 +72,7 @@
                                         <th scope="col">Name</th>
                                         <th scope="col">Email</th>
                                         <th scope="col">Total</th>
-                                        <th scope="col">Status</th>
+                                        <!-- <th scope="col">Status</th> -->
                                         <th scope="col">Date</th>
                                         <th scope="col">Action</th>
                                     
@@ -122,7 +87,7 @@
                                             <td style="padding: 24px;"><%= item.user.name %></td>
                                             <td style="padding: 24px;"><%= item.user.email %></td>
                                             <td style="padding: 24px;"><%= item.totalAmount%></td>
-                                            <td style="padding: 24px;"><span class="badge rounded-pill alert-dark"><%= item.status%></span></td>
+                                            <!-- <td style="padding: 24px;"><span class="badge rounded-pill alert-dark"><%= item.status%></span></td> -->
                                             <% const formattedDate = item.date.toLocaleString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: true }); %>
                                             <td style="padding: 24px;"><%= formattedDate%></td>
                                             <td style="padding: 24px;">

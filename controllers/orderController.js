@@ -303,10 +303,17 @@ const loadOrderDetails = async (req,res) =>
         {
             const {orderId} = req.query;
             const order = await Order.findById({_id : orderId}).populate('user').populate('products.productId');
+            let totalAmount = 0;
+
+            order.products.forEach((el) => {
+                if (el.status != 'canceled' && el.status != 'returned') {
+                    totalAmount += el.totalPrice;
+                }
+            });
 
             console.log(order);
 
-            res.render('orderDetails',{myOrder : order})
+            res.render('orderDetails',{myOrder : order,totalAmount})
         }
     }
     catch(error)
@@ -336,8 +343,8 @@ const loadSingleOrderDetails = async (req,res) =>
 
 const cancelOrder = async (req, res) => {
     try {
-      const { orderId, productId ,index} = req.body;
-      console.log("---", orderId, productId,index);
+      const { orderId, productId ,index, Pindex,Pid} = req.body;
+      console.log("---", orderId, productId,index, Pindex);
       const userId = req.session.user?._id;
       console.log("the data's are : ",req.body);
 
@@ -347,16 +354,28 @@ const cancelOrder = async (req, res) => {
         {
             $set : 
             {
-                [`products.${index}.status`] : 'canceled',
+                [`products.${Pindex}.status`] : 'canceled',
             }
         })
-        .then((data) =>
+        .then(async (data) =>
         {
             console.log(data, "this is the data");
+            const quantity = data.products[Pindex].quantity;
 
-            const quantity = data.products[index].quantity;
+
+            if(data.paymentMethod === 'Razorpay' || 'Wallet')
+            {
+                const amount = data.products[Pindex].coupon > 0 ? 
+                data.products[Pindex].coupon : data.products[Pindex].totalPrice;
+                
+                await Wallet.updateOne(
+                    {user : userId},
+                    {$set : {amount : amount}}
+                );
+            }
+
             // incrementing the product's quantity.
-            return Product.findByIdAndUpdate({_id : productId},
+            return Product.findByIdAndUpdate({_id : Pid},
                 {
                     $inc : 
                     {
