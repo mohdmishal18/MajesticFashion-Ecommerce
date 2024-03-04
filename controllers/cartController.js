@@ -179,9 +179,10 @@ const updateQuantity = async (req,res ) =>
         const stock = variant.quantity;
         const price = variant.price;
         console.log(price, 'price')
-        const cart = await Cart.findOne({ user: userid, "products.productId": productId });
+        const cart = await Cart.findOne({ user: userid});
         console.log(cart, 'cart');
-        const cartProduct = cart.products.find((pro) => pro.product === index);
+
+        const cartProduct = cart.products.find((pro) => pro.productId.toString() === productId && pro.size === size);
         console.log(cartProduct);
         const quantity = cartProduct.quantity;
         console.log(quantity);

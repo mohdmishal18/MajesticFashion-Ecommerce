@@ -248,53 +248,52 @@
                                 <%products.forEach((item, i) => {%>
 
                                    
-                                <tr>
-                                    <td class="product__cart__item">
-                                        <div class="product__cart__item__pic">
-
-                                            <img class="" style="width: 100px; height: 100px;" src="/static/img/productImage/sharp/<%= item.productId.variant[item.product].images[0] %>" alt="">
-                                        </div>
-                                        <div class="product__cart__item__text">
-                                            <h6 style="font-size: 12px;"><%= item.productId.name %></h6>
-                                            <h5 style="font-size: 15px;">₹<%= item.price %></h5>
-                                             
-                                            <% const match = [['S', 'Small'], ['M', 'Medium'], ['L', "Large"], ['XL', 'Exel'], ['XXL', 'Double exel']]%>
-                                            <% const size = match.find((size) => (size[0] === item.size)) %>
-                                            <% if (size) { %>
-                                                <span>Size: <%= size[1] %></span>
-                                            <% } else { %>
-                                                <span>Size not available</span>
-                                            <% } %>
-                                        </div>
-                                    </td>
-                                    <td class="quantity__item">
-                                        <!-- <div class="quantity">
-                                            <div class="pro-qty-2" id="newID">
-                                                <span class="fa fa-angle-left   counter"></span>
-                                                <input type="text" id="ctn" value="<%= item.quantity%>" data-productId="<%= item.productId._id%>" data-size="<%= item.size%>" readonly data-index="<%= item.product%>">
-                                                <span class="fa fa-angle-right  counter"></span>
+                                    <tr>
+                                        <td class="product__cart__item">
+                                            <div class="product__cart__item__pic">
+                                                <img class="" style="width: 100px; height: 100px;" src="/static/img/productImage/sharp/<%= item.productId.variant[item.product].images[0] %>" alt="">
                                             </div>
-                                        </div> -->
-                                        <div class="cart-product-quantity ml-3" style="display: flex; align-items: center;">
-                                            <button class="quantity-control" type="button" onclick="IncDecValue('<%= item.productId._id %>', -1,'<%= item.product%>','<%= item.size%>','<%= item.quantity%>')" style="background-color: transparent;color: black;">
-                                                <span class="fa fa-angle-left   counter"></span>
-                                            </button>
-                                            
-                                            <input type="number" class="form-control" value="<%= item.quantity %>" min="1" max="10"
-                                                step="1" data-decimals="0" disabled required style="text-align: start; width: 50px;">
-                                            
-                                            <button class="quantity-control" type="button" onclick="IncDecValue('<%= item.productId._id %>', 1,'<%= item.product%>','<%= item.size%>','<%= item.quantity%>')" style="background-color: transparent; color: black;">
-                                                <span class="fa fa-angle-right  counter"></span>
-                                            </button>
-                                        </div>
-                                    </td>
-                                    <%total += (item.productId.variant[item.product].price * item.quantity)%>
-                                    <% items += item.quantity%>
-                                    <%totalAmount += item.totalPrice%>
-                                    <td class="cart__price" id="subPrice">₹<%= item.totalPrice%></td>
-                                   
-                                    <td class="cart__close" onclick="remove_from_cart('<%= item.productId._id%>','<%= item.product%>')"><i class="fa fa-close"></i></td>
-                                </tr>
+                                            <div class="product__cart__item__text">
+                                                <h6 style="font-size: 12px;"><%= item.productId.name %></h6>
+                                                <h5 style="font-size: 15px;">₹<%= item.price %></h5>
+                                                
+                                                <% const match = [['S', 'Small'], ['M', 'Medium'], ['L', "Large"], ['XL', 'Exel'], ['XXL', 'Double exel']]%>
+                                                <% const size = match.find((size) => (size[0] === item.size)) %>
+                                                <% if (size) { %>
+                                                    <span>Size: <%= size[1] %></span>
+                                                <% } else { %>
+                                                    <span>Size not available</span>
+                                                <% } %>
+                                            </div>
+                                        </td>
+                                        <td class="quantity__item">
+                                            <!-- <div class="quantity">
+                                                <div class="pro-qty-2" id="newID">
+                                                    <span class="fa fa-angle-left   counter"></span>
+                                                    <input type="text" id="ctn" value="<%= item.quantity%>" data-productId="<%= item.productId._id%>" data-size="<%= item.size%>" readonly data-index="<%= item.product%>">
+                                                    <span class="fa fa-angle-right  counter"></span>
+                                                </div>
+                                            </div> -->
+                                            <div class="cart-product-quantity ml-3" style="display: flex; align-items: center;">
+                                                <button class="quantity-control" type="button" onclick="IncDecValue('<%= item.productId._id %>', -1,'<%= item.product%>','<%= item.size%>','<%= item.quantity%>')" style="background-color: transparent;color: black;">
+                                                    <span class="fa fa-angle-left   counter"></span>
+                                                </button>
+                                                
+                                                <input type="number" class="form-control" value="<%= item.quantity %>" min="1" max="10"
+                                                    step="1" data-decimals="0" disabled required style="text-align: start; width: 50px;">
+                                                
+                                                <button class="quantity-control" type="button" onclick="IncDecValue('<%= item.productId._id %>', 1,'<%= item.product%>','<%= item.size%>','<%= item.quantity%>')" style="background-color: transparent; color: black;">
+                                                    <span class="fa fa-angle-right  counter"></span>
+                                                </button>
+                                            </div>
+                                        </td>
+                                        <%total += (item.productId.variant[item.product].price * item.quantity)%>
+                                        <% items += item.quantity%>
+                                        <%totalAmount += item.totalPrice%>
+                                        <td class="cart__price" id="subPrice">₹<%= item.totalPrice%></td>
+                                    
+                                        <td class="cart__close" onclick="remove_from_cart('<%= item.productId._id%>','<%= item.product%>')"><i class="fa fa-close"></i></td>
+                                    </tr>
 
                                 <%})%>
                             </tbody>
