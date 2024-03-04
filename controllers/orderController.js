@@ -405,6 +405,38 @@ const cancelOrder = async (req, res) => {
     }
   };
 
+  const returnProduct = async (req,res) =>
+  {
+    try
+    {
+        const {orderId, productId, index, Pindex, Pid ,returnReason} = req.body;
+
+        const userId = req.session.user?._id
+
+        if(userId)
+        {
+            return Order.findOneAndUpdate(
+                {_id : orderId, "products.productId" : Pid},
+                {
+                    $set : 
+                    {
+                        [`products.${index}.returnRequest`]: "requested",
+                        [`products.${index}.returnReason`]: returnReason,
+                    }
+                }
+            )
+            .then(() =>
+            {
+                res.json({return : true})
+            });
+        }
+    }
+    catch(error)
+    {
+        console.log(error);
+    }
+  }
+
   const invoice = async(req,res) =>
   {
     try
@@ -435,5 +467,6 @@ module.exports =
     loadSingleOrderDetails,
     cancelOrder,
     verifyPayment,
-    invoice
+    invoice,
+    returnProduct
 }

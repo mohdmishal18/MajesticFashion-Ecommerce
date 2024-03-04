@@ -142,6 +142,8 @@ userRoute
 
     .post('/cancel-product',orderController.cancelOrder)
 
+    .post('/return-product',orderController.returnProduct)
+
     // change password ========================================
     
     .post('/change-password',userController.changePassword)

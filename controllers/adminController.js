@@ -529,6 +529,24 @@ const orderReport = async (req,res) =>
     }
 }
 
+const loadReturnReq = async (req,res) =>
+{
+    try
+    {
+        const order = await Order.find({'products.returnRequested' : 'requested'})
+        .populate('user')
+        .populate('products.productId');
+
+        res.render('returnReq',{order : order});
+    }
+    catch(error)
+    {
+        console.log(error);
+    }
+}
+
+
+
 const adminLogout = async (req, res) => {
     try {
         req.session.destroy();
@@ -553,5 +571,6 @@ module.exports =
     singleOrderDetails,
     changeOrderStatus,
     salesReport,
-    orderReport
+    orderReport,
+    loadReturnReq
 }

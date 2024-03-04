@@ -59,6 +59,17 @@ const orderSchema = new mongoose.Schema(
                     enum : ['placed','out for delivery','shipped','delivered','canceled','returned'],
                     default : 'placed',
                 },
+
+                returnReason:
+                {
+                    type: String,
+                },
+            
+                returnRequest:
+                {
+                    type: String,
+                    enum: ["requested", "accepted", "denied"],
+                },
                 
                 coupon : 
                 {
