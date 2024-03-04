@@ -5,6 +5,7 @@ const Order = require('../models/orderModel');
 const Category = require('../models/categoryModel');
 const Product = require('../models/productModel');
 const adminHelpers = require("../helpers/adminHelper");
+const Wallet = require('../models/walletModel');
 
 // load login page.
 const loadLogin = async (req,res) =>
@@ -448,9 +449,14 @@ const singleOrderDetails = async (req,res) =>
 {
     try
     {
-        const {orderId} = req.query;
+        const {orderId,returns} = req.query;
         console.log("orderId is : ", orderId);
         const orderdetails = await Order.findById({_id : orderId}).populate('user').populate('products.productId');
+
+        if(returns)
+        {
+            return res.render("returnProductDec", { order: orderdetails });
+        }
         console.log("Order detials are  :", orderdetails);
         res.render('orderDetails',{myOrder : orderdetails});  
          
@@ -533,7 +539,7 @@ const loadReturnReq = async (req,res) =>
 {
     try
     {
-        const order = await Order.find({'products.returnRequested' : 'requested'})
+        const order = await Order.find({'products.returnRequest' : 'requested'})
         .populate('user')
         .populate('products.productId');
 
@@ -545,7 +551,80 @@ const loadReturnReq = async (req,res) =>
     }
 }
 
+const returns = async (req, res) => {
+    console.log("returns");
+    try {
+      const { orderId, productId, index,Vindex, decision } = req.body;
 
+      if (decision === "accepted")
+      {
+        return Order.findByIdAndUpdate(
+          { _id: orderId, "products.productId": productId },
+          {
+            $set: {
+              [`products.${index}.returnRequest`]: decision,
+              [`products.${index}.status`]: "returned",
+            },
+          },
+          {
+            new: true,
+          }
+        )
+          .then(async (data) => {
+            const amount =
+              data.products[index].coupon > 0
+                ? data.products[index].coupon
+                : data.products[index].totalPrice;
+            console.log(typeof amount, amount);
+            const datas = 
+            {
+                orderId : orderId,
+                amount : amount,
+                date : new Date(),
+                type : "credit",
+                reason : "Returned product"
+            }
+            await Wallet.findOneAndUpdate(
+              { user: data.user },
+              {
+                $inc: {
+                  amount: amount,
+                },
+                $push : 
+                {
+                    walletHistory : datas
+                }
+              }
+            );
+  
+            const quantity = data.products[index].quantity;
+            return Product.findOneAndUpdate(
+              { _id: productId },
+              {
+                $inc: {
+                  [`variant.${Vindex}.quantity`]: quantity,
+                },
+              }
+            );
+          })
+          .then(() => {
+            res.json({ success: true });
+          });
+       }else{
+        await Order.findByIdAndUpdate(
+          { _id: orderId, "products.productId": productId },
+          {
+            $set: {
+              [`products.${index}.returnRequest`]: decision,
+            },
+          }
+        );
+        res.json({ success: true });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
 const adminLogout = async (req, res) => {
     try {
@@ -572,5 +651,6 @@ module.exports =
     changeOrderStatus,
     salesReport,
     orderReport,
-    loadReturnReq
+    loadReturnReq,
+    returns
 }

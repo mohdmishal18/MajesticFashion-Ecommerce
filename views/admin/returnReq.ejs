@@ -1,0 +1,151 @@
+<%- include('../layouts/admin/header.ejs') -%>
+
+<div class="screen-overlay"></div>
+        <aside class="navbar-aside" id="offcanvas_aside">
+            <div class="aside-top">
+                <a href=/admin/home class="brand-wrap">
+                    <img src="/imgs/theme/Majestic.png" class="logo" alt="Majestic Dashboard" />
+                </a>
+                <div>
+                    <button class="btn btn-icon btn-aside-minimize"><i class="text-muted material-icons md-menu_open"></i></button>
+                </div>
+            </div>
+            <nav>
+                <ul class="menu-aside">
+                    <li class="menu-item">
+                        <a class="menu-link" href="/admin/home">
+                            <i class="icon material-icons md-home"></i>
+                            <span class="text">Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a class="menu-link" href="/admin/userlist">
+                            <i class="icon material-icons md-shopping_bag"></i>
+                            <span class="text">Customers</span>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a class="menu-link" href="/admin/product">
+                            <i class="icon material-icons md-shopping_cart"></i>
+                            <span class="text">Products</span>
+                        </a>
+        
+                    </li>
+                    <li class="menu-item">
+                        <a class="menu-link" href="/admin/category">
+                            <i class="icon material-icons md-add_box"></i>
+                            <span class="text">Categories</span>
+                        </a>
+                       
+                    </li>
+                    <li class="menu-item">
+                        <a class="menu-link" href="/admin/orders">
+                            <i class="icon material-icons md-store"></i>
+                            <span class="text">Orders</span>
+                        </a>
+            
+                    </li>
+                    <li class="menu-item">
+                        <a class="menu-link" href="/admin/coupon">
+                            <i class="icon material-icons md-monetization_on"></i>
+                            <span class="text">Coupon</span>
+                        </a>
+        
+                    </li>
+                    <li class="menu-item">
+                        <a class="menu-link" href="/admin/banner">
+                            <i class="icon material-icons md-person"></i>
+                            <span class="text">Banner</span>
+                        </a>
+                    </li>
+                    
+                    <li class="menu-item">
+                        <a class="menu-link" href="/admin/sales-report">
+                            <i class="icon material-icons md-monetization_on"></i>
+                            <span class="text">Sales</span>
+                        </a>
+                    </li>
+
+                    <li class="menu-item active">
+                        <a class="menu-link" href="/admin/return-req">
+                            <i class="icon material-icons md-monetization_on"></i>
+                            <span class="text">Return Requests</span>
+                        </a>
+                    </li>
+                    
+                </ul>
+            </nav>
+        </aside>
+        <main class="main-wrap">
+            <%- include('../partials/logout-dark.ejs') -%>
+            <section class="content-main">
+                <div class="content-header">
+                  <div>
+                    <h2 class="content-title card-title">Return requests</h2>
+                  </div>
+                </div>
+                <div class="card mb-4">
+                  <!-- card-header end// -->
+                  <div class="card-body">
+                    <div class="table-responsive">
+                      <%console.log(order)%> <%if(order.length > 0) {%>
+                      <table class="table table-hover">
+                        <thead>
+                          <tr>
+                            <th>Index</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Total</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <%order.forEach((item, i)=> {%>
+        
+                          <tr>
+                            <td><%= i + 1%></td>
+                            <td><b> <%= item.user.name%> </b></td>
+                            <td><%= item.user.name%></td>
+                            <td><%= item.totalAmount%></td>
+                            <td>
+                              <span class="badge rounded-pill alert-warning">
+                                <%= item.status%>
+                              </span>
+                            </td>
+                            <% const formattedDate=item.date.toLocaleString('en-US', {
+                            weekday: 'short' , month: 'short' , day: 'numeric' , year:
+                            'numeric' , hour: 'numeric' , minute: 'numeric' , second:
+                            'numeric' , hour12: true }); %>
+                            <td><%= formattedDate%></td>
+                            <td class="">
+                              <%const returns=true%>
+                              <a
+                                href="/admin/orderdetails?orderId=<%= item._id%>&returns=<%= returns%>"
+                                >More details</a
+                              >
+                              <!-- dropdown //end -->
+                            </td>
+                          </tr>
+        
+                          <%})%>
+                        </tbody>
+                      </table>
+                      <%} else {%>
+        
+                      <p class="text-center" style="margin: 2rem 0; font-weight: 900">
+                        No return requests
+                      </p>
+        
+                      <%}%>
+                    </div>
+                    <!-- table-responsive //end -->
+                  </div>
+                  <!-- card-body end// -->
+                </div>
+                <!-- card end// -->
+              </section>
+        </main>
+
+<%- include('../layouts/admin/footer.ejs') -%>

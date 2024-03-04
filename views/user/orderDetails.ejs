@@ -198,12 +198,12 @@
                                                     <%= formattedDate%>
                                                 </td>
                                                 <td class="text-end">
-                                                    <%if(el.status === 'delivered'){%>
+                                                    <%if(el.status === 'delivered' || el.status === 'returned'){%>
                                                         <%if(el.returnRequest === 'requested'){%>
                                                             <button class="btn btn-primary">
                                                                 Req Sended
                                                             </button>
-                                                        <%}else if(el.status === 'returned'){%>
+                                                        <%}else if(el.returnRequest === 'accepted'){%>
                                                             <button class="btn btn-primary">
                                                                 Returned
                                                             </button>
@@ -216,12 +216,12 @@
                                                             </button>
                                                         <%}%>
                                                     <%}else{%>
-                                                        <%if(el.status === 'canceled'){%>
+                                                        <%if( el.returnRequest !== 'requested' && el.returnRequest !== 'accepted' && el.status !== 'canceled'){%>
+                                                        <button class="btn btn-danger" onclick="cancelOrder('<%= myOrder._id %>','<%= el._id %>','<%= el.product %>','<%= i %>','<%= el.productId._id %>')">Cancel</button>
+                                                        <%}else if(el.returnRequest !== 'requested' && el.returnRequest !== 'accepted'){%>
                                                             <button class="btn btn-primary">
                                                                 Canceled
                                                             </button>
-                                                        <%}else{%>
-                                                        <button class="btn btn-danger" onclick="cancelOrder('<%= myOrder._id %>','<%= el._id %>','<%= el.product %>','<%= i %>','<%= el.productId._id %>')">Cancel</button>
                                                         <%}%>
                                                     <%}%>
                                                 </td>
@@ -381,7 +381,6 @@
                     }
                 }
             })
-
         }
         
         $('#returnProduct').modal('hide');

@@ -72,6 +72,9 @@ adminRoute
     .post('/editCoupon', couponController.editCoupon)
     .delete('/deleteCoupon',couponController.deleteCoupon)
 
+    // return requests.
+    .get('/return-req',adminController.loadReturnReq)
+    .post('/return-req',adminController.returns)
 
 
 module.exports = adminRoute;
