@@ -283,60 +283,88 @@ const loadDashboard = async (req,res) =>
         ])
         //const latestOrders = await Order.find({}).sort({ date: -1 }).populate('user').limit(limit).skip((page - 1) * limit).exec()
 
-        const bestSellingProducts = await Order.aggregate([
-            {
-              $unwind: '$products', // Flatten the products array
-            },
-            {
-              $match: {
-                'products.status': 'placed',
-              },
-            },
-            {
-              $group: {
-                _id: '$products.productId',
-                totalQuantity: { $sum: '$products.quantity' },
-                productName: { $first: '$products.name' },
-                // category: { $first: '$products.categoriesid' }, // Replace 'category' with the actual field name for category in your Product model
-              },
-            },
-            {
-              $sort: { totalQuantity: -1 }, // Sort by totalQuantity in descending order
-            },
-            {
-              $limit: 10, // Limit to the top 10 products
-            },
-          ]);
-
-            // Calculate monthly revenue
-            const currentMonth = new Date();
-            const startOfMonth = new Date(
-            currentMonth.getFullYear(),
-            currentMonth.getMonth(),
-            1
-            );
-            const endOfMonth = new Date(
-            currentMonth.getFullYear(),
-            currentMonth.getMonth() + 1,
-            1
-            );
-
-            const monthly = await Order.aggregate([
-            {
-                $match: {
-                "products.status": "delivered",
-                date: { $gte: startOfMonth, $lt: endOfMonth },
-                },
-            },
-            {
+         // Aggregate to get the total quantity sold for each product
+            const topProducts = await Order.aggregate([
+                { $unwind: "$products" },
+                { $match: { "products.status": "delivered" } },
+                {
                 $group: {
-                _id: null,
-                monthlyRevenue: { $sum: "$totalPrice" },
+                    _id: "$products.productId",
+                    totalQuantitySold: { $sum: "$products.quantity" },
+                },
+                },
+                { $sort: { totalQuantitySold: -1 } },
+                { $limit: 10 },
+            ]);
+        
+            // Retrieve product details for the top products
+            const topProductsDetails = await Product.find({
+                _id: { $in: topProducts.map((product) => product._id) },
+            }).populate("categoriesid");
+
+            const topCategories = await Order.aggregate([
+                { $unwind: "$products" },
+                { $match: { "products.status": "delivered" } },
+                {
+                $lookup: {
+                    from: "products",
+                    localField: "products.productId",
+                    foreignField: "_id",
+                    as: "productDetails"
+                }
+                },
+                { $unwind: "$productDetails" },
+                {
+                $lookup: {
+                    from: "categories",
+                    localField: "productDetails.categoriesid",
+                    foreignField: "_id",
+                    as: "categoryDetails"
+                }
+                },
+                { $unwind: "$categoryDetails" },
+                {
+                $group: {
+                    _id: "$categoryDetails._id",
+                    categoryName: { $first: "$categoryDetails.name" },
+                    totalQuantitySold: { $sum: "$products.quantity" }
+                }
+                },
+                { $sort: { totalQuantitySold: -1 } },
+                { $limit: 10 }
+            ]);
+            console.log("topCategories", topCategories);
+
+          const currentDate = new Date();
+          const startDate = new Date(currentDate - 30 * 24 * 60 * 60 * 1000);
+
+          // to find the monthly revenue (only taking the delivered orders).
+        const totalMonth = await Order.aggregate([
+
+            {
+                $unwind : "$products"
+            },
+            {
+                $match : 
+                {
+                    "products.status" : "delivered",
+                    date: { $gte: startDate, $lt: currentDate },
+
                 },
             },
-            ]);
+            {
+                $group : 
+                {
+                    _id : null,
+                    totalMoney : 
+                    {
+                        $sum : "$products.totalPrice"
+                    }
+                }
+            }
 
-            const monthlyRevenue = monthly.map((value) => value.monthlyRevenue)[0] || 0;
+        ])
+        const monthlyRevenueValue = totalMonth[0].totalMoney || 0;
 
         res.render('adminDashboard',
         {
@@ -346,7 +374,7 @@ const loadDashboard = async (req,res) =>
             cancelled,
             returns,
             totalRevenue,
-            monthlyRevenue,
+            monthlyRevenueValue,
             totalProducts,
             totalUsers,
             codCount,
@@ -357,7 +385,9 @@ const loadDashboard = async (req,res) =>
             next,
             previous,
             totalPages,
-            products : bestSellingProducts,
+            topProducts,
+            topProductsDetails,
+            topCategories,
 
         });
     }
