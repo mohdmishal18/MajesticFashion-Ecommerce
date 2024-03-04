@@ -175,7 +175,7 @@
                                                         </td>
                                                         <td class="text-end">
         
-                                                            <%if(el.status==='delivered' ) {%>
+                                                            <%if(el.status==='delivered' && el.returnRequest !== 'requested') {%>
                                                                 <select data-orderId="<%= myOrder._id%>"
                                                                     data-productId="<%= el.productId._id%>" data-index="<%= i%>"
                                                                     data-userId="<%= myOrder.user._id%>"
@@ -192,8 +192,17 @@
         
                                                                     </select>
                                              
-                                                                <%} else {%>
+                                                                <%}else if(el.returnRequest === 'requested'){%>
+                                                                    <select class="bg-primary form-select" name="" id="" disabled>
+                                                                        <option class="text-light " style="color: #ffffff !important; font-weight: 900;">Requested</option>
         
+                                                                    </select>
+                                                                <%}else if(el.status === 'returned'){%>
+                                                                    <select class="bg-danger form-select" name="" id="" disabled>
+                                                                        <option class="text-light " style="color: #b42723 !important; font-weight: 900;">Returned</option>
+        
+                                                                    </select>
+                                                                <%}else {%>
                                                                     <select data-orderId="<%= myOrder._id%>"
                                                                         data-productId="<%= el.productId._id%>"
                                                                         data-index="<%= i%>" data-userId="<%= myOrder.user._id%>"

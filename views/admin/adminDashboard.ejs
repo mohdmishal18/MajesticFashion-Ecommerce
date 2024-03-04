@@ -86,7 +86,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-lg-4">
+                    <div class="col-lg-3">
                         <div class="card card-body mb-4">
                             <article class="icontext">
                                 <span class="icon icon-sm rounded-circle bg-primary-light"><i class="text-primary material-icons md-monetization_on"></i></span>
@@ -98,7 +98,19 @@
                             </article>
                         </div>
                     </div>
-                    <div class="col-lg-4">
+                    <div class="col-lg-3">
+                        <div class="card card-body mb-4">
+                            <article class="icontext">
+                                <span class="icon icon-sm rounded-circle bg-info-light"><i class="text-info material-icons md-shopping_basket"></i></span>
+                                <div class="text">
+                                    <h6 class="mb-1 card-title">Monthly Earning</h6>
+                                    <span>₹<%= monthlyRevenue %></span>
+                                    <span class="text-sm"> Based in your local time. </span>
+                                </div>
+                            </article>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
                         <div class="card card-body mb-4">
                             <article class="icontext">
                                 <span class="icon icon-sm rounded-circle bg-success-light"><i class="text-success material-icons md-local_shipping"></i></span>
@@ -110,8 +122,8 @@
                             </article>
                         </div>
                     </div>
-                    <div class="col-lg-4">
-                        <div class="card card-body mb-4">
+                    <div class="col-lg-3">
+                        <div class="card card-body mb-3">
                             <article class="icontext">
                                 <span class="icon icon-sm rounded-circle bg-warning-light"><i class="text-warning material-icons md-qr_code"></i></span>
                                 <div class="text">
@@ -122,21 +134,9 @@
                             </article>
                         </div>
                     </div>
-                    <!-- <div class="col-lg-3">
-                        <div class="card card-body mb-4">
-                            <article class="icontext">
-                                <span class="icon icon-sm rounded-circle bg-info-light"><i class="text-info material-icons md-shopping_basket"></i></span>
-                                <div class="text">
-                                    <h6 class="mb-1 card-title">Monthly Earning</h6>
-                                    <span>$6,982</span>
-                                    <span class="text-sm"> Based in your local time. </span>
-                                </div>
-                            </article>
-                        </div>
-                    </div> -->
                 </div>
                 <div class="row">
-                    <div class="col-lg-4">
+                    <div class="col-lg-3">
                         <div class="card card-body mb-4">
                             <article class="icontext">
                                 <span class="icon icon-sm rounded-circle bg-primary-light"><i class="text-primary material-icons md-monetization_on"></i></span>
@@ -148,7 +148,7 @@
                             </article>
                         </div>
                     </div>
-                    <div class="col-lg-4">
+                    <div class="col-lg-3">
                         <div class="card card-body mb-4">
                             <article class="icontext">
                                 <span class="icon icon-sm rounded-circle bg-success-light"><i class="text-success material-icons md-local_shipping"></i></span>
@@ -160,7 +160,7 @@
                             </article>
                         </div>
                     </div>
-                    <div class="col-lg-4">
+                    <div class="col-lg-3">
                         <div class="card card-body mb-4">
                             <article class="icontext">
                                 <span class="icon icon-sm rounded-circle bg-warning-light"><i class="text-warning material-icons md-qr_code"></i></span>
@@ -172,7 +172,7 @@
                             </article>
                         </div>
                     </div>
-                    <!-- <div class="col-lg-3">
+                    <div class="col-lg-3">
                         <div class="card card-body mb-4">
                             <article class="icontext">
                                 <span class="icon icon-sm rounded-circle bg-info-light"><i class="text-info material-icons md-shopping_basket"></i></span>
@@ -184,12 +184,12 @@
                             </article>
                         </div>
                     </div>
-                </div> -->
+                </div>
                 <div class="row">
-                    <div class="col-xl-6 col-lg-12">
+                    <div class="col-xl-5 col-lg-12">
                         <div class="card mb-4">
                             <article class="card-body">
-                                <h5 class="card-title">Sale statistics</h5>
+                                <h5 class="card-title">Order Status</h5>
                                 <canvas id="myChart"></canvas>
                             </article>
                         </div>
@@ -216,53 +216,7 @@
                     </div> -->
                 </div>
 
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <div class="table-responsive">
-                            <table class="table align-middle table-nowrap mb-0">
-                                <thead class="table-dark">
-                                    <tr>
-                                        <th class="align-middle" scope="col">Order ID</th>
-                                        <th class="align-middle" scope="col">Billing Name</th>
-                                        <th class="align-middle" scope="col">Date</th>
-                                        <th class="align-middle" scope="col">Total</th>
-                                        <th class="text-center" scope="col">Payment Method</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <% latestOrders.forEach((order) =>{ %>
-                                        <tr>
-                                            <td><%= order._id %></td>
-                                            <td><%= order.user.name %></td>
-                                            <% const formattedDate = order.date.toLocaleString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' }); %>
-                                            <td><%= formattedDate %></td>
-                                            <td><%= order.totalAmount %></td>
-                                            <td class="text-center"><%= order.paymentMethod %></td>
-                                        </tr>
-                                    <%}) %>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <!-- table-responsive end// -->
-                    <div class="pagination-area">
-                        <nav aria-label="Page navigation example">
-                            <ul class="pagination justify-content-center">
-                              <li class="page-item">
-                                <a class="page-link" href="/admin/home?page=<%=previous%>"><</a>
-                              </li>
-                              <% for(let j=1; j <= totalPages; j++) { %>
-                                <li class="page-item actvie">
-                                  <a class="page-link" href="/admin/home?page=<%=j%>"><%= j %></a>
-                                </li>
-                              <% } %>
-                              <li class="page-item">
-                                <a class="page-link" href="/admin/home?page=<%= next %>">></a>
-                              </li>
-                            </ul>
-                          </nav>
-                    </div>
-                </div>
+                
                 
 
                 <div id="deli" data-delivered="<%= delivered %>"></div>
@@ -308,6 +262,55 @@
                       </div>
                     </div>
                   </section>
+
+
+                  <div class="card-body">
+                    <div class="table-responsive">
+                        <div class="table-responsive">
+                            <table class="table align-middle table-nowrap mb-0">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th class="align-middle" scope="col">Order ID</th>
+                                        <th class="align-middle" scope="col">Billing Name</th>
+                                        <th class="align-middle" scope="col">Date</th>
+                                        <th class="align-middle" scope="col">Total</th>
+                                        <th class="text-center" scope="col">Payment Method</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% latestOrders.forEach((order) =>{ %>
+                                        <tr>
+                                            <td><%= order._id %></td>
+                                            <td><%= order.user.name %></td>
+                                            <% const formattedDate = order.date.toLocaleString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' }); %>
+                                            <td><%= formattedDate %></td>
+                                            <td><%= order.totalAmount %></td>
+                                            <td class="text-center"><%= order.paymentMethod %></td>
+                                        </tr>
+                                    <%}) %>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- table-responsive end// -->
+                    <div class="pagination-area">
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination justify-content-center">
+                              <li class="page-item">
+                                <a class="page-link" href="/admin/home?page=<%=previous%>"><</a>
+                              </li>
+                              <% for(let j=1; j <= totalPages; j++) { %>
+                                <li class="page-item">
+                                  <a class="page-link" href="/admin/home?page=<%=j%>"><%= j %></a>
+                                </li>
+                              <% } %>
+                              <li class="page-item">
+                                <a class="page-link" href="/admin/home?page=<%= next %>">></a>
+                              </li>
+                            </ul>
+                          </nav>
+                    </div>
+                </div>
                   
 
                 

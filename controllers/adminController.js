@@ -4,7 +4,6 @@ const bcrypt = require('bcrypt');
 const Order = require('../models/orderModel');
 const Category = require('../models/categoryModel');
 const Product = require('../models/productModel');
-const adminHelpers = require("../helpers/adminHelper");
 const Wallet = require('../models/walletModel');
 
 // load login page.
@@ -160,7 +159,23 @@ const loadDashboard = async (req,res) =>
                                 },1,0
                             ]
                         }
-                    }
+                    },
+
+                    walletCount : 
+                    {
+                        $sum : 
+                        {
+                            $cond : 
+                            [
+                                {
+                                    $eq : 
+                                    [
+                                        "$paymentMethod","Wallet"
+                                    ]
+                                },1,0
+                            ]
+                        }
+                    },
                 }
             }
         ])
@@ -232,7 +247,7 @@ const loadDashboard = async (req,res) =>
             page = req.query.page
         }
         
-        const limit = 5;
+        const limit = 10;
         const previous = page > 1 ? page - 1 : 1;
         let next = page + 1;
 
@@ -293,6 +308,36 @@ const loadDashboard = async (req,res) =>
             },
           ]);
 
+            // Calculate monthly revenue
+            const currentMonth = new Date();
+            const startOfMonth = new Date(
+            currentMonth.getFullYear(),
+            currentMonth.getMonth(),
+            1
+            );
+            const endOfMonth = new Date(
+            currentMonth.getFullYear(),
+            currentMonth.getMonth() + 1,
+            1
+            );
+
+            const monthly = await Order.aggregate([
+            {
+                $match: {
+                "products.status": "delivered",
+                date: { $gte: startOfMonth, $lt: endOfMonth },
+                },
+            },
+            {
+                $group: {
+                _id: null,
+                monthlyRevenue: { $sum: "$totalPrice" },
+                },
+            },
+            ]);
+
+            const monthlyRevenue = monthly.map((value) => value.monthlyRevenue)[0] || 0;
+
         res.render('adminDashboard',
         {
             orders,
@@ -301,6 +346,7 @@ const loadDashboard = async (req,res) =>
             cancelled,
             returns,
             totalRevenue,
+            monthlyRevenue,
             totalProducts,
             totalUsers,
             codCount,
