@@ -366,6 +366,9 @@ const loadDashboard = async (req,res) =>
         ])
         const monthlyRevenueValue = totalMonth[0].totalMoney || 0;
 
+        // Initialize an array with 12 elements, each set to zero
+        const monthlyData = Array.from({ length: 12 }).fill(0);
+
         res.render('adminDashboard',
         {
             orders,
@@ -389,6 +392,9 @@ const loadDashboard = async (req,res) =>
             topProductsDetails,
             topCategories,
 
+            monthlyData,
+            
+
         });
     }
     catch(error)
@@ -396,6 +402,54 @@ const loadDashboard = async (req,res) =>
         console.log(error);
     }
 }
+
+const filterDashboard = async (req, res) => {
+    try {
+      const { data } = req.body;
+      const desiredMonth = data; // Example for January 2024
+      const startDate = new Date(desiredMonth + "-01T00:00:00Z"); // Start of month
+      const endDate = new Date(desiredMonth + "-31T23:59:59Z"); // End of month (adjusted for days in February)
+      console.log(startDate);
+      const monthData = await Order.aggregate([
+        {
+          $match: {
+            status: "placed",
+            date: { $gte: startDate, $lt: endDate },
+          },
+        },
+        {
+          $group: {
+            _id: {
+              $dateToString: {
+                format: "%d",
+                date: "$date",
+              },
+            },
+            totalAmount: { $sum: "$totalAmount" },
+          },
+        },
+      ]);
+      console.log(monthData);
+  
+      // Initialize an array with 12 elements, each set to zero
+      const newData = Array.from({ length: 30 }).fill(0);
+  
+      // Populate the array based on the provided data
+      monthData.forEach((item) => {
+        console.log(item);
+        const monthIndex = parseInt(item._id, 10) - 1; // Convert _id to zero-based index
+        if (monthIndex >= 0 && monthIndex < 30) {
+          newData[monthIndex] = item.totalAmount;
+        }
+      });
+  
+      console.log(newData);
+      res.json({ newData, data });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  
 
 // Display users list
 const loadUserManagement = async (req,res) =>
@@ -718,6 +772,7 @@ module.exports =
 {
     loadLogin,
     loadDashboard,
+    filterDashboard,
     loadUserManagement,
     verifyLogin,
     blockUser,

@@ -76,5 +76,8 @@ adminRoute
     .get('/return-req',adminController.loadReturnReq)
     .post('/return-req',adminController.returns)
 
+    //monthly chart
+    .post('/order-filter',adminController.filterDashboard)
+
 
 module.exports = adminRoute;
