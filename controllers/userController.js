@@ -11,6 +11,7 @@ const Category = require('../models/categoryModel');
 const Cart = require('../models/cartModel')
 const Token = require('../models/tokenModel');
 const Wallet = require('../models/walletModel');
+const Coupon = require('../models/couponModal');
 
 //
 //Load home page,
@@ -901,6 +902,38 @@ const filter = async (req, res) => {
     }
 }
 
+// load wallet page
+const loadWallet = async (req,res) =>
+{
+    try
+    {
+        const userId = req.session.user?._id;
+        const wallet = await Wallet.findOne({user : userId});
+        const balance = wallet.amount;
+        const history = wallet.walletHistory
+        res.render('myWallet',{balance,history});
+    }
+    catch(error)
+    {
+        console.log(error);
+    }
+}
+
+// load myCoupons
+const loadMyCoupon = async(req,res) =>
+{
+    try
+    {
+        const userId = req.session.user?._id;
+        const coupons = await Coupon.find({});
+        res.render('myCoupons',{coupon : coupons});
+    }
+    catch(error)
+    {
+        console.log(error);
+    }
+}
+
 //
 // logout user
 //
@@ -960,4 +993,6 @@ module.exports =
     resetPage,
     resetPassword,
     filter,
+    loadWallet,
+    loadMyCoupon
 }

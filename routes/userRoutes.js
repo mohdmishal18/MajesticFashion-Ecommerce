@@ -160,7 +160,13 @@ userRoute
     .post('/coupon-check',couponController.couponCheck)
 
     // invoice download.
-    .get('/invoice',auth.userAuth,orderController.invoice);
+    .get('/invoice',auth.userAuth,orderController.invoice)
+
+    // getting wallet page.
+    .get('/mywallet',userController.loadWallet)
+
+    //getting the myCoupons page
+    .get('/mycoupons',userController.loadMyCoupon)
 
 
     
