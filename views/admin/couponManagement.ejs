@@ -479,6 +479,11 @@
             return;
           }
 
+          if (parseFloat(minAmount) <= parseFloat(damount)) {
+                    displayErrorMessage(form, "minAmountSpend", "Minimum amount spend must be greater than the discount amount.");
+                    return;
+                }
+
           
           if (limit === "") {
             displayErrorMessage(form, "limit", "Please enter a limit of use.");
@@ -589,6 +594,12 @@
 
                 if (minimum === "") {
                     displayErrorMessage(form, "minimum", "Please enter a minimum amount spend.");
+                    return;
+                }
+
+
+                if (parseFloat(discount) >= parseFloat(minimum)) {
+                    displayErrorMessage(form, "minimum", "Minimum amount spend must be greater than the discount amount.");
                     return;
                 }
 

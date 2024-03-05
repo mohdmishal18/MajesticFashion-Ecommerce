@@ -8,7 +8,7 @@ const productModel = mongoose.Schema(
         name : 
         {
             type : String,
-            required : true
+            // required : true
         },
 
         description : 
@@ -21,7 +21,7 @@ const productModel = mongoose.Schema(
         {
             type : objectId,
             ref : 'categories',
-            required : true,
+            // required : true,
         },
 
         is_Listed : 
@@ -40,25 +40,25 @@ const productModel = mongoose.Schema(
                 {
                     name : 'price',
                     type : Number,
-                    required : true
+                    // required : true
                 },
 
                 {
                     name : 'previous_price',
                     type : Number,
-                    required : true
+                    // required : true
                 },
 
                 {
                     name : 'sizes',
                     type : [String],
-                    required : true
+                    // required : true
                 },
 
                 {
                     name: 'color',
                     type: String,
-                    required: true
+                    // required: true
                 },
 
                 {

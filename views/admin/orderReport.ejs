@@ -80,6 +80,7 @@
                 <div class="card-body">
                     <a class="btn btn-primary mt-3 align-middle mb-10" href="/admin/sales-report">Back</a>
                     <button onclick="exportTableToCSV()" class="btn btn-primary mt-3 align-middle mb-10">Download Report</button>
+                    <button onclick="printSalesReport()" class="btn btn-primary mt-3 align-middle mb-10">Download PDF</button>
                     <div class="table-responsive">
                         <div class="table-responsive">
                             <table class="table align-middle table-nowrap mb-0">
@@ -179,5 +180,14 @@
     }
 </script>
 
+<script>
+    
+
+    function printSalesReport() {
+        window.print();
+    }
+
+    // ... (your existing code) ...
+</script>
 
 

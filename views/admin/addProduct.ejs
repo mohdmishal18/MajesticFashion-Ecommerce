@@ -49,11 +49,11 @@
                         </div>
                         <div class="row gx-2">
                             <div class="col-md-6 mb-3">
-                                <label for="product_brand" class="form-label">Price</label>
+                                <label for="product_brand" class="form-label">Normal Price</label>
                                 <input type="text" placeholder="Type here" class="form-control" id="price" name="price"/>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label for="product_brand" class="form-label">Previous Price</label>
+                                <label for="product_brand" class="form-label">Offer Price</label>
                                 <input type="text" placeholder="Type here" class="form-control" id="offerPrice" name="previousPrice"/>
                             </div>
                         </div>
@@ -72,7 +72,7 @@
                                     <div class="rounded-image-preview">
                                       <img id="imagePreview<%= i %>" alt="Preview">
                                     </div>
-                                    <input name="images" type="file" accept="image/*" id="imageInput<%= i %>" class="imageInput" onchange="previewImage(this, 'imagePreview<%= i %>')" multiple>
+                                    <input name="images" type="file" accept="image/*" id="imageInput<%= i %>" class="imageInput" onchange="previewImage(this, 'imagePreview<%= i %>')">
                                   </label>
                                 </div>
                               <% } %>
@@ -98,31 +98,26 @@
 
 <script>
 
-    function productValidation() {
+function productValidation() {
     let pname = document.getElementById("product_name");
     let pdiscription = document.getElementById("description");
     let price = document.getElementById("price");
     let oprice = document.getElementById("offerPrice");
-    let brand = document.getElementById('brand');
     let color = document.getElementById('color');
     let stock = document.getElementById('stock');
-    let imageInputs = document.querySelectorAll('.imageInput'); // Assuming all image inputs have the 'imageInput' class
     let category = document.getElementById('category');
-    
+    let sizesSelect = document.getElementById('product-category'); // Correct variable for sizes
+    let brand = document.getElementById('brand');
+    let imageInputs = document.querySelectorAll('.imageInput');
+
     // Check if at least one size is selected
-    let selectedSizes = sizesContainer.querySelectorAll('.selected-size');
+    // if (sizesSelect.selectedOptions.length === 0) {
+    //     showErrorAlert('At least one size must be selected.');
+    //     return false;
+    // }
 
     if (pname.value.trim() === '') {
         showErrorAlert('Product Name is required.');
-        return false;
-    } else if (pdiscription.value.trim() === '' || pdiscription.value.trim().length < 20) {
-        showErrorAlert('Description is required and should be at least 20 characters long.');
-        return false;
-    } else if (price.value.trim() === '' || Number(price.value) <= 0 || isNaN(price.value)) {
-        showErrorAlert('Invalid Price. Please enter a valid amount.');
-        return false;
-    } else if (oprice.value.trim() === '' || Number(oprice.value) <= 0 || isNaN(oprice.value)) {
-        showErrorAlert('Invalid Offer Price. Please enter a valid amount.');
         return false;
     } else if (color.value.trim() === '') {
         showErrorAlert('Color is required.');
@@ -130,19 +125,28 @@
     } else if (stock.value.trim() === '' || Number(stock.value) <= 0 || isNaN(stock.value)) {
         showErrorAlert('Invalid Stock. Please enter a valid quantity.');
         return false;
-    } else if (brand.value.trim() === '') {
-        showErrorAlert('Brand is required.');
-        return false;
     } else if (category.value.trim() === '') {
         showErrorAlert('Category is required.');
         return false;
-    }else if (sizesSelect.selectedOptions.length === 0) {
-        showErrorAlert('At least one size must be selected.');
+    } else if (price.value.trim() === '' || Number(price.value) <= 0 || isNaN(price.value)) {
+        showErrorAlert('Invalid Price. Please enter a valid amount.');
         return false;
-    } else if (!checkImageInputs(imageInputs)) {
-        showErrorAlert('At least one image must be selected.');
+    } else if (oprice.value.trim() === '' || Number(oprice.value) <= 0 || isNaN(oprice.value)) {
+        showErrorAlert('Invalid Offer Price. Please enter a valid amount.');
         return false;
-    }else {
+    } else if (Number(oprice.value) >= Number(price.value)) {
+        showErrorAlert('Offer Price must be less than the Original Price.');
+        return false;
+    } else if (sizesSelect.selectedOptions.length === 0) {
+         showErrorAlert('At least one size must be selected.');
+         return false;
+    } else if (pdiscription.value.trim() === '' || pdiscription.value.trim().length < 20) {
+        showErrorAlert('Description is required and should be at least 20 characters long.');
+        return false;
+    } else if (!checkAllImagesSelected(imageInputs)) {
+        showErrorAlert('4 images must be selected image must be selected.');
+        return false;
+    } else {
         return true;
     }
 
@@ -157,15 +161,16 @@
         }, 3000);
     }
 
-    function checkImageInputs(inputs) {
+    function checkAllImagesSelected(inputs) {
         for (let i = 0; i < inputs.length; i++) {
-            if (inputs[i].files.length > 0) {
-                return true;
+            if (inputs[i].files.length === 0) {
+                return false;
             }
         }
-        return false;
+        return true;
     }
 }
+
 
 </script>
 
