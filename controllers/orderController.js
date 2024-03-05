@@ -314,9 +314,20 @@ const loadOrderDetails = async (req,res) =>
                 }
             });
 
+            const invoiceProducts = (order) => {
+                return order.products.filter((product) => product.status === 'delivered');
+            };
+
+            // Call the function to get the array of delivered products
+            const deliveredProducts = invoiceProducts(order);
+
+            const invoiceTotal = deliveredProducts.reduce((acc, product) => acc + product.totalPrice, 0);
+
+            
+
             console.log(order);
 
-            res.render('orderDetails',{myOrder : order,totalAmount})
+            res.render('orderDetails',{myOrder : order,totalAmount,invoiceProducts,invoiceTotal,orderId})
         }
     }
     catch(error)
@@ -446,10 +457,20 @@ const cancelOrder = async (req, res) => {
         .populate('user')
         .populate('products.productId');
 
+        const invoiceProducts = (order) => {
+            return order.products.filter((product) => product.status === 'delivered');
+        };
+
+        // Call the function to get the array of delivered products
+        const deliveredProducts = invoiceProducts(order);
+
+        const invoiceTotal = deliveredProducts.reduce((acc, product) => acc + product.totalPrice, 0);
+
         res.render('invoice',{
             orders : order,
-            order : order.products[index],
             deliveryAddress : order.deliveryDetails,
+            invoiceTotal,
+            invoiceProducts
         });
     }
     catch(error)

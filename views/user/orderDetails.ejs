@@ -120,13 +120,15 @@
                                     </div>
                                 </div>
                             </div>
-                            <button class="btn btn-dark">Edit Address</button>
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <button class="btn btn-lg btn-primary mt-5">
-                            Download Invoice
-                        </button>
+                        <% const deliveredProducts = invoiceProducts(myOrder) %>
+                        <%if(deliveredProducts.length > 0){%>
+                            <a class="btn btn-lg btn-primary mt-5" href="/invoice?orderId=<%= orderId%>">
+                                Download Invoice
+                            </a>
+                        <%}%>
                         <div>
 
                         </div>

@@ -163,24 +163,31 @@ background:#eee;
                                                         <tr class="line">
                                                             <td><strong>#</strong></td>
                                                             <td class="text-center"><strong>Product</strong></td>
+                                                            <td><strong>Size</strong></td>
                                                             <td class="text-center"><strong>Quantity</strong></td>
                                                             <td class="text-right"><strong>Rate</strong></td>
                                                             <td class="text-right"><strong>SUBTOTAL</strong></td>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr>
-                                                            <td>1</td>
-                                                            <td><%= order.productId.name %> </td>
-                                                            <td class="text-center"><%= order.quantity %></td>
-                                                            <td class="text-center"><%= order.price%></td>
-                                                            <td class="text-right">₹<%=order.price * order.quantity%></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td colspan="3">
-                                                            </td><td class="text-right"><strong>Total Amount</strong></td>
-                                                            <td class="text-right"><strong>₹<%=order.totalPrice%></strong></td>
-                                                        </tr>
+                                                        <% const deliveredProducts = invoiceProducts(orders) %>
+                                                        <%if(deliveredProducts.length > 0){%>
+                                                            <%deliveredProducts.forEach((product,i) =>{%>
+                                                                <tr>
+                                                                    <td><%=i+1%></td>
+                                                                    <td><%= product.productId.name %> </td>
+                                                                    <td><%=product.size%></td>
+                                                                    <td class="text-center"><%= product.quantity %></td>
+                                                                    <td class="text-center"><%= product.price%></td>
+                                                                    <td class="text-right">₹<%=product.price * product.quantity%></td>
+                                                                </tr>
+                                                            <%})%>
+                                                            <tr>
+                                                                <td colspan="4">
+                                                                </td><td class="text-right"><strong>Total Amount</strong></td>
+                                                                <td class="text-right"><strong>₹<%=invoiceTotal%></strong></td>
+                                                            </tr>
+                                                        <%}%>
                                                     </tbody>
                                                 </table>
                                             </div>									
