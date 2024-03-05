@@ -92,7 +92,7 @@
                     </header>
                     <!-- card-header end// -->
                     <div class="card mb-4">
-                        <header class="card-header">
+                        <!-- <header class="card-header">
                             <div class="row align-items-center">
                                 <div class="col col-check flex-grow-0">
                                     <div class="form-check ms-2">
@@ -117,7 +117,7 @@
                                     </select>
                                 </div>
                             </div>
-                        </header>
+                        </header> -->
                         <!-- card-header end// -->
                         <div class="card-body">
                             <div class="table-responsive" id="Reload">
@@ -189,7 +189,7 @@
                 <h5 class="modal-title" id="ad
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form action="/admin/addvariant" method="post" enctype="multipart/form-data">
+            <form action="/admin/addvariant" method="post" enctype="multipart/form-data" onsubmit="return addVariantValidation()">
                 <div class="modal-body">
                     <div class="col-12 mb-3">
                         <label for="variant_color" class="form-label">Color</label>
@@ -302,3 +302,62 @@
         }
     }
 </script>
+
+<script>
+    function addVariantValidation() {
+        let color = document.getElementById('color');
+        let quantity = document.getElementById('quantity');
+        let sizesSelect = document.getElementById('sizes');
+        let price = document.getElementById('price');
+        let previousPrice = document.getElementById('previousPrice');
+        let imageInputs = document.querySelectorAll('.imageInput');
+
+        if (color.value.trim() === '') {
+            showErrorAlert('Color is required.');
+            return false;
+        } else if (quantity.value.trim() === '' || Number(quantity.value) <= 0 || isNaN(quantity.value)) {
+            showErrorAlert('Invalid Quantity. Please enter a valid quantity.');
+            return false;
+        } else if (sizesSelect.selectedOptions.length === 0) {
+            showErrorAlert('At least one size must be selected.');
+            return false;
+        } else if (price.value.trim() === '' || Number(price.value) <= 0 || isNaN(price.value)) {
+            showErrorAlert('Invalid Price. Please enter a valid amount.');
+            return false;
+        } else if (previousPrice.value.trim() === '' || Number(previousPrice.value) <= 0 || isNaN(previousPrice.value)) {
+            showErrorAlert('Invalid Previous Price. Please enter a valid amount.');
+            return false;
+        } else if (Number(previousPrice.value) >= Number(price.value)) {
+            showErrorAlert('Previous Price must be less than the Price.');
+            return false;
+        } else if (!checkAllImagesSelected(imageInputs)) {
+            showErrorAlert('At least one image must be selected.');
+            return false;
+        } else {
+            return true;
+        }
+
+        function showErrorAlert(message) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Validation Error',
+                text: message,
+            });
+            setTimeout(() => {
+                Swal.close();
+            }, 3000);
+        }
+
+        function checkAllImagesSelected(inputs) {
+        for (let i = 0; i < inputs.length; i++) {
+            if (inputs[i].files.length === 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+    }
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>

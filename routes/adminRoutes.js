@@ -73,11 +73,11 @@ adminRoute
     .delete('/deleteCoupon',couponController.deleteCoupon)
 
     // return requests.
-    .get('/return-req',adminController.loadReturnReq)
+    .get('/return-req',auth.isLogin,adminController.loadReturnReq)
     .post('/return-req',adminController.returns)
 
     //monthly chart
-    .post('/order-filter',adminController.filterDashboard)
+    .post('/order-filter',auth.isLogin,adminController.filterDashboard)
 
 
 module.exports = adminRoute;

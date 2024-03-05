@@ -116,7 +116,6 @@
 <%- include('../layouts/admin/footer.ejs') -%>
 
 <script>
-
 function editVariant() {
     let color = document.getElementById('color');
     let stock = document.getElementById('stock');
@@ -139,7 +138,11 @@ function editVariant() {
     } else if (offerPrice.value.trim() === '' || Number(offerPrice.value) <= 0 || isNaN(offerPrice.value)) {
         showErrorAlert('Invalid Offer Price. Please enter a valid amount.');
         return false;
+    } else if (Number(offerPrice.value) >= Number(price.value)) {
+        showErrorAlert('Offer Price must be less than the regular Price.');
+        return false;
     }
+
 
     // Other validations can be added if needed
 

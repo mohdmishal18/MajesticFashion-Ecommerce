@@ -150,7 +150,7 @@ userRoute
 
     // wishlist section =======================================
 
-    .get('/wishlist',wishlistController.loadWishlist)
+    .get('/wishlist',auth.userAuth,wishlistController.loadWishlist)
 
     .post('/add-wish',wishlistController.addToWishlist)
     
@@ -163,10 +163,10 @@ userRoute
     .get('/invoice',auth.userAuth,orderController.invoice)
 
     // getting wallet page.
-    .get('/mywallet',userController.loadWallet)
+    .get('/mywallet',auth.userAuth,userController.loadWallet)
 
     //getting the myCoupons page
-    .get('/mycoupons',userController.loadMyCoupon)
+    .get('/mycoupons',auth.userAuth,userController.loadMyCoupon)
 
 
     
