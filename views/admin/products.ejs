@@ -91,19 +91,20 @@
                     <header class="card-header">
                         <div class="row gx-3">
                             <div class="col-lg-4 col-md-6 me-auto">
-                                <input type="text" placeholder="Search..." class="form-control" />
+                                <input type="text" placeholder="Search..." class="form-control" id="searchInput" />
                             </div>
                         </div>
                     </header>
                     <!-- card-header end// -->
                     <div class="card mb-4">
-                        <header class="card-header">
+                        <!-- <header class="card-header">
                             <div class="row align-items-center">
                                 <div class="col col-check flex-grow-0">
                                     <div class="form-check ms-2">
                                         <input class="form-check-input" type="checkbox" value="" />
                                     </div>
                                 </div>
+                                
                                 <div class="col-md-3 col-12 me-auto mb-md-0 mb-3">
                                     <select class="form-select">
                                         <option selected>All category</option>
@@ -112,7 +113,6 @@
                                         <option>Automobile</option>
                                     </select>
                                 </div>
-                                
                                 <div class="col-md-2 col-6">
                                     <select class="form-select">
                                         <option selected>Status</option>
@@ -122,7 +122,7 @@
                                     </select>
                                 </div>
                             </div>
-                        </header>
+                        </header> -->
                         <!-- card-header end// -->
                         <div class="card-body">
                             <div class="table-responsive" id="Reload">
@@ -168,6 +168,8 @@
                                         <% } %>
                                     </tbody>
                                 </table>
+                                <div id="noProductsMessage" style="display: none;">No products available.</div>
+
                             <!-- table-responsive //end -->
                           <div>
                         </div>
@@ -204,4 +206,33 @@
             }
         )
     }
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        let searchInput = document.getElementById('searchInput');
+        let noProductsMessage = document.getElementById('noProductsMessage');
+
+        searchInput.addEventListener('keyup', function () {
+            let searchTerm = searchInput.value.toLowerCase();
+            let tableRows = document.querySelectorAll('#Reload table tbody tr');
+            let hasVisibleRow = false;
+
+            tableRows.forEach(function (row) {
+                let nameColumn = row.querySelector('td:nth-child(3)'); // Adjust the index based on your table structure
+
+                if (nameColumn) {
+                    let nameText = nameColumn.textContent.toLowerCase();
+                    if (nameText.includes(searchTerm)) {
+                        row.style.display = '';
+                        hasVisibleRow = true;
+                    } else {
+                        row.style.display = 'none';
+                    }
+                }
+            });
+
+            // Show or hide the "No products available" message based on whether any rows are visible
+            noProductsMessage.style.display = hasVisibleRow ? 'none' : 'block';
+        });
+    });
 </script>

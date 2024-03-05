@@ -87,7 +87,7 @@
                     <header class="card-header">
                         <div class="row gx-3">
                             <div class="col-lg-4 col-md-6 me-auto">
-                                <input type="text" placeholder="Search..." class="form-control" />
+                                <input type="text" placeholder="Search..." class="form-control" id="searchInput" />
                             </div>
                         </div>
                     </header>
@@ -139,6 +139,7 @@
                                             <% } %>
                                 </tbody>
                             </table>
+                            <div id="noUsersMessage" style="display: none;">No users available.</div>
                         </div>
                         <!-- table-responsive //end -->
                         <div class="pagination-area">
@@ -167,6 +168,36 @@
         <div id="page" data-page="<%= currentPage %>"></div>
 
 <%- include('../layouts/admin/footer.ejs') -%>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        let searchInput = document.getElementById('searchInput');
+        let noUsersMessage = document.getElementById('noUsersMessage');
+
+        searchInput.addEventListener('keyup', function () {
+            let searchTerm = searchInput.value.toLowerCase();
+            let tableRows = document.querySelectorAll('#Reload table tbody tr');
+            let hasVisibleRow = false;
+
+            tableRows.forEach(function (row) {
+                let nameColumn = row.querySelector('td:nth-child(2)'); // Adjust the index based on your table structure
+
+                if (nameColumn) {
+                    let nameText = nameColumn.textContent.toLowerCase();
+                    if (nameText.includes(searchTerm)) {
+                        row.style.display = '';
+                        hasVisibleRow = true;
+                    } else {
+                        row.style.display = 'none';
+                    }
+                }
+            });
+
+            // Show or hide the "No users available" message based on whether any rows are visible
+            noUsersMessage.style.display = hasVisibleRow ? 'none' : 'block';
+        });
+    });
+</script>
 
 
 <script>

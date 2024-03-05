@@ -90,7 +90,7 @@
                     <header class="card-header">
                         <div class="row gx-3">
                             <div class="col-lg-4 col-md-6 me-auto">
-                                <input type="text" placeholder="Search..." class="form-control" />
+                                <input type="text" placeholder="Search..." class="form-control" id="searchInput" />
                             </div>
                         </div>
                     </header>
@@ -136,27 +136,13 @@
                                         <%}%>
                                     </tbody>
                                 </table>
-                                
+                                <div id="noCategoriesMessage" style="display: none;">No categories available.</div>
                             </div>
                             <!-- table-responsive //end -->
                         </div>
                         <!-- card-body end// -->
                    </div>
               </div>
-              <div class="pagination-area mt-30 mb-50">
-                    <nav aria-label="Page navigation example">
-                        <ul class="pagination justify-content-start">
-                            <li class="page-item active"><a class="page-link" href="#">01</a></li>
-                            <li class="page-item"><a class="page-link" href="#">02</a></li>
-                            <li class="page-item"><a class="page-link" href="#">03</a></li>
-                            <li class="page-item"><a class="page-link dot" href="#">...</a></li>
-                            <li class="page-item"><a class="page-link" href="#">16</a></li>
-                            <li class="page-item">
-                                <a class="page-link" href="#"><i class="material-icons md-chevron_right"></i></a>
-                            </li>
-                        </ul>
-                    </nav>
-              <div>
             </div>
             </div>
         </div>
@@ -194,6 +180,39 @@
 </div>
 
 <%- include('../layouts/admin/footer.ejs') -%>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        let searchInput = document.getElementById('searchInput');
+        let noCategoriesMessage = document.getElementById('noCategoriesMessage');
+
+        searchInput.addEventListener('keyup', function () {
+            let searchTerm = searchInput.value.toLowerCase();
+            console.log('Search Term:', searchTerm); // Debugging line
+            let tableRows = document.querySelectorAll('#Reload table tbody tr');
+            let hasVisibleRow = false;
+
+            tableRows.forEach(function (row) {
+                let nameColumn = row.querySelector('td:nth-child(1)'); // Adjust the index based on your table structure
+
+                if (nameColumn) {
+                    let nameText = nameColumn.textContent.toLowerCase();
+                    console.log('Name Text:', nameText); // Debugging line
+                    if (nameText.includes(searchTerm)) {
+                        row.style.display = '';
+                        hasVisibleRow = true;
+                    } else {
+                        row.style.display = 'none';
+                    }
+                }
+            });
+
+            // Show or hide the "No categories available" message based on whether any rows are visible
+            noCategoriesMessage.style.display = hasVisibleRow ? 'none' : 'block';
+        });
+    });
+</script>
 
 <script>
     function edit(name , id) {
@@ -316,6 +335,8 @@
     }
 
 </script>
+
+
 
 <!-- Add this to your HTML file -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
