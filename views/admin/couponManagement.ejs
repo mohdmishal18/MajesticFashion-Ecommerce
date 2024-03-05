@@ -169,22 +169,6 @@
                         <!-- card-body end// -->
                     </div>
                 </div>
-                <div class="pagination-area mt-30 mb-50">
-                    <nav aria-label="Page navigation example">
-                        <ul class="pagination justify-content-start">
-                            <li class="page-item active"><a class="page-link" href="#">01</a></li>
-                            <li class="page-item"><a class="page-link" href="#">02</a></li>
-                            <li class="page-item"><a class="page-link" href="#">03</a></li>
-                            <li class="page-item"><a class="page-link dot" href="#">...</a></li>
-                            <li class="page-item"><a class="page-link" href="#">16</a></li>
-                            <li class="page-item">
-                                <a class="page-link" href="#"><i class="material-icons md-chevron_right"></i></a>
-                            </li>
-                        </ul>
-                    </nav>
-                    <div>
-                    </div>
-                </div>
                 </div>
             </section>
     </main>
@@ -220,7 +204,7 @@
                         <input type="text" name="minAmountSpend" placeholder="min amount" class="form-control" />
 
                         <label for="form-label">Coupon Limit</label>
-                        <input type="text" name="limit" placeholder="min amount" class="form-control" />
+                        <input type="number" name="limit" placeholder="min amount" class="form-control" />
 
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
@@ -278,7 +262,7 @@
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                                 Close
                             </button>
-                            <button type="submit" class="btn btn-primary" onclick="Edit(event)">
+                            <button type="submit" class="btn btn-primary">
                                 Save changes
                             </button>
                         </div>
@@ -426,6 +410,235 @@
                     })
             }
         </script>
+
+
+  
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // Attach validation to the first form
+      attachFormValidation("#addCoupon form");
+
+  
+      function attachFormValidation(formSelector) {
+        const form = document.querySelector(formSelector);
+  
+        form.addEventListener("submit", function (event) {
+          // Prevent the form from submitting by default
+          event.preventDefault();
+  
+          // Remove previous error messages
+          clearErrorMessages(form);
+  
+          // Perform validation
+          const name = form.elements.name.value.trim();
+          const adate = form.elements.activate.value.trim();
+          const edate = form.elements.expiry.value.trim();
+          const limit = form.elements.limit.value.trim();
+          const damount = form.elements.discount.value.trim();
+          const minAmount = form.elements.minAmountSpend.value.trim();
+  
+          if (name === "") {
+            displayErrorMessage(form, "name", "Please enter a coupon name.");
+            return;
+          }
+  
+          if (adate === "") {
+            displayErrorMessage(
+              form,
+              "activate",
+              "Please enter an activation date."
+            );
+            return;
+          }
+  
+          if (edate === "") {
+            displayErrorMessage(
+              form,
+              "expiry",
+              "Please enter an expiration date."
+            );
+            return;
+          }
+
+  
+          if (damount === "") {
+            displayErrorMessage(
+              form,
+              "discount",
+              "Please enter a discount amount."
+            );
+            return;
+          }
+
+          if (minAmount === "") {
+            displayErrorMessage(
+              form,
+              "minAmountSpend",
+              "Please enter a minimum amount spend."
+            );
+            return;
+          }
+
+          
+          if (limit === "") {
+            displayErrorMessage(form, "limit", "Please enter a limit of use.");
+            return;
+          }
+  
+        //   // Validate date format (dd-mm-yyyy)
+        //   const dateRegex = /^\d{2}-\d{2}-\d{4}$/;
+        //   if (!dateRegex.test(adate) || !dateRegex.test(edate)) {
+        //     alert("Invalid date format. Please use dd-mm-yyyy.");
+        //     return;
+        //   }
+  
+          // Validate discount amount is a number
+          if (isNaN(parseFloat(damount))) {
+            displayErrorMessage(
+              form,
+              "discount",
+              "Discount amount must be a valid number."
+            );
+            return;
+          }
+
+          if (isNaN(parseFloat(minAmount))) {
+            displayErrorMessage(
+              form,
+              "minAmountSpend",
+              "min amount spended  must be a valid number."
+            );
+            return;
+          }
+
+          if (isNaN(parseFloat(limit))) {
+            displayErrorMessage(
+              form,
+              "limit",
+              "min amount spended  must be a valid number."
+            );
+            return;
+          }
+  
+          // If all validations pass, you can submit the form
+          form.submit();
+        });
+      }
+  
+      function displayErrorMessage(form, fieldName, message) {
+        const field = form.elements[fieldName];
+        const errorDiv = document.createElement("div");
+        errorDiv.className = "error-message";
+        errorDiv.style.color = "red"; // Set color to red
+        errorDiv.textContent = message;
+        field.parentNode.insertBefore(errorDiv, field);
+  
+        // Remove error message after 3000 milliseconds (3 seconds)
+        setTimeout(() => {
+          errorDiv.remove();
+        }, 3000);
+      }
+  
+      function clearErrorMessages(form) {
+        const errorMessages = form.querySelectorAll(".error-message");
+        errorMessages.forEach((errorMessage) => {
+          errorMessage.remove();
+        });
+      }
+    });
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Attach validation to the editCoupon form
+        attachFormValidation("#editCoupon form");
+
+        function attachFormValidation(formSelector) {
+            const form = document.querySelector(formSelector);
+
+            form.addEventListener("submit", function (event) {
+                event.preventDefault();
+                clearErrorMessages(form);
+
+                const name = form.elements.name.value.trim();
+                const activatedDate = form.elements.activatedDate.value.trim();
+                const expiryDate = form.elements.expiryDate.value.trim();
+                const discount = form.elements.discount.value.trim();
+                const minimum = form.elements.minimum.value.trim();
+                const limit = form.elements.limiitt.value.trim(); // Corrected field name
+
+                if (name === "") {
+                    displayErrorMessage(form, "name", "Please enter a coupon name.");
+                    return;
+                }
+
+                if (activatedDate === "") {
+                    displayErrorMessage(form, "activatedDate", "Please enter an activation date.");
+                    return;
+                }
+
+                if (expiryDate === "") {
+                    displayErrorMessage(form, "expiryDate", "Please enter an expiration date.");
+                    return;
+                }
+
+                if (discount === "") {
+                    displayErrorMessage(form, "discount", "Please enter a discount amount.");
+                    return;
+                }
+
+                if (minimum === "") {
+                    displayErrorMessage(form, "minimum", "Please enter a minimum amount spend.");
+                    return;
+                }
+
+                if (limit === "") {
+                    displayErrorMessage(form, "limiitt", "Please enter a limit of use."); // Corrected field name
+                    return;
+                }
+
+                if (isNaN(parseFloat(discount))) {
+                    displayErrorMessage(form, "discount", "Discount amount must be a valid number.");
+                    return;
+                }
+
+                if (isNaN(parseFloat(minimum))) {
+                    
+                    displayErrorMessage(form, "minimum", "Minimum amount spend must be a valid number.");
+                    return;
+                }
+
+                if (isNaN(parseFloat(limit))) {
+                    displayErrorMessage(form, "limiitt", "Limit must be a valid number."); // Corrected field name
+                    return;
+                }
+
+                Edit(event)
+            });
+        }
+
+        function displayErrorMessage(form, fieldName, message) {
+            const field = form.elements[fieldName];
+            const errorDiv = document.createElement("div");
+            errorDiv.className = "error-message";
+            errorDiv.style.color = "red";
+            errorDiv.textContent = message;
+            field.parentNode.insertBefore(errorDiv, field);
+
+            setTimeout(() => {
+                errorDiv.remove();
+            }, 3000);
+        }
+
+        function clearErrorMessages(form) {
+            const errorMessages = form.querySelectorAll(".error-message");
+            errorMessages.forEach((errorMessage) => {
+                errorMessage.remove();
+            });
+        }
+    });
+</script>
+
 
 
         <!-- Add this to your HTML file -->

@@ -102,6 +102,7 @@ const couponCheck = async (req,res) =>
 
         const userId = req.session.user?._id;
         const coupon = await Coupon.findOne({code : couponCode});
+        const discountAmount = coupon.discount;
         if(coupon)
         {
             const alreadyUsed = coupon.usedUsers.find((user) => user.userId === userId)
@@ -182,7 +183,7 @@ const couponCheck = async (req,res) =>
                     }
                     else
                     {
-                        res.json({success : true, subtotal : cartAmount});
+                        res.json({success : true, subtotal : cartAmount,discount : discountAmount});
                     }
             }
       

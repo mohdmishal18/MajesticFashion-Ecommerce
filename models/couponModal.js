@@ -5,25 +5,25 @@ const couponSchema = mongoose.Schema
     name : 
     {
         type : String,
-        required : true
+        // required : true
     },
 
     code : 
     {
         type : String,
-        required : true
+        // required : true
     },
     
     activatedDate : 
     {
         type : String,
-        required : true
+        // required : true
     },
 
     expiryDate : 
     {
         type : String,
-        required : true
+        // required : true
     },
 
     discount : 
