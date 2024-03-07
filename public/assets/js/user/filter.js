@@ -25,15 +25,7 @@ $(document).ready(function () {
             searchFilterSort();
         })
     })
-    // const brand = document.querySelectorAll('.brand');
-    // brand.forEach((el) => {
-    //     console.log(el)
-    //     el.addEventListener('click', (event) => {
-    //         console.log('brand')
-    //         data.brand = event.target.innerHTML;
-    //         searchFilterSort();
-    //     })
-    // })
+   
     const price = document.querySelectorAll('.price');
     price.forEach((el) => {
         console.log(el)
@@ -161,14 +153,7 @@ $(document).ready(function () {
                         addToCartLink.className = "add-cart";
                         addToCartLink.textContent = "+ Add To Cart";
 
-                        // const ratingDiv = document.createElement("div");
-                        // ratingDiv.className = "rating";
-                        // for (let i = 0; i < 5; i++) {
-                        //     const star = document.createElement("i");
-                        //     star.className = "fa fa-star-o";
-                        //     ratingDiv.appendChild(star);
-                        // }
-
+                       
                         const priceHeading = document.createElement("h5");
                         priceHeading.textContent ="₹"+ el.variant[0].price;
 
@@ -178,22 +163,7 @@ $(document).ready(function () {
                         // productTextContainerDiv.appendChild(ratingDiv);
                         productTextContainerDiv.appendChild(priceHeading);
 
-                        // Create the product color select container div with class "product__color__select"
-                        // const colorSelectContainerDiv = document.createElement("div");
-                        // colorSelectContainerDiv.className = "product__color__select";
-
-                        // Create and append radio input elements to the color select container
-                        // const radioColors = ["pc-4", "pc-5", "pc-6"];
-                        // radioColors.forEach((color) => {
-                        //     const label = document.createElement("label");
-                        //     label.htmlFor = color;
-                        //     const input = document.createElement("input");
-                        //     input.type = "radio";
-                        //     input.id = color;
-                        //     label.appendChild(input);
-                        //     colorSelectContainerDiv.appendChild(label);
-                        // });
-
+                       
                         // Append all sub-containers to the main product item div
                         productItemDiv.appendChild(productImageContainerDiv);
                         productItemDiv.appendChild(productTextContainerDiv);
@@ -207,7 +177,13 @@ $(document).ready(function () {
                     });
                 }
               
-                renderPagination(response.totalPage, response.page)
+                if (response.product.length > 0) {
+                    renderPagination(response.totalPage, response.page);
+                } else {
+                    // If there are no products, clear the pagination container
+                    const paginationContainer = document.getElementById('paginationContainer');
+                    paginationContainer.innerHTML = '';
+                }
             }
         })
     }

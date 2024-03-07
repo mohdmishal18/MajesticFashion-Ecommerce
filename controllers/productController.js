@@ -351,25 +351,62 @@ const filter = async (req,res) =>
         const cetagory = req.body.cetagory ? req.body.cetagory : false;
         const brand = req.body.brand ? req.body.brand : false;
         const price = req.body.price ? req.body.price.split("-") : false;
-        const page = req.body.page;
-    
+        const page = req.body.page && !isNaN(req.body.page) ? parseInt(req.body.page) : 1;
+        const limit = 6;
         console.log(page);
     
-        const productCount = await Product.find({
-          name: { $regex: search, $options: "i" },
-        })
-          .sort({ "variant.0.price": sort })
-          .populate("categoriesid");
+        const productCountResult = await Product.aggregate([
+            {
+                $lookup: {
+                    from: "categories", // Assuming the collection name for categories is "categories"
+                    localField: "categoriesid",
+                    foreignField: "_id",
+                    as: "category"
+                }
+            },
+            {
+                $match: {
+                    "category.is_listed": true,
+                    is_Listed: true
+                }
+            },
+            {
+                $count: "total"
+            }
+        ]);
 
-          const totalPage = Math.ceil(productCount.length / 6);
+        // Check if productCountResult is not empty before accessing its total property
+        const totalPage = productCountResult.length > 0 ? Math.ceil(productCountResult[0].total / limit) : 0;
 
-        const products = await Product.find({
-          name: { $regex: search, $options: "i" },
-        })
-        .sort({ "variant.0.price": sort })
-        .populate("categoriesid")
-        .skip((page-1) * 6)
-        .limit(6)
+         // Adjusted query to include the is_listed condition for categories
+         const products = await Product.aggregate([
+            {
+                $lookup: {
+                    from: "categories", // Assuming the collection name for categories is "categories"
+                    localField: "categoriesid",
+                    foreignField: "_id",
+                    as: "category"
+                }
+            },
+            {
+                $match: {
+                    "category.is_listed": true,
+                    is_Listed: true,
+                    name: { $regex: search, $options: "i" }
+                }
+            },
+            {
+                $sort: { "variant.0.price": sort }
+            },
+            {
+                $skip: (page - 1) * limit
+            },
+            {
+                $limit: limit
+            }
+        ]);
+
+        // const totalPage = Math.ceil(await Product.countDocuments({ is_Listed: true, name: { $regex: search, $options: "i" } }) / limit);
 
         console.log(products);
 
@@ -382,16 +419,12 @@ const filter = async (req,res) =>
             if (cetagory)
             {
               const result = products.filter(
-                (el, i) => el.categoriesid.name == cetagory
+                (el, i) => el.category[0].name == cetagory
               );
               product.push(...result);
+            //   console.log("the category is :",product );
             }
-    
-            // if (brand) {
-            //   const array = cetagory ? product : products;
-            //   const result = array.filter((el, i) => el.brand == brand);
-            //   res.status(200).json({ pass: true, product: result });
-            // }
+
     
             if (price)
             {
@@ -405,9 +438,13 @@ const filter = async (req,res) =>
             }
             res.status(200).json({ pass: true, product: product });
             }else{
-            res
-              .status(200)
-              .json({ pass: true, product: products, page, totalPage });
+               // Check if there are any products before sending the response
+            if (productCountResult.length > 0) {
+                res.status(200).json({ pass: true, product: products, page, totalPage });
+            } else {
+                // If there are no products, send a response indicating no products
+                res.status(200).json({ pass: true, product: [], page: 0, totalPage: 0 });
+            }
           }
         }
       } catch (error) {
