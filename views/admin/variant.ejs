@@ -215,11 +215,11 @@
                     </div>
                     <div class="row gx-2">
                         <div class="col-md-6 mb-3">
-                            <label for="variant_price" class="form-label">Price</label>
+                            <label for="variant_price" class="form-label">Normal Price</label>
                             <input type="text" placeholder="Type here" class="form-control" id="price" name="price"/>
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label for="variant_previousPrice" class="form-label">Previous Price</label>
+                            <label for="variant_previousPrice" class="form-label">Offer Price</label>
                             <input type="text" placeholder="Type here" class="form-control" id="previousPrice" name="previousPrice"/>
                         </div>
                     </div>
@@ -322,13 +322,13 @@
             showErrorAlert('At least one size must be selected.');
             return false;
         } else if (price.value.trim() === '' || Number(price.value) <= 0 || isNaN(price.value)) {
-            showErrorAlert('Invalid Price. Please enter a valid amount.');
+            showErrorAlert('Invalid OfferPrice. Please enter a valid amount.');
             return false;
         } else if (previousPrice.value.trim() === '' || Number(previousPrice.value) <= 0 || isNaN(previousPrice.value)) {
-            showErrorAlert('Invalid Previous Price. Please enter a valid amount.');
+            showErrorAlert('Invalid Normal Price. Please enter a valid amount.');
             return false;
-        } else if (Number(previousPrice.value) >= Number(price.value)) {
-            showErrorAlert('Previous Price must be less than the Price.');
+        } else if (Number(previousPrice.value) <= Number(price.value)) {
+            showErrorAlert('offer Price must be less than the Normal Price.');
             return false;
         } else if (!checkAllImagesSelected(imageInputs)) {
             showErrorAlert('At least one image must be selected.');

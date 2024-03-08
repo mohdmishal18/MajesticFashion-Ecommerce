@@ -40,11 +40,11 @@
                             </div>
                             <div class="row gx-2">  
                                 <div class="col-md-6 mb-3">
-                                    <label for="variant_price" class="form-label">Price</label>
+                                    <label for="variant_price" class="form-label">Offer Price</label>
                                     <input type="text" placeholder="Type here" class="form-control" value="<%= product.price %>" id="price" name="price"/>
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <label for="variant_previousPrice" class="form-label">Previous Price</label>
+                                    <label for="variant_previousPrice" class="form-label">Normal Price</label>
                                     <input type="text" placeholder="Type here" class="form-control" value="<%= product.previous_price %>" id="offerPrice" name="previousPrice"/>
                                 </div>
                             </div>
@@ -133,13 +133,13 @@ function editVariant() {
         showErrorAlert('At least one size must be selected.');
         return false;
     } else if (price.value.trim() === '' || Number(price.value) <= 0 || isNaN(price.value)) {
-        showErrorAlert('Invalid Price. Please enter a valid amount.');
-        return false;
-    } else if (offerPrice.value.trim() === '' || Number(offerPrice.value) <= 0 || isNaN(offerPrice.value)) {
         showErrorAlert('Invalid Offer Price. Please enter a valid amount.');
         return false;
-    } else if (Number(offerPrice.value) >= Number(price.value)) {
-        showErrorAlert('Offer Price must be less than the regular Price.');
+    } else if (offerPrice.value.trim() === '' || Number(offerPrice.value) <= 0 || isNaN(offerPrice.value)) {
+        showErrorAlert('Invalid Normal Price. Please enter a valid amount.');
+        return false;
+    } else if (Number(offerPrice.value) <= Number(price.value)) {
+        showErrorAlert('Offer Price must be less than the Normal Price.');
         return false;
     }
 

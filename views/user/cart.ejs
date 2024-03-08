@@ -245,6 +245,7 @@
                                    <% let totalAmount = 0%>
                                    <% let total = 0%>
                                    <% let items = 0%>
+                                   <% let subTotal = 0 %>
                                 <%products.forEach((item, i) => {%>
 
                                    
@@ -255,7 +256,7 @@
                                             </div>
                                             <div class="product__cart__item__text">
                                                 <h6 style="font-size: 12px;"><%= item.productId.name %></h6>
-                                                <h5 style="font-size: 15px;">₹<%= item.price %></h5>
+                                                <h5 style="font-size: 15px;">₹<%= item.productId.variant[item.product].price %></h5>
                                                 
                                                 <% const match = [['S', 'Small'], ['M', 'Medium'], ['L', "Large"], ['XL', 'Exel'], ['XXL', 'Double exel']]%>
                                                 <% const size = match.find((size) => (size[0] === item.size)) %>
@@ -287,10 +288,11 @@
                                                 </button>
                                             </div>
                                         </td>
+                                        <%subTotal = (item.productId.variant[item.product].price * item.quantity)%>
                                         <%total += (item.productId.variant[item.product].price * item.quantity)%>
                                         <% items += item.quantity%>
-                                        <%totalAmount += item.totalPrice%>
-                                        <td class="cart__price" id="subPrice">₹<%= item.totalPrice%></td>
+                                        <%totalAmount += subTotal %>
+                                        <td class="cart__price" id="subPrice">₹<%=subTotal%></td>
                                     
                                         <td class="cart__close" onclick="remove_from_cart('<%= item.productId._id%>','<%= item.product%>')"><i class="fa fa-close"></i></td>
                                     </tr>
@@ -313,7 +315,6 @@
                         <ul>
             
                             <li>Price (<%= items %> <%= items > 1? "items" : "item"%>)<span style="color: black;">₹<%= total%></span></li>
-                            <li>Discount <span style="color: green;">-₹<%= total - totalAmount%></span></li>
 
                             <!-- <%if(totalAmount > 1000) {%>
 
