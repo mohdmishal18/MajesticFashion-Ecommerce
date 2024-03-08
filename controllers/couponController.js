@@ -146,7 +146,7 @@ const couponCheck = async (req,res) =>
             {
                 console.log("reached ");
 
-                const cart = await Cart.findOne({user : userId});
+                const cart = await Cart.findOne({user : userId}).populate('products.productId');
 
                 let discount = 0;
                 let cartAmount = 0;
@@ -169,11 +169,12 @@ const couponCheck = async (req,res) =>
                         // console.log(total);
                         if(curr.totalPrice >= discount)
                         {
-                            return (acc += curr.totalPrice - discount);
+                            // return (acc += curr.totalPrice - discount);
+                            return (acc += (curr.quantity * curr.productId.variant[curr.product].price) - discount)
                         }
                         else
                         {
-                            return (acc += curr.totalPrice);
+                            return (acc += (curr.quantity * curr.productId.variant[curr.product].price) - discount);
                         }
                     },0);
 
