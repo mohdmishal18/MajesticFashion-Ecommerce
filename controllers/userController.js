@@ -876,10 +876,13 @@ const loadWallet = async (req,res) =>
     try
     {
         const userId = req.session.user?._id;
-        const wallet = await Wallet.findOne({user : userId});
+        const wallet = await Wallet.findOne({user : userId})
         const balance = wallet.amount;
-        const history = wallet.walletHistory
-        res.render('myWallet',{balance,history});
+         // Sort walletHistory by date in descending order
+         const sortedHistory = wallet.walletHistory.sort((a, b) => {
+            return new Date(b.date) - new Date(a.date);
+        });
+        res.render('myWallet',{balance,history : sortedHistory});
     }
     catch(error)
     {

@@ -5,7 +5,10 @@ const express = require("express");
 const dotenv = require('dotenv');
 dotenv.config();
 
+
+
 const app = express();
+
 const path = require("path");
 const flash = require("express-flash");
 
@@ -19,8 +22,17 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(flash());
 app.use(nocache());
+
+app.set("view engine", "ejs");
+app.set("views", "./views/user");
+
 app.use('/',userRoutes);
 app.use('/admin',adminRoutes);
+
+app.use('*',(req,res) =>
+{
+    res.render('404');
+})
 
 const port = process.env.PORT || 3001;
 

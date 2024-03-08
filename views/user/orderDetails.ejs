@@ -188,9 +188,17 @@
                                                     <%= el.totalPrice%>
                                                 <%}%>
                                             </td>
-                                            <td><span class=" " style="font-weight: 900;">
-                                                    <%= el.status%>
-                                                </span></td>
+                                            <td>
+                                                <% if (myOrder.status === 'pending') { %>
+                                                    <span class=" " style="font-weight: 900;">
+                                                        Payment Pending...
+                                                    </span>
+                                                <% }else{%>
+                                                    <span class=" " style="font-weight: 900;">
+                                                        <%= el.status%>
+                                                    </span>
+                                               <% } %>
+                                            </td>
                                             <% const formattedDate = myOrder.date.toLocaleString('en-US', {
                                                 day: 'numeric',
                                                 month: 'numeric',
@@ -231,7 +239,14 @@
                                     <%})%>
                                         <tr>
                                             <td colspan="9" class="text-right-cell"><strong>Total Price:</strong></td>
-                                            <td class="text-right-cell"><strong>₹<%= totalAmount %></strong></td>
+                                            <td class="text-right-cell"><strong>₹<%= totalAmount %></strong></td> 
+                                        </tr>
+                                        <tr>
+                                            <td colspan=12" class="text-right-cell">
+                                                <% if (myOrder.status === 'pending') { %>
+                                                    <button id="retryPaymentBtn" class="btn btn-primary">Retry Payment</button>
+                                                <% } %>
+                                            </td>
                                         </tr>
                                 </tbody>
                             </table>

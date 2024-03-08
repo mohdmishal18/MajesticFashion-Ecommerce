@@ -45,6 +45,7 @@
                             <table>
                                 <thead style="background-color: black;">
                                     <tr>
+                                        <!-- <th style="color: white;">Index</th> -->
                                         <th style="color: white;">Product</th>
                                         <th style="color: white;">Quantity</th>
                                         <th style="color: white;">SubTotal</th>
@@ -60,6 +61,9 @@
                                         <%subTotal = (item.productId.variant[item.product].price * item.quantity)%>
                                         <%totalAmount += subTotal %>
                                     <tr>
+                                        <!-- <td>
+                                            <%=i+1%>
+                                        </td> -->
                                         <td class="product__cart__item">
                                             <!-- <div class="product__cart__item__pic">
     
@@ -715,9 +719,20 @@
             var rzp1 = new Razorpay(options);
 
             rzp1.on('payment.failed', (err) => {
-                console.log(err);
-
-                res.json({ fail: true, message: "Payment failed" });
+                // console.log(err);
+                Swal.fire({
+                icon: 'error',
+                title: 'Payment Failed',
+                text: 'Dont worry you still can make payment in the Orders page in your profile....',
+                confirmButtonText: 'OK',
+                }).then((result) => {
+                if (result.isConfirmed) {
+                    // Redirect to a page of your choice
+                    // window.location.href = `/order-details?orderId=${order.id}`
+                    window.location.href = '/orders'
+                }
+                });
+                // res.json({ fail: true, message: "Payment failed" });
             })
             rzp1.open();
 
@@ -758,6 +773,7 @@
                         );
                     }
                 }
+                
             }
         );
     }
