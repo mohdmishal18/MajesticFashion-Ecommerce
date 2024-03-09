@@ -80,7 +80,7 @@
                                     <h4 class="card-title">Create Order Report</h4>
                                 </div>
                                 <div>
-                                    <form action="/admin/order-report" method="post" id="filterForm">
+                                    <form action="/admin/order-report" method="post" id="filterForm" onsubmit="return validateDates()">
                                         <div class="row align-items-center">
                                             <label for="startDate" class="col-md-4 col-12">Start Date:</label>
                                             <input type="date" required id="startDate" name="startDate" class="col-md-8 col-12 form-control mb-2">
@@ -116,6 +116,29 @@
         </main>
 
 <%- include('../layouts/admin/footer.ejs') -%>
+
+<script>
+    function validateDates() {
+      var startDate = document.getElementById('startDate').value;
+      var endDate = document.getElementById('endDate').value;
+  
+      if (new Date(startDate) > new Date(endDate)) {
+        // Using SweetAlert for a more user-friendly alert
+        Swal.fire({
+          icon: 'error',
+          title: 'Validation Error!',
+          text: 'End date cannot be before start date',
+          confirmButtonText: 'OK',
+        });
+  
+        return false; // Prevent form submission
+      }
+  
+      return true; // Continue with form submission
+    }
+  </script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
 

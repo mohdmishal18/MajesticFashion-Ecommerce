@@ -719,20 +719,8 @@
             var rzp1 = new Razorpay(options);
 
             rzp1.on('payment.failed', (err) => {
-                // console.log(err);
-                Swal.fire({
-                icon: 'error',
-                title: 'Payment Failed',
-                text: 'Dont worry you still can make payment in the Orders page in your profile....',
-                confirmButtonText: 'OK',
-                }).then((result) => {
-                if (result.isConfirmed) {
-                    // Redirect to a page of your choice
-                    // window.location.href = `/order-details?orderId=${order.id}`
-                    window.location.href = '/orders'
-                }
-                });
-                // res.json({ fail: true, message: "Payment failed" });
+                window.location.href = '/orders'
+              
             })
             rzp1.open();
 

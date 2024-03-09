@@ -283,7 +283,8 @@ const loadDashboard = async (req,res) =>
         ])
         //const latestOrders = await Order.find({}).sort({ date: -1 }).populate('user').limit(limit).skip((page - 1) * limit).exec()
 
-         // Aggregate to get the total quantity sold for each product
+         
+// Aggregate to get the total quantity sold for each product
             const topProducts = await Order.aggregate([
                 { $unwind: "$products" },
                 { $match: { "products.status": "delivered" } },
@@ -301,7 +302,6 @@ const loadDashboard = async (req,res) =>
             const topProductsDetails = await Product.find({
                 _id: { $in: topProducts.map((product) => product._id) },
             }).populate("categoriesid");
-
             const topCategories = await Order.aggregate([
                 { $unwind: "$products" },
                 { $match: { "products.status": "delivered" } },
@@ -648,16 +648,9 @@ const orderReport = async (req,res) =>
         const end = req.body.endDate;
 
         const orders = await Order.find({date : {$gte : start, $lte : end}}).populate('user').populate('products.productId');
-
-        if(orders.length > 0)
-        {
+        
             res.render('orderReport',{orders : orders});
-        }
-        else
-        {
-            req.flash('error','No datas found between the given date');
-            res.redirect('/admin/sales-report');
-        }
+        
     }
     catch(error)
     {

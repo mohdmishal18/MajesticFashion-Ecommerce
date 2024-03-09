@@ -96,7 +96,8 @@
                                        </tr>
                                 </thead>
                                 <tbody>
-                                    <% let i = 0 %>
+                                    <%if(orders && orders.length > 0){%>
+                                        <% let i = 0 %>
                                     <% if(Array.isArray(orders)) {%>
                                         <% orders.forEach((order) =>{ %>
                                             <% order.products.forEach((product) =>{ %>
@@ -115,11 +116,12 @@
                                                 <% } %>
                                             <% }) %>
                                         <% }) %>
-                                    <% }else{ %>
+                                    <% }%>
+                                    <%}else{%>
                                         <tr>
-                                            <td>No datas available in this date</td>
-                                        </tr>
-                                    <% } %> 
+                                            <td colspan="12" class="text-center">No Orders Available</td>
+                                          </tr>
+                                    <%}%>
                                 </tbody>
                             </table>
                         </div>
