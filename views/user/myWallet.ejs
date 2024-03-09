@@ -55,40 +55,40 @@
 </section>
 <!-- Breadcrumb Section End -->
 
-<div class="container container1">
-   <div class="main-body">
-      <div class="row" id="addressEdit">
-            <div class="col-md-4 mb-3">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="d-flex flex-column align-items-center text-center">
-                            <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin"
-                                class="rounded-circle" width="150">
-                            <div class="mt-3">
-                                <h4><%= locals.user.name %></h4>
-                                <p class="text-muted font-size-sm"><%= locals.user.email %></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card mt-3">
-                    <div class="user-headerrr">
-                        <div class="menu-itemmm"><h>Profile</h3></div><hr>
+<div class="container-fluid ">
+  <div class="main-body">
+      <div class="row">
+          <div class="col-md-3 mb-3">
+              <div class="card">
+                  <div class="card-body">
+                      <div class="d-flex flex-column align-items-center text-center">
+                          <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin"
+                              class="rounded-circle" width="150">
+                          <div class="mt-3">
+                              <h4><%= locals.user.name %></h4>
+                              <p class="text-muted font-size-sm"><%= locals.user.email %></p>
+                          </div>
                       </div>
+                  </div>
+              </div>
+              <div class="card mt-3">
+                  <div class="user-headerrr">
+                      <div class="menu-itemmm"><h>Profile</h3></div><hr>
+                    </div>
+              
+                    <!-- Sidebar Menu -->
                 
-                      <!-- Sidebar Menu -->
-                  
-                      <div class="menu-itemmm" ><a href="/address">Manage Address</a></div><hr>
-                      <div class="menu-itemmm" ><a href="/orders">Orders</a></div><hr>
-                      <!-- <div class="menu-itemmm"><a href="/wishlist">Wishlist</a></div><hr> -->
-                      <div class="menu-itemmm"><a href="/mywallet">Wallet</a></div><hr>
-                      <div class="menu-itemmm"><a href="/mycoupons">MyCoupons</a></div><hr>
-                      <!-- <div class="menu-itemmm" ><a href="#">Report a Bug</a></div><hr> -->
-                      <div class="menu-itemmm" ><a  href="/signout" >Logout</a></div><hr>
-                      
-                </div>
-            </div>
-            <div class="col-md-8">
+                    <div class="menu-itemmm" ><a href="/address">Manage Address</a></div><hr>
+                    <div class="menu-itemmm" ><a href="/orders">Orders</a></div><hr>
+                    <!-- <div class="menu-itemmm"><a href="/wishlist">Wishlist</a></div><hr> -->
+                    <div class="menu-itemmm"><a href="/mywallet">Wallet</a></div><hr>
+                    <div class="menu-itemmm"><a href="/mycoupons">MyCoupons</a></div><hr>
+                    <!-- <div class="menu-itemmm" ><a href="#">Report a Bug</a></div><hr> -->
+                    <div class="menu-itemmm" ><a  href="/signout" >Logout</a></div><hr>
+                    
+              </div>
+          </div>
+            <div class="col-md-9">
                 <!-- Wallet Section -->
                 <div id="edit-profile-section " style="display: block;">
                     <div class="mt-5">
@@ -97,14 +97,11 @@
                       <div class="table-responsive">
                         <div class="d-flex ">
                           <div class="card p-3">
-                            <div class="d-flex flex-row justify-content-between text-align-center">
-                              <i class="fas fa-ellipsis-v"></i>
-                            </div>
                             <div class="card-bottom pt-3 px-3 mb-2">
                               <div class="d-flex flex-row justify-content-between text-align-center">
                                 <div class="d-flex flex-column" style="color: #adb5bd; font-size: 13px;">
                                   <span>Balance amount</span>
-                                  <p>₹ <span class="text-white">
+                                  <p><span style="color: white;">₹</span> <span class="text-white">
                                       <%=balance%>
                                     </span></p>
                                 </div>
@@ -119,7 +116,6 @@
                                     <thead>
                                       <tr>
                                         <th>Date</th>
-                                        <th>orderId</th>
                                         <th>Amount</th>
                                         <th>Type</th>
                                         <th>Reason</th>
@@ -132,7 +128,6 @@
                                             <td>
                                               <%= formattedDate.toLocaleDateString('en-US') %>
                                             </td>
-                                            <td><%=history.orderId%></td>
                                             <td>₹ <%= history.amount %>
                                             </td>
                                             <td><%= history.type %></td>
@@ -152,6 +147,7 @@
                       </div>
                     </div>
                   </div>
+                </div>
             </div>
 
 
