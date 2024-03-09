@@ -194,7 +194,7 @@ const placeOrder = async (req, res) =>
                     console.log(err);
                 }
                 console.log("this is the order : ",order);
-                 res.json({ order });
+                res.json({ order });
             });
         }
     } 
@@ -260,6 +260,109 @@ const verifyPayment = async (req,res) =>
                 res.json({payment_successful : true});
         }
 
+    }
+    catch(error)
+    {
+        console.log(error);
+    }
+}
+
+//for failed payments.
+const retryPayment = async (req,res) =>
+{
+    try 
+    {
+        const {orderId} = req.body;
+
+        const order = await Order.findOne({_id : orderId}).populate('user');
+
+        const options = 
+        {
+            amount : order.totalAmount * 100, // i multiplied by hundred because the the default unit of the amount is "paise".
+            currency : "INR",
+            receipt : "" + order._id,
+        }
+
+            instance.orders.create(options, function( err , order )
+            {
+                if(err)
+                {
+                    console.log(err);
+                }
+                console.log("this is the order : ",order);
+                 res.json({ order });
+            });
+    }
+    catch(error)
+    {
+        res.status(400).send('your countine payment request is failed')
+        console.log(error);
+    }
+}
+
+const continueRetryPayment = async (req,res) =>
+{
+    try
+    {
+        const userId = req.session.user._id;
+        const {payment, order} = req.body;
+
+        const hmac = crypto.createHmac('sha256', 'GbPWn8lPZ5PaFJZ3wPis9KW4');
+        hmac.update(payment.razorpay_order_id + "|" + payment.razorpay_payment_id);
+        const hmacValue = hmac.digest("hex");
+        console.log(hmacValue);
+
+        if(hmacValue === payment.razorpay_signature)
+        {
+            const cart = await Cart.findOne({user : userId}).populate('products.productId');
+            
+            const products = cart.products;
+
+            console.log("payment verification success full",products[0].productId._id);
+            
+            // Decreasing the quaintity of products
+            for(let i = 0; i < cart.products.length; i++)
+            {
+                const productId = products[i].productId._id;
+
+                const index = products[i].product;
+                const productQuantity = products[i].quantity;
+
+                console.log(typeof productQuantity, productQuantity);
+
+                await Product.findOneAndUpdate({_id : productId},
+                    {
+                        $inc : 
+                        {
+                            [`variant.${index}.quantity`] : - productQuantity
+                        }
+                    })
+            }
+            // updating order status.
+            await Order.findOneAndUpdate({_id : order.receipt},
+                {
+                    $set : 
+                    {
+                        status : 'placed',
+                        paymentId : payment.razorpay_payment_id
+                    }
+                });
+
+                //deleting the user's cart after placing the order.
+                await Cart.deleteOne({user : userId});
+                // sending success response.
+                res.json({payment_successful : true});
+        }
+        else
+        {
+            const changedOrder = await Order.findByIdAndUpdate(
+                { _id: order.receipt },
+                { $set: { status: " pending" } } 
+            );
+        
+            console.log("changedOrder",changedOrder);
+            res.status(400).json({ error: "Invalid payment signature", PaymentSuccess: false });
+        }
     }
     catch(error)
     {
@@ -416,6 +519,10 @@ const cancelOrder = async (req, res) => {
     }
   };
 
+  // Retry payment.
+
+  
+
   const returnProduct = async (req,res) =>
   {
     try
@@ -488,6 +595,8 @@ module.exports =
     loadSingleOrderDetails,
     cancelOrder,
     verifyPayment,
+    retryPayment,
+    continueRetryPayment,
     invoice,
     returnProduct
 }

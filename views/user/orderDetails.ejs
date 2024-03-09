@@ -244,7 +244,7 @@
                                         <tr>
                                             <td colspan=12" class="text-right-cell">
                                                 <% if (myOrder.status === 'pending') { %>
-                                                    <button id="retryPaymentBtn" class="btn btn-primary">Retry Payment</button>
+                                                    <button id="retryPaymentBtn" class="btn btn-primary" onclick="retryPayment('<%= myOrder._id %>')">Retry Payment</button>
                                                 <% } %>
                                             </td>
                                         </tr>
@@ -345,7 +345,6 @@
 </script>
 
 
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <!-- Include jQuery before using it -->
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
@@ -404,4 +403,136 @@
     });
 </script>
 
+<!-- retry payment section -->
 
+<script>
+    function retryPayment(orderId) {
+        // Send a request to your server to retry the payment
+        fetch('/retry-payment', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ orderId: orderId })
+        }).then(response => {
+            return response.json();
+        }).then(data => {
+            console.log(data.order);
+               if(data.order)
+               {
+                razorpay(data.order)
+               }
+               else
+               {
+                console.log("order didn't recieved");
+                alert("order didn't recieved...")
+               }
+        }).catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred. Please try again later.');
+        });
+    }
+</script>
+
+<script>
+    function razorpay(order)
+    {
+        try
+        {
+            console.log("inside razor pay fn",order);
+
+            
+            var options = 
+            {
+                "key": "rzp_test_EVAgzuOOSxsbao", // Enter the Key ID generated from the Dashboard
+                "amount": order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+                "currency": "INR",
+                "name": "Majestic", //your business name
+                "description": "Test Transaction",
+                "image": "/imgs/theme/Majestic-white.png",
+                "order_id": order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+                "handler": (response) =>
+                {
+                    continueRetryPayment(response , order);
+                },
+                "prefill": { //We recommend using the prefill parameter to auto-fill customer's contact information, especially their phone number
+                    "name": "mohd mishal", //your customer's name
+                    "email": "mohdmishal18@gmail.com", 
+                    "contact": "9947865508"  //Provide the customer's phone number for better conversion rates 
+                },
+                "notes": {
+                    "address": "Majestic"
+                },
+                "theme": {
+                    "color": "#3399cc"
+                }
+            };
+
+            var rzp1 = new Razorpay(options);
+
+            rzp1.on('payment.failed', (err) => {
+                // console.log(err);
+                Swal.fire({
+                icon: 'error',
+                title: 'Payment Failed',
+                text: 'Dont worry you still can make payment in the Orders page in your profile....',
+                confirmButtonText: 'OK',
+                }).then((result) => {
+                if (result.isConfirmed) {
+                    // Redirect to a page of your choice
+                    // window.location.href = `/order-details?orderId=${order.id}`
+                    window.location.href = '/orders'
+                }
+                });
+                // res.json({ fail: true, message: "Payment failed" });
+            })
+            rzp1.open();
+
+        }
+        catch(error)
+        {
+            console.log(error);
+        }
+    }
+
+
+    function continueRetryPayment(payment , order)
+    {
+        $.ajax(
+            {
+                type : 'POST',
+                url : '/continueRetryPayment',
+                data : 
+                {
+                    payment : payment,
+                    order : order
+                },
+                success : (response) =>
+                {
+                    if(response.payment_successful)
+                    {
+                        window.location.href = '/successpage'
+                    }
+                    else
+                    {
+                        Swal.fire(
+                            {
+                                position : "center",
+                                icon : "error",
+                                status : "payment failed",
+                                showConfirmButton : false,
+                                timer : 1500
+                            }
+                        );
+                    }
+                }
+                
+            }
+        );
+    }
+</script>
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>

@@ -124,7 +124,12 @@ userRoute
 
     .post('/place-order',auth.authlogg,orderController.placeOrder)
 
+    //payment verification.
     .post('/verifyPayment',auth.authlogg, orderController.verifyPayment)
+
+    // In case the payment failed...
+    .post('/retry-payment',orderController.retryPayment)
+    .post('/continueRetryPayment',orderController.continueRetryPayment)
 
     .get('/successpage',auth.authlogg,orderController.successPage)
 
