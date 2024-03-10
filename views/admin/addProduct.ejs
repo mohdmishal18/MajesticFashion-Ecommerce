@@ -135,7 +135,7 @@ function productValidation() {
     } else if (oprice.value.trim() === '' || Number(oprice.value) <= 0 || isNaN(oprice.value)) {
         showErrorAlert('Invalid Offer Price. Please enter a valid amount.');
         return false;
-    } else if (Number(oprice.value) >= Number(price.value)) {
+    } else if (Number(oprice.value) <= Number(price.value)) {
         showErrorAlert('Offer Price must be less than the Original Price.');
         return false;
     } else if (sizesSelect.selectedOptions.length === 0) {

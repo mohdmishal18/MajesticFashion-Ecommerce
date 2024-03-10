@@ -40,10 +40,10 @@ function addToDb(productid, vIndex) {
           contentType: 'application/json',
           success: (response) => {
               if (response.added) {
-                  if (response.isInCart) {
-                      // Redirect to the cart if the product is already in the cart
-                      window.location.href = '/cart';
-                  }
+                //   if (response.isInCart) {
+                //       // Redirect to the cart if the product is already in the cart
+                //       window.location.href = '/cart';
+                //   }
                   console.log('ok done');
                   Swal.fire({
                       title: 'Product Added!',
@@ -51,10 +51,24 @@ function addToDb(productid, vIndex) {
                       icon: 'success',
                       showConfirmButton: true,
                       confirmButtonText: 'OK',
+                  })
+              }
+              else if(response.already)
+              {
+                Swal.fire({
+                    title: 'Already in Cart',
+                    text: 'This item is already in your cart.',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Go to Cart',
+                    cancelButtonText: 'OK'
                   }).then((result) => {
-                      if (result.isConfirmed) {
-                          window.location.href = '/cart';
-                      }
+                    if (result.value) {
+                      // Redirect to the cart page or perform any other action
+                      window.location.href = '/cart';
+                    }
                   });
               }
           },

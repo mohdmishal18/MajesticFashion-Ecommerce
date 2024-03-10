@@ -138,7 +138,7 @@ function editVariant() {
     } else if (offerPrice.value.trim() === '' || Number(offerPrice.value) <= 0 || isNaN(offerPrice.value)) {
         showErrorAlert('Invalid Normal Price. Please enter a valid amount.');
         return false;
-    } else if (Number(offerPrice.value) <= Number(price.value)) {
+    } else if (Number(price.value) >= Number(offerPrice.value)) {
         showErrorAlert('Offer Price must be less than the Normal Price.');
         return false;
     }

@@ -77,8 +77,8 @@ const addToCart = async (req,res) =>
                 }
                 else
                 {
-                    console.log("already in the cart");
-                    req.flash('exists','Product is already in the cart!!');
+                    console.log("already");
+                    return res.json({ already: true });
                 }
             }
             else

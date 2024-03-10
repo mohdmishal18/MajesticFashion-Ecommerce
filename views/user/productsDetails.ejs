@@ -74,8 +74,8 @@
                                 product.variant[index].price%>
                                 <%const percentageDiscount=discount * 100%>
                                     <%const off=Math.floor(percentageDiscount)%>
-                                        <h3 class="p-2" id="productPrice"><s>₹<%= product.variant[index].previous_price%></s><span> ₹<%=
-                                                        product.variant[index].price%></span> <span style="color: rgb(51, 181, 51); text-decoration: none; font-size: 16px;"><%= off %>% off</span></h3>
+                                        <h3 class="p-2" id="productPrice"><s>₹<%= product.variant[index].previous_price%></s><span>
+                                             ₹<%= product.variant[index].price%></span> <span style="color: rgb(51, 181, 51); text-decoration: none; font-size: 16px;"><%= off %>% off</span></h3>
                                         <p class="p-2">
                                             <%= product.description%>
                                         </p>
@@ -123,11 +123,7 @@
                                                     <span style="transform: rotate(90deg); margin-top: 3px;" class="fa fa-angle-right inc qtybtn"></span>
                                                 </div> -->
                                             </div>
-                                            <% if (isInCart) { %>
-                                                <a href="/cart" class="primary-btn">Go to Cart</a>
-                                            <% } else { %>
-                                                <button type="button" onclick="return addToCart('<%= product._id%>');" class="primary-btn">Add to Cart</button>
-                                            <% } %>
+                                            <button type="button" onclick="return addToCart('<%= product._id%>');" class="primary-btn">Add to Cart</button>
                                         </div>
                                         <div class="product__details__btns__option" onclick="return addToWishlist('<%= product._id %>')">
                                             <a href="#"><i class="fa fa-heart"></i> add to wishlist</a>
@@ -275,7 +271,7 @@
     <!-- Shop Details Section End -->
 
     <!-- Related Section Begin -->
-    <section class="related spad">
+    <!-- <section class="related spad">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
@@ -423,7 +419,7 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> -->
     <!-- Related Section End -->
 
     <!-- Footer Section Begin -->
@@ -433,10 +429,10 @@
                 <div class="col-lg-3 col-md-6 col-sm-6">
                     <div class="footer__about">
                         <div class="footer__logo">
-                            <a href="#"><img src="img/footer-logo.png" alt=""></a>
+                            <a href="#"><img src="static/img/footer-logo.png" alt=""></a>
                         </div>
                         <p>The customer is at the heart of our unique business model, which includes design.</p>
-                        <a href="#"><img src="img/payment.png" alt=""></a>
+                        <a href="#"><img src="static/img/payment.png" alt=""></a>
                     </div>
                 </div>
                 <div class="col-lg-2 offset-lg-1 col-md-3 col-sm-6">
@@ -483,7 +479,7 @@
                                 document.write(new Date().getFullYear());
                             </script>2020
                             All rights reserved | This template is made with <i class="fa fa-heart-o"
-                                aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                            aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
                         </p>
                         <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                     </div>
