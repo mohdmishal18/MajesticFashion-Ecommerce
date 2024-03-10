@@ -1,173 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
+<%- include('../layouts/user/header1.ejs') -%>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="description" content="Male_Fashion Template">
-    <meta name="keywords" content="Male_Fashion, unica, creative, html">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>MAJESTIC</title>
-
-    <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&display=swap"
-    rel="stylesheet">
-
-    <script src="https://kit.fontawesome.com/7669beee6a.js" crossorigin="anonymous"></script>
-
-    <!-- 
-        
-        Favicon -->
-    <link rel="shortcut icon" type="image/x-icon" href="/imgs/theme/Majestic-white.png" />
-
-    <!-- Css Styles -->
-    <link rel="stylesheet" href="/static/css/bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="/static/css/font-awesome.min.css" type="text/css">
-    <link rel="stylesheet" href="/static/css/elegant-icons.css" type="text/css">
-    <link rel="stylesheet" href="/static/css/magnific-popup.css" type="text/css">
-    <link rel="stylesheet" href="/static/css/nice-select.css" type="text/css">
-    <link rel="stylesheet" href="/static/css/owl.carousel.min.css" type="text/css">
-    <link rel="stylesheet" href="/static/css/slicknav.min.css" type="text/css">
-    <link rel="stylesheet" href="/static/css/style.css" type="text/css">
-
-    <style>
-        a{
-                text-decoration: none;
-                color: black; /* Set the desired color */
-
-        }  
-        a:hover 
-        {
-            text-decoration: none;
-            color: black; /* Set the same color as the default or a different one */
-        }
-        /* Remove default link styles */
-
-        /* Style links on hover */
-        a:hover {
-        color: your-desired-hover-color;
-        }
-
-        /* Optional: Remove the underline on hover */
-        a:hover {
-        text-decoration: none;
-        }
-    </style>
-
-</head>
-
-<body>
-    <!-- Page Preloder -->
-    <div id="preloder">
-        <div class="loader"></div>
-    </div>
-
-    <!-- Offcanvas Menu Begin -->
-    <div class="offcanvas-menu-overlay"></div>
-    <div class="offcanvas-menu-wrapper">
-        <div class="offcanvas__option">
-            <div class="offcanvas__links">
-                <a href="#">Sign in</a>
-                <a href="#">FAQs</a>
-            </div>
-            <div class="offcanvas__top__hover">
-                <span>Usd <i class="arrow_carrot-down"></i></span>
-                <ul>
-                    <li>USD</li>
-                    <li>EUR</li>
-                    <li>USD</li>
-                </ul>
-            </div>
-        </div>
-        <div class="offcanvas__nav__option">
-            <a href="/wishlish/"><i class="fa-regular fa-heart fa-lg"></i></a>
-                        <a href="/cart/"><i class="fa-solid fa-cart-shopping fa-lg"></i></a>
-                        <%if(locals.user){%>
-                            <a href="/profile/"><i class="fa-regular fa-user fa-lg"></i></a>
-                            <a href="/logout" class="btn btn-dark">Logout</a>
-                        <%} else {%>
-                            <a href="/login" class="btn btn-dark">Login</a>
-                        <%}%>
-        </div>
-        <div id="mobile-menu-wrap"></div>
-        <div class="offcanvas__text">
-            <p>Free shipping, 30-day return or refund guarantee.</p>
-        </div>
-    </div>
-    <!-- Offcanvas Menu End -->
-
-    <!-- Header Section Begin -->
-    <header class="header">
-        <div class="header__top">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-6 col-md-7">
-                        <div class="header__top__left">
-                            <p>Free shipping, 30-day return or refund guarantee.</p>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-md-5">
-                        <div class="header__top__right">
-                            <div class="header__top__links">
-                                <a href="#">Sign in</a>
-                                <a href="#">FAQs</a>
-                            </div>
-                            <div class="header__top__hover">
-                                <span>Usd <i class="arrow_carrot-down"></i></span>
-                                <ul>
-                                    <li>USD</li>
-                                    <li>EUR</li>
-                                    <li>USD</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-3 col-md-3">
-                    <div class="header__logo">
-                        <a href="./index.html"><img src="/assets/img/Majestic.png" alt=""></a>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-md-6">
-                    <nav class="header__menu mobile-menu">
-                        <ul>
-                            <li><a href="/">Home</a></li>
-                            <li class="active"><a href="./shop.html">Shop</a></li>
-                            <li><a href="#">Pages</a>
-                                <ul class="dropdown">
-                                    <li><a href="./about.html">About Us</a></li>
-                                    <li><a href="./shop-details.html">Shop Details</a></li>
-                                    <li><a href="./shopping-cart.html">Shopping Cart</a></li>
-                                    <li><a href="./checkout.html">Check Out</a></li>
-                                    <li><a href="./blog-details.html">Blog Details</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="./blog.html">Blog</a></li>
-                            <li><a href="./contact.html">Contacts</a></li>
-                        </ul>
-                    </nav>
-                </div>
-                <div class="col-lg-3 col-md-3">
-                    <div class="header__nav__option">
-                        <a href="/wishlish/"><i class="fa-regular fa-heart fa-lg"></i></a>
-                        <a href="/cart/"><i class="fa-solid fa-cart-shopping fa-lg"></i></a>
-                        <%if(locals.user){%>
-                            <a href="/profile/"><i class="fa-regular fa-user fa-lg"></i></a>
-                            <a href="/logout" class="btn btn-dark">Logout</a>
-                        <%} else {%>
-                            <a href="/login" class="btn btn-dark">Login</a>
-                        <%}%>
-                    </div>
-                </div>
-            </div>
-            <div class="canvas__open"><i class="fa fa-bars"></i></div>
-        </div>
-    </header>
-    <!-- Header Section End -->
 
     <!-- Shop Details Section Begin -->
     <section class="shop-details">
@@ -204,17 +36,7 @@
                                 <% } %>
                         </ul>
                     </div>
-                    <!-- <div class="col-lg-4 col-md-9">
-                        <div class="tab-content">
-                            <% for (let i = 0; i < product.variant[index].images.length; i++) { %>
-                                <div class="tab-pane <%= i === 0 ? 'active' : '' %>" id="tabs-<%= i + 1 %>" role="tabpanel">
-                                    <div class="product__details__pic__item image-zoom-container" style="overflow: hidden;">
-                                        <img class="zoom-image" src="/img/productImage/<%= product.variant[index].images[i] %>" alt="">
-                                    </div>
-                                </div>
-                            <% } %>
-                        </div>
-                    </div> -->
+                   
 
                     <div class="col-lg-4 col-md-9">
                         <div class="tab-content">
@@ -252,23 +74,22 @@
                                 product.variant[index].price%>
                                 <%const percentageDiscount=discount * 100%>
                                     <%const off=Math.floor(percentageDiscount)%>
-                                        <h3 class="p-2"><s>₹<%= product.variant[index].previous_price%></s><span> ₹<%=
-                                                        product.variant[index].price%></span> <span class=""
-                                                    style="color: rgb(51, 181, 51); text-decoration: none; font-size: 16px;">
-                                                    <%= off %>% off
-                                                </span></h3>
+                                        <h3 class="p-2" id="productPrice"><s>₹<%= product.variant[index].previous_price%></s><span> ₹<%=
+                                                        product.variant[index].price%></span> <span style="color: rgb(51, 181, 51); text-decoration: none; font-size: 16px;"><%= off %>% off</span></h3>
                                         <p class="p-2">
                                             <%= product.description%>
                                         </p>
                                         <div class="product__details__option">
                                             <div class="product__details__option__size">
                                                 <span>Size:</span>
-                                                <%product.variant[index].sizes.map((el, i)=> {%>
-                                                    <label class="" for="<%= el%>">
-                                                        <%= el%>
-                                                            <input type="radio" id="<%= el %>" value="<%= el %>" name="size">
-                                                    </label>
-                                                    <%})%>
+                                                <div id="productSize" class="product__details__option__size">
+                                                    <%product.variant[index].sizes.map((el, i)=> {%>
+                                                        <label class="size-label" for="<%= el%>">
+                                                            <%= el%>
+                                                                <input type="radio" id="<%= el %>" value="<%= el %>" name="size">
+                                                        </label>
+                                                        <%})%>
+                                                </div>
                                                     <div id="size" style="position: absolute; left: 50px;">
 
                                                     </div>
@@ -296,11 +117,11 @@
                                             </div> -->
                                             <div id="authStatus" data-is-loggedin="<%= JSON.stringify(logedIn) %>"></div>
                                             <div class="quantity">
-                                                <div class="pro-qty">
+                                                <!-- <div class="pro-qty">
                                                     <input id="quantity" type="text" data-stock="<%= product.variant[index].quantity %>" name="quantity">
-                                                    <!-- <span style="transform: rotate(90deg ); margin-top: 6px;" class="fa fa-angle-left dec qtybtn"></span>
-                                                    <span style="transform: rotate(90deg); margin-top: 3px;" class="fa fa-angle-right inc qtybtn"></span> -->
-                                                </div>
+                                                    <span style="transform: rotate(90deg ); margin-top: 6px;" class="fa fa-angle-left dec qtybtn"></span>
+                                                    <span style="transform: rotate(90deg); margin-top: 3px;" class="fa fa-angle-right inc qtybtn"></span>
+                                                </div> -->
                                             </div>
                                             <% if (isInCart) { %>
                                                 <a href="/cart" class="primary-btn">Go to Cart</a>
@@ -454,7 +275,7 @@
     <!-- Shop Details Section End -->
 
     <!-- Related Section Begin -->
-    <!-- <section class="related spad">
+    <section class="related spad">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
@@ -602,7 +423,7 @@
                 </div>
             </div>
         </div>
-    </section> -->
+    </section>
     <!-- Related Section End -->
 
     <!-- Footer Section Begin -->
@@ -747,8 +568,26 @@
                             }
     
                         });
-    
-    
+
+                        //update the variant price.
+                        const productPrice = document.getElementById('productPrice');
+                        const discount = (response.product.variant[response.index].price - response.product.variant[response.index].previous_price) / response.product.variant[response.index].price;
+                        const percentageDiscount = discount * 100;
+                        const off = Math.floor(percentageDiscount);
+                        const priceElement = document.querySelector('.product__details__option h3');
+                        productPrice.innerHTML = `<s>₹${response.product.variant[response.index].previous_price}</s><span> ₹${response.product.variant[response.index].price}</span><span style="color: rgb(51, 181, 51); text-decoration: none; font-size: 16px;">${off}% off</span>`;
+
+                        // Update size options
+                        const sizeContainer = document.getElementById('productSize');
+                        sizeContainer.innerHTML = "";
+                        response.product.variant[response.index].sizes.forEach((size) => {
+                            const label = document.createElement('label');
+                            label.setAttribute('for', size);
+                            label.classList.add('size-label'); // Add the 'size-label' class
+                            label.innerHTML = `${size}<input type="radio" id="${size}" value="${size}" name="size">`;
+                            sizeContainer.appendChild(label);
+                        });
+                        
                     }
                 })
             })
@@ -830,6 +669,27 @@
             });
         }
     </script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const sizeLabels = document.querySelectorAll('.size-label');
+
+        sizeLabels.forEach(function (label) {
+            label.addEventListener('change', function () {
+                // Reset color for all labels
+                sizeLabels.forEach(function (resetLabel) {
+                    resetLabel.style.backgroundColor = '';
+                });
+
+                // Set black color for the selected label
+                if (label.querySelector('input').checked) {
+                    label.style.backgroundColor = 'black';
+                }
+            });
+        });
+    });
+</script>
+
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 

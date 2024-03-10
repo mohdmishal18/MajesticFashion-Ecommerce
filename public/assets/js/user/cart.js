@@ -21,7 +21,7 @@ function addToDb(productid, vIndex) {
 
   // Get the selected size value
   var selectedSize = document.querySelector('input[name="size"]:checked');
-  const qunt = document.getElementById('quantity').value;
+//   const qunt = document.getElementById('quantity').value;
 
   // Check if a size is selected
   if (selectedSize) {
@@ -30,7 +30,7 @@ function addToDb(productid, vIndex) {
           productId: productid,
           index: vIndex,
           size: selectedSize.value,
-          quantity: qunt,
+          quantity: 1,
       };
 
       $.ajax({

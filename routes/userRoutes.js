@@ -155,7 +155,7 @@ userRoute
 
     // wishlist section =======================================
 
-    .get('/wishlist',auth.userAuth,wishlistController.loadWishlist)
+    .get('/wishlist',wishlistController.loadWishlist)
 
     .post('/add-wish',wishlistController.addToWishlist)
     

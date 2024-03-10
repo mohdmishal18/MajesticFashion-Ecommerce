@@ -97,16 +97,8 @@
     <div class="offcanvas-menu-wrapper">
         <div class="offcanvas__option">
             <div class="offcanvas__links">
-                <a href="#">Sign in</a>
+                <a href="/signup">Sign in</a>
                 <a href="#">FAQs</a>
-            </div>
-            <div class="offcanvas__top__hover">
-                <span>Usd <i class="arrow_carrot-down"></i></span>
-                <ul>
-                    <li>USD</li>
-                    <li>EUR</li>
-                    <li>USD</li>
-                </ul>
             </div>
         </div>
         <div class="offcanvas__nav__option">
@@ -116,6 +108,7 @@
                             <a href="/profile/"><i class="fa-regular fa-user fa-lg"></i></a>
                             <a href="/logout" class="btn btn-dark">Logout</a>
                         <%} else {%>
+                            <a href="/login"><i class="fa-regular fa-user fa-lg"></i></a>
                             <a href="/login" class="btn btn-dark">Login</a>
                         <%}%>
         </div>
@@ -139,16 +132,7 @@
                     <div class="col-lg-6 col-md-5">
                         <div class="header__top__right">
                             <div class="header__top__links">
-                                <a href="#">Sign in</a>
-                                <a href="#">FAQs</a>
-                            </div>
-                            <div class="header__top__hover">
-                                <span>Usd <i class="arrow_carrot-down"></i></span>
-                                <ul>
-                                    <li>USD</li>
-                                    <li>EUR</li>
-                                    <li>USD</li>
-                                </ul>
+                                <a href="/signup">Sign in</a>
                             </div>
                         </div>
                     </div>
@@ -159,25 +143,16 @@
             <div class="row">
                 <div class="col-lg-3 col-md-3">
                     <div class="header__logo">
-                        <a href="./index.html"><img src="/assets/img/Majestic.png" alt=""></a>
+                        <a href="/"><img src="/assets/img/Majestic.png" alt=""></a>
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6">
                     <nav class="header__menu mobile-menu">
                         <ul>
                             <li><a href="/">Home</a></li>
-                            <li class="active"><a href="./shop.html">Shop</a></li>
-                            <li><a href="#">Pages</a>
-                                <ul class="dropdown">
-                                    <li><a href="./about.html">About Us</a></li>
-                                    <li><a href="./shop-details.html">Shop Details</a></li>
-                                    <li><a href="./shopping-cart.html">Shopping Cart</a></li>
-                                    <li><a href="./checkout.html">Check Out</a></li>
-                                    <li><a href="./blog-details.html">Blog Details</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="./blog.html">Blog</a></li>
-                            <li><a href="./contact.html">Contacts</a></li>
+                            <li class="active"><a href="/shop/">Shop</a></li>
+                            <li><a href="/blog">Blog</a></li>
+                            <li><a href="/contacts">Contacts</a></li>
                         </ul>
                     </nav>
                 </div>
@@ -189,6 +164,7 @@
                             <a href="/profile/"><i class="fa-regular fa-user fa-lg"></i></a>
                             <a href="/logout" class="btn btn-dark">Logout</a>
                         <%} else {%>
+                            <a href="/login"><i class="fa-regular fa-user fa-lg"></i></a>
                             <a href="/login" class="btn btn-dark">Login</a>
                         <%}%>
                     </div>
