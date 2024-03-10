@@ -13,10 +13,14 @@ const loadProduct = async (req,res) =>
 {
     try
     {
-        return Product.find().populate('categoriesid')
-        .then((data) => {
-            res.render('products', {products: data});
-        })
+        // return Product.find().populate('categoriesid')
+        // .then((data) => {
+        //     res.render('products', {products: data});
+        // })
+        const category = await Category.find({});
+        const product = await Product.find().populate('categoriesid')
+
+        res.render('products',{products : product,category : category});
     }
     catch(error)
     {
@@ -42,6 +46,9 @@ const addProduct = async (req,res) =>
     try
     {
         console.log("mishal");
+
+        let description = req.body.description
+        description = description.replace(/\\n/g, '\n');
 
         const sizes = Array.isArray(req.body.sizes) ? req.body.sizes : [req.body.sizes];
 
@@ -83,7 +90,7 @@ const addProduct = async (req,res) =>
         }
         const product = new Product({
             name : req.body.name,
-            description : req.body.description,
+            description : description,
             categoriesid : category._id,
             variant : variant,
             is_Listed : true,
@@ -303,7 +310,7 @@ const editVariant = async (req, res) => {
             }
         } else {
             // Use existing images if available
-            const existingImages = req.body.images || []; // Ensure it's defined and provide an empty array if not
+            const existingImages = req.body.images || [];
             newImages.push(...existingImages);
         }
 
@@ -340,6 +347,57 @@ const editVariant = async (req, res) => {
         console.log(error);
     }
 };
+ 
+const loadEditProduct = async(req,res) =>
+{
+    try
+    {
+        const id = req.query.id;
+
+        const categories = await Category.find();
+
+        const product = await Product.findOne({_id : id});
+        res.render('editProduct',{product : product, id : id ,categories : categories});
+
+    }
+    catch(error)
+    {
+        console.log(error);
+    }
+}
+
+const editProduct = async(req,res) =>
+{
+    try
+    {
+        const {productId, name , categoryID, description} = req.body;
+        const categories = await Category.findOne({name : categoryID});
+        const update = await Product.findByIdAndUpdate({_id : productId},
+            {
+                $set :
+                {
+                    name : name,
+                    description : description,
+                    categoriesid : categories._id
+                } 
+            })
+
+            if(update)
+            {
+                res.redirect('/admin/product')
+                console.log("success");
+            }
+            else
+            {
+                console.log('edit failed');
+            }
+
+    }
+    catch(error)
+    {
+        console.log(error);
+    }
+}
 
 // search product
 const filter = async (req,res) =>
@@ -459,6 +517,8 @@ module.exports =
     addProduct, 
     loadVariant,
     addVariant,
+    loadEditProduct,
+    editProduct,
     loadEditVariant,
     editVariant,
     listProduct,

@@ -52,12 +52,6 @@
                         </a>
         
                     </li>
-                    <li class="menu-item">
-                        <a class="menu-link" href="/admin/banner">
-                            <i class="icon material-icons md-person"></i>
-                            <span class="text">Banner</span>
-                        </a>
-                    </li>
                     
                     <li class="menu-item">
                         <a class="menu-link" href="/admin/sales-report">
@@ -336,8 +330,8 @@
                             <table class="table align-middle table-nowrap mb-0">
                                 <thead class="table-dark">
                                     <tr>
-                                        <th class="align-middle" scope="col">Order ID</th>
                                         <th class="align-middle" scope="col">Billing Name</th>
+                                        <th class="align-middle" scope="col">Address</th>
                                         <th class="align-middle" scope="col">Date</th>
                                         <th class="align-middle" scope="col">Total</th>
                                         <th class="text-center" scope="col">Payment Method</th>
@@ -346,8 +340,8 @@
                                 <tbody>
                                     <% latestOrders.forEach((order) =>{ %>
                                         <tr>
-                                            <td><%= order._id %></td>
                                             <td><%= order.user.name %></td>
+                                            <td><%=order.deliveryDetails.addressline%></td>
                                             <% const formattedDate = order.date.toLocaleString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' }); %>
                                             <td><%= formattedDate %></td>
                                             <td><%= order.totalAmount %></td>

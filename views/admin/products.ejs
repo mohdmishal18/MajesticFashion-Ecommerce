@@ -52,13 +52,7 @@
                 </a>
 
             </li>
-            <li class="menu-item">
-                <a class="menu-link" href="/admin/banner">
-                    <i class="icon material-icons md-person"></i>
-                    <span class="text">Banner</span>
-                </a>
-            </li>
-           
+            
             <li class="menu-item">
                 <a class="menu-link" href="/admin/sales-report">
                     <i class="icon material-icons md-monetization_on"></i>
@@ -134,7 +128,7 @@
                                             <th scope="col">Product Name</th>
                                             <th scope="col">Category</th>
                                             <th scope="col">Description</th>
-                                            <!-- <th scope="col">Edit</th> -->
+                                            <th scope="col">Edit</th>
                                             <th scope="col" class="text-center">Action</th>
                                         </tr>
                                     </thead>
@@ -150,14 +144,14 @@
                                                    
                                                     <td><%= product.categoriesid.name %></td>
                                                     <td width="30%"><%= product.description %></td>
-                                                    <!-- <td>
-                                                        <a class="btn btn-sm btn-brand rounded font-sm mt-15" href="/admin/edit-product?id=<%= product._id %>" >Edit</a>
-                                                    </td> -->
-                                                    <td class="text-center " >
+                                                    <td>
+                                                        <a class="btn btn-sm btn-dark rounded font-sm mt-15" href="/admin/editProduct?id=<%= product._id %>" >Edit</a>
+                                                    </td>
+                                                    <td class="text-center">
                                                         <a class="btn btn-sm btn-danger rounded font-sm mt-15 text-white"  data-user-id="<%= product._id  %>" data-initial-status="<%= product.is_Listed %>" onclick="listUnlist('<%= product._id %>')"  >
                                                             <%= product.is_Listed?"Unlist":"List"  %>
                                                         </a>
-                                                        <a class="btn btn-sm btn-dark rounded font-sm mt-15" href="/admin/variant/<%= product._id %>" >Variants</a>
+                                                        <a class="btn btn-sm btn-dark rounded font-sm mt-15" href="/admin/variant/<%= product._id %>">Variants</a>
                                                     </td>
                                                 </tr>
                                             <% }); %>

@@ -42,6 +42,8 @@ adminRoute
     // Product Management.
     .get('/product',auth.isLogin,productController.loadProduct)
     .get('/addproduct',auth.isLogin,productController.loadAddProduct)
+    .get('/editProduct',auth.isLogin,productController.loadEditProduct)
+    .post('/editProduct',productController.editProduct)
     .get('/logout', auth.isLogin, adminController.adminLogout)
     .post('/addproduct',multer.array('images'),productController.addProduct)  
     .get('/variant/:id', auth.isLogin,productController.loadVariant)

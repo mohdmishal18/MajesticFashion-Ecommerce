@@ -1,0 +1,93 @@
+<%- include('../layouts/admin/header.ejs') -%>
+
+<section class="content-main">
+    <div class="row">
+        <div class="col-9">
+        </div>
+        <div class="col-lg-6 mx-auto">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="content-header">
+                        <h2 class="content-title justify-content-start mx-auto">Add New Product</h2>
+                    </div>
+                    <form action="/admin/editProduct" method="post" onsubmit="return productValidation()">
+                        <div class="row gx-3">
+                            <div class="col-md-8 mb-4">
+                                <label for="product_title" class="form-label">Product Name</label>
+                                <input type="text" hidden name="productId" value="<%=id%>">
+                                <input type="text" value="<%=product.name%>" placeholder="Type here" class="form-control" id="product_name" name="name"/>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="product_color" class="form-label">Category</label>
+                                <select class="form-control" id="category" name="categoryID">
+                                    <option value="">select category</option>
+                                    <% for(let i = 0; i < categories.length; i++) { %>
+                                        <option value="<%= categories[i].name %>"><%= categories[i].name %></option>
+                                    <% } %>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="card-body">
+                            <div>
+                                <label class="form-label">Description</label>
+                                <textarea placeholder="Type here" id="description" class="form-control" rows="4" name="description">
+                                    <%=product.description%>
+                                </textarea>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <a href="/admin/product" class="btn btn-primary">
+                                <span class="text" >Back</span>
+                            </a>
+                                <button type="submit" class="btn btn-secondary font-sm mr-5 ">Add to Products</button>
+                         </div>
+                    </form>
+                </div>
+            </div>
+            <!-- card end// -->
+        </div>
+            <!-- card end// -->
+        </div>
+    </div>
+</section>
+
+<%- include('../layouts/admin/footer.ejs') -%>
+
+<script>
+
+function productValidation() {
+    let pname = document.getElementById("product_name");
+    let pdiscription = document.getElementById("description");
+    let category = document.getElementById('category');
+
+    if (pname.value.trim() === '') {
+        showErrorAlert('Product Name is required.');
+        return false;
+    }else if (category.value.trim() === '') {
+        showErrorAlert('Category is required.');
+        return false;
+    }else if (pdiscription.value.trim() === '' || pdiscription.value.trim().length < 20) {
+        showErrorAlert('Description is required and should be at least 20 characters long.');
+        return false;
+    }else {
+        return true;
+    }
+
+    function showErrorAlert(message) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Validation Error',
+            text: message,
+        });
+        setTimeout(() => {
+            Swal.close();
+        }, 3000);
+    }
+}
+
+
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
