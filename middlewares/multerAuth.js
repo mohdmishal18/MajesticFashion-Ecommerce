@@ -8,7 +8,8 @@ const storage = multer.diskStorage({
         cb(null,path.join(__dirname,'../public/assets/img/productImage/original'),function(err,success)
         {
             if(err)
-            {
+            {   
+                console.log(err);
                 throw err;
             }
         });

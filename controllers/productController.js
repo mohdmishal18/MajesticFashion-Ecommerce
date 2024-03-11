@@ -62,7 +62,9 @@ const addProduct = async (req,res) =>
         {
             arrimages.push(req.files[i].filename);
 
-            const selectPath = path.resolve(__dirname, '..', 'public', 'assets', 'img' , 'productImage', 'sharp', `${req.files[i].filename}`  );
+            // const selectPath = path.resolve(__dirname, '..', 'public', 'assets', 'img' , 'productImage', 'sharp', `${req.files[i].filename}`  );
+            const selectPath = path.resolve(__dirname,'../public/assets/img/productImage/sharp', `${req.files[i].filename}`  );
+            console.log(selectPath);
 
             await sharp(req.files[i].path).resize(500, 500).toFile(selectPath);
         }
