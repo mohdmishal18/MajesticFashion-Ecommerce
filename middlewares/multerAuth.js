@@ -6,7 +6,7 @@ const storage = multer.diskStorage({
     destination : function(req,file,cb)
     {
         cb(null,path.join(__dirname,'../public/assets/img/productImage/original'),function(err,success)
-        {
+        {   console.log('in multer',success);
             if(err)
             {   
                 console.log(err);
