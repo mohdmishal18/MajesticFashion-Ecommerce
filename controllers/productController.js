@@ -48,7 +48,6 @@ const addProduct = async (req,res) =>
         console.log("mishal");
 
         let description = req.body.description
-        description = description.replace(/\\n/g, '\n');
 
         const sizes = Array.isArray(req.body.sizes) ? req.body.sizes : [req.body.sizes];
 
