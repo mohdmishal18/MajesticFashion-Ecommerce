@@ -142,10 +142,7 @@ function editVariant() {
     } else if (Number(price.value) >= Number(offerPrice.value)) {
         showErrorAlert('Offer Price must be less than the Normal Price.');
         return false;
-    }if (!checkAllImagesSelected(imageInputs)) {
-        showErrorAlert('4 images must be selected and image must be selected.');
-        return false;
-    } else if (!checkImageFormats(imageInputs)) {
+    }else if (!checkImageFormats(imageInputs)) {
         showErrorAlert('Invalid Image Format. Please select only image files (e.g., .png, .jpeg).');
         return false;
     }
