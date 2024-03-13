@@ -90,7 +90,6 @@
                             <th scope="col">Name</th>
                             <th scope="col">Email</th>
                             <th scope="col">Total</th>
-                            <th scope="col">Status</th>
                             <th scope="col">Date</th>
                             <th scope="col">Action</th>
                           </tr>
@@ -103,11 +102,11 @@
                             <td><b> <%= item.user.name%> </b></td>
                             <td><%= item.user.name%></td>
                             <td><%= item.totalAmount%></td>
-                            <td>
+                            <!-- <td>
                               <span class="badge rounded-pill alert-warning">
                                 <%= item.status%>
                               </span>
-                            </td>
+                            </td> -->
                             <% const formattedDate=item.date.toLocaleString('en-US', {
                             weekday: 'short' , month: 'short' , day: 'numeric' , year:
                             'numeric' , hour: 'numeric' , minute: 'numeric' , second:
