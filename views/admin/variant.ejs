@@ -336,6 +336,9 @@
         } else if (!checkAllImagesSelected(imageInputs)) {
             showErrorAlert('At least one image must be selected.');
             return false;
+        }  else if (!checkImageFormats(imageInputs)) {
+            showErrorAlert('Invalid Image Format. Please select only image files (e.g., .png, .jpeg).');
+            return false;
         } else {
             return true;
         }
@@ -359,6 +362,22 @@
         }
         return true;
     }
+
+    function checkImageFormats(inputs) {
+            const allowedFormats = ['image/png', 'image/jpeg', 'image/jpg'];
+
+            for (let i = 0; i < inputs.length; i++) {
+                const files = inputs[i].files;
+                if (files.length > 0) {
+                    const fileType = files[0].type;
+                    if (!allowedFormats.includes(fileType)) {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
     }
 </script>
 

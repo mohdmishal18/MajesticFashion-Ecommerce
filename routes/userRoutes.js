@@ -1,14 +1,14 @@
 const express = require('express');
+
 const userRoute = express();
 const userController = require('../controllers/userController');
 const cartController = require('../controllers/cartController');
 const orderController = require('../controllers/orderController');
 const wishlistController = require('../controllers/wishlistController');
 const couponController = require('../controllers/couponController'); 
-const productController = require('../controllers/productController')
+const productController = require('../controllers/productController');
 
 const User = require('../models/userModel')
-// const userAuth = require('../middlewares/userAuth');
 const session = require("express-session");
 const config = require('../config/config');
 
@@ -25,17 +25,23 @@ userRoute.use(express.json());
 userRoute.use(express.static('public'));
 userRoute.use(express.urlencoded({extended:true}));
 
+userRoute.use((req, res, next) => {
+    res.header("Cache-Control", "no-store, private, must-revalidate");
+    next();
+  });
+  
+
 userRoute.use(async (req, res , next) => {
     const id = req.session.user?._id;
     console.log(id, 'middleware')
     
         const user = await User.findOne({_id: id});
-
+        console.log(user?.is_blocked === true);
         if(user) {
-            if(user.isBlocked) {
+            if(user.is_blocked) {
                 
 
-                fetch('http://localhost:3000/logout', {
+                fetch(`http://localhost:3001/logout`, {
                     method: 'POST'
                 })
                 .catch((err) => {

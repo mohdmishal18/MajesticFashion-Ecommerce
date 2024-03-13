@@ -147,7 +147,10 @@ function productValidation() {
     } else if (!checkAllImagesSelected(imageInputs)) {
         showErrorAlert('4 images must be selected image must be selected.');
         return false;
-    } else {
+    } else if (!checkImageFormats(imageInputs)) {
+            showErrorAlert('Invalid Image Format. Please select only image files (e.g., .png, .jpeg).');
+            return false;
+    }else {
         return true;
     }
 
@@ -161,6 +164,24 @@ function productValidation() {
             Swal.close();
         }, 3000);
     }
+
+    function checkImageFormats(inputs) {
+            const allowedFormats = ['image/png', 'image/jpeg', 'image/jpg'];
+
+            for (let i = 0; i < inputs.length; i++) {
+                const files = inputs[i].files;
+
+                if (files.length > 0) {
+                    const fileType = files[0].type;
+
+                    if (!allowedFormats.includes(fileType)) {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
 
     function checkAllImagesSelected(inputs) {
         for (let i = 0; i < inputs.length; i++) {
