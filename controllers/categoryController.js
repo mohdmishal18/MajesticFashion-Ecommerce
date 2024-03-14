@@ -11,6 +11,7 @@ const loadCategory = async (req,res) =>
     catch(error)
     {
         console.log(error);
+        res.status(500).send(error);
     }
 }
 
@@ -23,6 +24,7 @@ const loadAddCategory = async (req,res) =>
     catch(error)
     {
         console.log(error);
+        res.status(500).send(error);
     }
 }
 
@@ -63,6 +65,7 @@ const addCategory = async (req,res) =>
     catch(error)
     {
         console.log(error);
+        res.status(500).send(error);
     }
 }
 
@@ -110,6 +113,7 @@ const listCategory = async (req,res) =>
     catch(error)
     {
         console.log(error);
+        res.status(500).send(error);
     }
 }
 
@@ -139,7 +143,6 @@ const editCategory = async (req,res) =>
                     $set : 
                     {
                         name : name,
-                        // description :description
                     }
                 })
 
@@ -160,6 +163,7 @@ const editCategory = async (req,res) =>
     catch(error)
     {
         console.log(error);
+        res.status(500).send(error);
     }
 }
 
@@ -175,6 +179,7 @@ const deleteCategory = async(req,res) =>
     catch(error)
     {
         console.log(error.message);
+        res.status(500).send(error);
     }
 }
 
@@ -186,7 +191,6 @@ module.exports =
     editCategory,
     deleteCategory,
     listCategory,
-    
 }
 
 

@@ -34,7 +34,8 @@ const loadHome = async (req,res) =>
     }
     catch(error)
     {
-        console.log(error.message);
+        console.log("problem while loading home",error.message);
+        res.status(500).send(error);
     }
 }
 
@@ -51,6 +52,7 @@ const loadLogin = async (req,res) =>
     catch(error)
     {
         console.log(error.message);
+        res.status(500).send(error);
     }
 }
 
@@ -67,6 +69,7 @@ const loadSignup = async (req,res) =>
     catch(error)
     {
         console.log(error.message);
+        res.status(500).send(error);
     }
 }
 
@@ -117,6 +120,7 @@ const insertUser = async (req,res) =>
     catch(error)
     {
         console.log(error.message);
+        res.status(500).send(error);
     }
 }
 
@@ -168,6 +172,7 @@ const sendOTPverificationEmail = async({email},res) =>
     catch(error)
     {
         console.log(error.message);
+        res.status(500).send(error);
     }
 }
 
@@ -188,6 +193,7 @@ const loadotp = async (req,res) =>
     catch(error)
     {
         console.log(error.message);
+        res.status(500).send(error);
     }
 }
 
@@ -281,6 +287,7 @@ const verifyOtp = async (req,res) =>
     catch(error)    
     {
         console.log(error.message);
+        res.status(500).send(error);
     }
 }
 
@@ -311,6 +318,7 @@ const resentOTP = async (req,res) =>
     catch(error)
     {
         console.log(error.message);
+        res.status(500).send(error);
     }
 }
 
@@ -376,6 +384,7 @@ const verifyLogin = async (req,res) =>
     catch(error)
     {
         console.log(error.message);
+        res.status(500).send(error);
     }
 }
 
@@ -438,6 +447,7 @@ const loadShop = async (req,res) =>
     catch(error)
     {
         console.log(error);
+        res.status(500).send(error);
     }
 }
 
@@ -482,8 +492,8 @@ const loadSingleProduct = async (req, res) => {
             res.render('productsDetails', { product: product, index: index, isInCart: false });
         }
     } catch (error) {
-        console.log(error);
-        res.status(500).send('Internal Server Error');
+        console.log("problem while loading the product details",error);
+        res.status(500).send(error);
     }
 }
 
@@ -506,6 +516,7 @@ const loadUserProfile = async (req,res) =>
     catch(error)
     {
         console.log(error);
+        res.status(500).send(error);
     }
 }
 
@@ -544,6 +555,7 @@ const editProfile = async (req,res) =>
     catch(error)
     {
         console.log(error);
+        res.status(500).send(error);
     }
 }
 
@@ -566,6 +578,7 @@ const loadAddressManagement = async (req,res) =>
     catch(error)
     {
         console.log(error);
+        res.status(500).send(error);
     }
 }
 
@@ -618,6 +631,7 @@ const addAddress = async (req,res) =>
     catch(error)
     {
         console.log(error);
+        res.status(500).send(error);
     }
 }
 
@@ -716,6 +730,7 @@ const changePassword = async (req,res) =>
     catch(error)
     {
         console.log(error);
+        res.status(500).send(error);
     }
 }
 
@@ -730,6 +745,7 @@ const loadForgotPassword = async (req,res) =>
     catch(error)
     {
         console.log(error);
+        res.status(500).send(error);
     }
 }
 
@@ -777,6 +793,7 @@ const sendResetPassLink = async(email , res) =>
     catch(error)
     {
         console.log(error.message);
+        res.status(500).send(error);
     }
 }
 
@@ -793,6 +810,7 @@ const sendResetPass = async (req,res) =>
     catch(error)
     {
         console.log(error.message);
+        res.status(500).send(error);
     }
 }
 
@@ -811,6 +829,7 @@ const resetPage = async (req,res) =>
     catch(error)
     {
         console.log(error.message);
+        res.status(500).send(error);
     }
 }
 
@@ -861,8 +880,8 @@ const resetPassword = async (req,res) =>
     }
     catch(error)
     {
-        console.log(error);
-        res.status(500).send("Internal Server Error")
+        console.log("problem while resettin the password !!",error);
+        res.status(500).send(error)
     }
 }
 
@@ -887,6 +906,7 @@ const loadWallet = async (req,res) =>
     catch(error)
     {
         console.log(error);
+        res.status(500).send(error);
     }
 }
 
@@ -902,6 +922,7 @@ const loadMyCoupon = async(req,res) =>
     catch(error)
     {
         console.log(error);
+        res.status(500).send(error);
     }
 }
 
@@ -918,6 +939,7 @@ const userLogout = async (req,res) =>
     catch(error)
     {
         console.log(error.message);
+        res.status(500).send(error);
     }
 }
 
@@ -932,6 +954,7 @@ const checkSession = (req, res) => {
         
     } catch (error) {
         console.log(error);
+        res.status(500).send(error);
     }
 }
 

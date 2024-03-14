@@ -16,6 +16,7 @@ const loadLogin = async (req,res) =>
     catch(error)
     {
         console.log((error));
+        res.status(500).send(error);
     }
 }
 
@@ -67,6 +68,7 @@ const verifyLogin = async (req,res) =>
     catch(error)
     {
         console.log(error.message);
+        res.status(500).send(error);
     }
 }
 
@@ -400,16 +402,20 @@ const loadDashboard = async (req,res) =>
     catch(error)
     {
         console.log(error);
+        res.status(500).send(error);
     }
 }
 
 const filterDashboard = async (req, res) => {
     try {
+
       const { data } = req.body;
       const desiredMonth = data; // Example for January 2024
       const startDate = new Date(desiredMonth + "-01T00:00:00Z"); // Start of month
       const endDate = new Date(desiredMonth + "-31T23:59:59Z"); // End of month (adjusted for days in February)
+
       console.log(startDate);
+
       const monthData = await Order.aggregate([
         {
           $match: {
@@ -429,6 +435,7 @@ const filterDashboard = async (req, res) => {
           },
         },
       ]);
+
       console.log(monthData);
   
       // Initialize an array with 12 elements, each set to zero
@@ -444,9 +451,12 @@ const filterDashboard = async (req, res) => {
       });
   
       console.log(newData);
+
       res.json({ newData, data });
+
     } catch (error) {
       console.log(error);
+      res.status(500).send(error);
     }
   };
   
@@ -513,6 +523,7 @@ const loadUserManagement = async (req,res) =>
     catch(error)
     {
         console.log(error.message);
+        res.status(500).send(error);
     }
 }
 
@@ -552,6 +563,7 @@ const blockUser = async (req,res) =>
     catch(error)
     {
         console.log(error.message);
+        res.status(500).send(error);
     }
 }
 
@@ -572,6 +584,7 @@ const loadOrder = async (req,res) =>
     catch(error)
     {
         console.log(error);
+        res.status(500).send(error);
     }
 }
 
@@ -594,6 +607,7 @@ const singleOrderDetails = async (req,res) =>
     catch(error)
     {
         console.log(error);
+        res.status(500).send(error);
     }
 }
 
@@ -625,6 +639,7 @@ const changeOrderStatus = async (req,res) =>
     catch(error)
     {
         console.log(error);
+        res.status(500).send(error);
     }
 }
 
@@ -637,6 +652,7 @@ const salesReport = async(req,res) =>
     catch(error)
     {
         console.log(error);
+        res.status(500).send(error);
     }
 }
 
@@ -655,6 +671,7 @@ const orderReport = async (req,res) =>
     catch(error)
     {
         console.log(error);
+        res.status(500).send(error);
     }
 }
 
@@ -671,6 +688,7 @@ const loadReturnReq = async (req,res) =>
     catch(error)
     {
         console.log(error);
+        res.status(500).send(error);
     }
 }
 
@@ -746,6 +764,7 @@ const returns = async (req, res) => {
       }
     } catch (error) {
       console.log(error);
+      res.status(500).send(error);
     }
   };
 
@@ -757,6 +776,7 @@ const adminLogout = async (req, res) => {
 
     } catch (err) {
         console.log(err.message)
+        res.status(500).send(err);
     }
 }
 

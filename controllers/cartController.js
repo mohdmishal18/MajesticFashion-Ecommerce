@@ -20,6 +20,7 @@ const loadCart = async (req,res) =>
     catch(error)
     {
         console.log(error);
+        res.status(500).send(error);
     }
 }
 
@@ -115,6 +116,7 @@ const addToCart = async (req,res) =>
     catch(error)
     {
         console.log(error);
+        res.status(500).send(error);
     }
 }
 
@@ -137,6 +139,7 @@ const removeFromCart = async (req,res) =>
     catch(error)
     {
         console.log(error);
+        res.status(500).send(error);
     }
 }
 
@@ -162,6 +165,7 @@ const proceedToCheckout = async (req,res) =>
     catch(error)
     {
         console.log(error);
+        res.status(500).send(error);
     }
 }
 
@@ -171,18 +175,24 @@ const updateQuantity = async (req,res ) =>
     try
     {
         const {productId,count,index,size}= req.body;
-    console.log("The data's are : ",req.body);
-    const userid = req.session.user?._id;
+
+        console.log("The data's are : ",req.body);
+
+        const userid = req.session.user?._id;
 
         const product = await Product.findOne({ _id: productId });
         const variant = product.variant[index];
         const stock = variant.quantity;
         const price = variant.price;
+
         console.log(price, 'price')
+
         const cart = await Cart.findOne({ user: userid});
+
         console.log(cart, 'cart');
 
         const cartProduct = cart.products.find((pro) => pro.productId.toString() === productId && pro.size === size);
+
         console.log(cartProduct);
         const quantity = cartProduct.quantity;
         console.log(quantity);
@@ -214,6 +224,7 @@ const updateQuantity = async (req,res ) =>
     catch(error)
     {
         console.log(error);
+        res.status(500).send(error);
     }
 }
 
@@ -224,5 +235,4 @@ module.exports =
     removeFromCart,
     proceedToCheckout,
     updateQuantity,
-    
 }

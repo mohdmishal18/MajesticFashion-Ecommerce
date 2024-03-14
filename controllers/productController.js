@@ -25,6 +25,7 @@ const loadProduct = async (req,res) =>
     catch(error)
     {
         console.log(error.message);
+        res.status(500).send(error);
     }
 }
 
@@ -38,6 +39,7 @@ const loadAddProduct = async (req,res) =>
     catch(error)
     {
         console.log(error.message);
+        res.status(500).send(error);
     }
 }
 
@@ -107,8 +109,8 @@ const addProduct = async (req,res) =>
     }
     catch(error)
     {
-        console.log(error);
-        res.status(500).send("internal server error");
+        console.log("Error while adding product",error);
+        res.status(500).send(error);
     }
 }
 
@@ -153,6 +155,7 @@ const listProduct = async (req,res) =>
     catch(error)
     {
         console.log(error);
+        res.status(500).send(error);
     }
 }
 
@@ -184,6 +187,7 @@ const loadVariant = async (req,res) =>
     catch(error)
     {
         console.log(error);
+        res.status(500).send(error);
     }
 }
 
@@ -246,6 +250,7 @@ const addVariant = async (req,res) =>
     catch(error)
     {
         console.log(error);
+        res.status(500).send(error);
     }
 }
 
@@ -285,6 +290,7 @@ const loadEditVariant = async (req,res) =>
     catch(error)
     {
         console.log(error);
+        res.status(500).send(error);
     }
 }
 
@@ -346,6 +352,7 @@ const editVariant = async (req, res) => {
             });
     } catch (error) {
         console.log(error);
+        res.status(500).send(error);
     }
 };
  
@@ -364,6 +371,7 @@ const loadEditProduct = async(req,res) =>
     catch(error)
     {
         console.log(error);
+        res.status(500).send(error);
     }
 }
 
@@ -397,6 +405,7 @@ const editProduct = async(req,res) =>
     catch(error)
     {
         console.log(error);
+        res.status(500).send(error);
     }
 }
 
@@ -508,6 +517,7 @@ const filter = async (req,res) =>
         }
       } catch (error) {
         console.log(error);
+        res.status(500).send(error);
       }
 }
 

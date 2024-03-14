@@ -19,6 +19,7 @@ const loadWishlist = async (req,res) =>
     catch(error)
     {
         console.log(error);
+        res.status(500).send(error);
     }
 }
 
@@ -81,6 +82,7 @@ const addToWishlist = async (req, res) =>
     catch(error)
     {
         console.log(error);
+        res.status(500).send(error);
     }
 }
 

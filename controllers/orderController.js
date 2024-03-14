@@ -200,7 +200,8 @@ const placeOrder = async (req, res) =>
     } 
     catch (error) 
     {
-        console.log(error)
+        console.log("problem while placing order",error)
+        res.status(500).send(error);
     }
 }
 
@@ -264,6 +265,7 @@ const verifyPayment = async (req,res) =>
     catch(error)
     {
         console.log(error);
+        res.status(500).send(error);
     }
 }
 
@@ -367,6 +369,7 @@ const continueRetryPayment = async (req,res) =>
     catch(error)
     {
         console.log(error);
+        res.status(500).send(error);
     }
 }
 
@@ -379,6 +382,7 @@ const successPage = async (req,res) =>
     catch(error)
     {
         console.log(error);
+        res.status(500).send(error);
     }
 }
 
@@ -397,6 +401,7 @@ const loadMyOrder = async (req,res) =>
     catch(error)
     {
         console.log(error);
+        res.status(500).send(error);
     }
 }
 
@@ -436,6 +441,7 @@ const loadOrderDetails = async (req,res) =>
     catch(error)
     {
         console.log(error);
+        res.status(500).send(error);
     }
 }
 
@@ -455,6 +461,7 @@ const loadSingleOrderDetails = async (req,res) =>
     catch(error)
     {
         console.log(error);
+        res.status(500).send(error);
     }
 }
 
@@ -515,7 +522,7 @@ const cancelOrder = async (req, res) => {
       
     } catch (error) {
       res.status(404).send('Cancel order Product request failed');
-      console.error(error);
+      console.error("cancel order falied",error);
     }
   };
 
@@ -552,6 +559,7 @@ const cancelOrder = async (req, res) => {
     catch(error)
     {
         console.log(error);
+        res.status(500).send(error);
     }
   }
 
@@ -583,6 +591,7 @@ const cancelOrder = async (req, res) => {
     catch(error)
     {
         console.log(error);
+        res.status(500).send(error);
     }
   }
 
