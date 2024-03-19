@@ -123,13 +123,15 @@
                                                     <span style="transform: rotate(90deg); margin-top: 3px;" class="fa fa-angle-right inc qtybtn"></span>
                                                 </div> -->
                                             </div>
-                                            <button type="button" onclick="return addToCart('<%= product._id%>');" class="primary-btn">Add to Cart</button>
+                                            <%if(product.variant[index].quantity <= 0){%>
+                                                <button type="button" class="primary-btn" style="background-color: red;">Out Of Stock</button>
+                                            <%}else{%>
+                                                <button type="button" onclick="return addToCart('<%= product._id%>');" class="primary-btn">Add to Cart</button>
+                                                <div class="product__details__btns__option mt-3" onclick="return addToWishlist('<%= product._id %>')">
+                                                    <a href="#"><i class="fa fa-heart"></i> add to wishlist</a>
+                                                </div>
+                                            <%}%>
                                         </div>
-                                        <div class="product__details__btns__option" onclick="return addToWishlist('<%= product._id %>')">
-                                            <a href="#"><i class="fa fa-heart"></i> add to wishlist</a>
-                                            <!-- <a href="#"><i class="fa fa-exchange"></i> Add To Compare</a> -->
-                                        </div>
-
                         </div>
                     </div>
                 </div>

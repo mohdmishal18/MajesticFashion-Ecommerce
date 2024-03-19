@@ -21,8 +21,9 @@
                     <div class="breadcrumb__text">
                         <h4>Check Out</h4>
                         <div class="breadcrumb__links">
-                            <a href="./index.html">Home</a>
-                            <a href="./shop.html">Shop</a>
+                            <a href="/">Home</a>
+                            <a href="/shop">Shop</a>
+                            <a href="/cart">Cart</a>
                             <span>Check Out</span>
                         </div>
                     </div>
@@ -616,6 +617,22 @@
                             if(response.success) 
                             {
                                 location.href = '/successpage';
+                            }
+                            else if(response.remove)
+                            {
+                                Swal.fire({
+                                icon: 'warning',
+                                text: `Sorry you product ${response.productName} has not enough quantity,please decrease the quantity or remove it from the cart !!`,
+                                showConfirmButton: false
+                                })
+                            }
+                            else if(response.noStock)
+                            {
+                                Swal.fire({
+                                icon: 'warning',
+                                text: `Sorry you product ${response.outOfStock} is Out Of Stock,Please remove that from the Cart!!`,
+                                showConfirmButton: false
+                                })
                             }
                             else if(response.wallet)
                             {

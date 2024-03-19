@@ -28,20 +28,31 @@ const addCoupon = async (req,res) =>
         const randomString = Math.random().toString(36).substring(2, 7);
         const randomNumber = `${Math.floor(1000 + Math.random() * 9000)}`;
 
+        const lowercaseName = name.toLowerCase();
+        const existingCoupon = await Coupon.findOne({ name: { $regex: new RegExp('^' + lowercaseName + '$', 'i') } });
 
-        const coupon = new Coupon({
-            name : name,
-            code : `${firstname}${randomString}${randomNumber}`,
-            activatedDate : activate,
-            expiryDate : expiry,
-            discount : discount,
-            minAmountSpend : minAmountSpend,
-            limit : limit
-        })
-
-        await coupon.save();
-
-        res.redirect('/admin/coupon');
+        if(existingCoupon)
+        {
+            console.log("already exists");
+            req.flash('error','this Coupon  already exists');
+            res.redirect('/admin/coupon');
+        }
+        else
+        {
+            const coupon = new Coupon({
+                name : name,
+                code : `${firstname}${randomString}${randomNumber}`,
+                activatedDate : activate,
+                expiryDate : expiry,
+                discount : discount,
+                minAmountSpend : minAmountSpend,
+                limit : limit
+            })
+    
+            await coupon.save();
+    
+            res.redirect('/admin/coupon');
+        }
     }
     catch(error)
     {
@@ -56,23 +67,34 @@ const editCoupon = async(req,res) =>
     {
         console.log("in edit coupon");
         const {id, name , activated, expiry , discount ,limit,minimum} = req.body;
-
         console.log("the datas are ", req.body);
 
-        await Coupon.updateOne({_id : id},
-            {
-                $set : 
+        const lowercaseName = name.toLowerCase();
+        const existingCoupon = await Coupon.findOne({ name: { $regex: new RegExp('^' + lowercaseName + '$', 'i') } });
+
+        if(existingCoupon)
+        {
+            console.log("already exists");
+            res.json({duplicate : true})
+        }
+        else
+        {
+            await Coupon.updateOne({_id : id},
                 {
-                    name : name,
-                    activatedDate : activated,
-                    expiryDate : expiry,
-                    discount : discount,
-                    minAmountSpend : minimum,
-                    limit : limit
-                }
-            })
-            
-            res.json({updated : true})
+                    $set : 
+                    {
+                        name : name,
+                        activatedDate : activated,
+                        expiryDate : expiry,
+                        discount : discount,
+                        minAmountSpend : minimum,
+                        limit : limit
+                    }
+                })
+                
+                res.json({updated : true})
+        }
+       
     }
     catch(error)
     {

@@ -43,160 +43,187 @@ const placeOrder = async (req, res) =>
             month: 'short',
             day: '2-digit'
         }).replace(/\//g, '-');
+
+        let productName;
+        let noQuan = products.forEach((el, i) => {
+            if (el.productId.variant[el.product].quantity < el.quantity && !el.productId.variant[el.product].quantity <= 0 ) {
+                productName = el.productId.name;
+            }
+        });
+
+        let outOfStock;
+        let outStock = products.forEach((el, i) => {
+            if (el.productId.variant[el.product].quantity <= 0) {
+                outOfStock = el.productId.name;
+            }
+        });
+
+        if(productName)
+        {
+             res.json({ remove: true,productName});
+        }
+        else if(outOfStock)
+        {
+             res.json({ noStock: true,outOfStock});
+        }
+        else
+        {
+            const order = new Order({
+                user: userId,
+                deliveryDetails: selectedAddress,
+                products: products,
+                totalAmount: subtotal,
+                date: date,
+                expected_delivery: deliveryDate,
+                status: status,
+                paymentMethod: payment_method,
+            })
+           
+              const order_details =  await order.save()
+              const oderId = order_details._id;
+            const coupon = await Coupon.findOne({ code: isCoupon });
+            if (coupon) {
+                if (coupon.limit >= coupon.usedUsers.length) {
+                    const cart = await Cart.findOne({ user: userId });
     
-        const order = new Order({
-            user: userId,
-            deliveryDetails: selectedAddress,
-            products: products,
-            totalAmount: subtotal,
-            date: date,
-            expected_delivery: deliveryDate,
-            status: status,
-            paymentMethod: payment_method,
-        })
-       
-          const order_details =  await order.save()
-          const oderId = order_details._id;
-        const coupon = await Coupon.findOne({ code: isCoupon });
-        if (coupon) {
-            if (coupon.limit >= coupon.usedUsers.length) {
-                const cart = await Cart.findOne({ user: userId });
-
-                let discount = 0;
-                console.log(coupon.discount, "discount amount");
-
-                if (coupon.percentage) {
-                } else if (coupon.discount) {
-                console.log(coupon.discount, cart.products.length);
-
-                const div = coupon.discount / cart.products.length;
-                discount = Math.round(div);
-                console.log(discount + "discount", "div: " + div);
-                }
-
-                cartAmount = cart.products.forEach(async (el, i) => {
-                  console.log(el);
-
-                    await Order.findByIdAndUpdate(
-                        { _id: oderId },
-                        {
-                        $set: {
-                            [`products.${i}.coupon`]:
-                            el.totalPrice >= discount
-                                ? el.totalPrice - discount
-                                : el.totalPrice,
-                        },
-                        }
-                    );
-                });
-
-                coupon.usedUsers.push({userId : userId});
-                await coupon.save();
-
-            } else {
-                res.json({ fail: true, massage: "Coupon limit exceeds" });
-            }
-        }
-
-        // Cash on delivery.
-        if(order_details.status === 'placed') 
-        {
-            await Cart.deleteOne({user: userId});
-
-            // decrementing the quantity
-            for(let i = 0; i < cart.products.length; i++) 
-            {
-                    const productId = products[i].productId;
-                    const index = products[i].product;
-                    const productQuantity = products[i].quantity;
-                    console.log(typeof productQuantity, productQuantity)
-                    await Product.updateOne({_id: productId}, {
-                        $inc: {
-                            [`variant.${index}.quantity`]: - productQuantity
-                        }
-                    })
-            }
-
-                res.json({success: true});
-        }
-        //Wallet
-        else if(payment_method ===  "Wallet")
-        {
-            console.log("wallet payment entered");
-
-            const wallet = await Wallet.findOne({user : userId});
-
-            console.log("the wallet is : ",wallet);
-            
-            if(subtotal <= wallet.amount)
-            {
-                console.log('there is money in wallet');
-                const data = 
-                {
-                    orderId : oderId,
-                    amount : subtotal,
-                    date : new Date(),
-                    type : "debit",
-                    reason : "purchase"
-                }
-
-                await Wallet.findOneAndUpdate(
-                    { user: userId },
-                    {
-                        $inc: { amount: -subtotal },
-                        $push: { walletHistory: data }
+                    let discount = 0;
+                    console.log(coupon.discount, "discount amount");
+    
+                    if (coupon.percentage) {
+                    } else if (coupon.discount) {
+                    console.log(coupon.discount, cart.products.length);
+    
+                    const div = coupon.discount / cart.products.length;
+                    discount = Math.round(div);
+                    console.log(discount + "discount", "div: " + div);
                     }
-                );
-                
-                await Order.findOneAndUpdate(
-                    {_id : oderId},
-                    {$set : {status : "placed"}}
-                )
-
+    
+                    cartAmount = cart.products.forEach(async (el, i) => {
+                      console.log(el);
+    
+                        await Order.findByIdAndUpdate(
+                            { _id: oderId },
+                            {
+                            $set: {
+                                [`products.${i}.coupon`]:
+                                el.totalPrice >= discount
+                                    ? el.totalPrice - discount
+                                    : el.totalPrice,
+                            },
+                            }
+                        );
+                    });
+    
+                    coupon.usedUsers.push({userId : userId});
+                    await coupon.save();
+    
+                } else {
+                    res.json({ fail: true, massage: "Coupon limit exceeds" });
+                }
+            }
+    
+            // Cash on delivery.
+            if(order_details.status === 'placed') 
+            {
+                await Cart.deleteOne({user: userId});
+    
                 // decrementing the quantity
                 for(let i = 0; i < cart.products.length; i++) 
                 {
-                    const productId = products[i].productId;
-                    const index = products[i].product;
-                    const productQuantity = products[i].quantity;
-                    console.log(typeof productQuantity, productQuantity)
+                        const productId = products[i].productId;
+                        const index = products[i].product;
+                        const productQuantity = products[i].quantity;
+                        console.log(typeof productQuantity, productQuantity)
                         await Product.updateOne({_id: productId}, {
                             $inc: {
                                 [`variant.${index}.quantity`]: - productQuantity
                             }
                         })
                 }
-
-                await Cart.deleteOne({user : userId})
-                console.log("wallet success");
-                res.json({wallet : true});
+    
+                    res.json({success: true});
             }
-            else
+            //Wallet
+            else if(payment_method ===  "Wallet")
             {
-                res.json({money : true})
-            }
-        }
-        //Razor Pay.
-        else if(order_details.status === 'pending')
-        {
-            console.log("Entered to pending ..................");
-            const options =
-            {
-                amount : subtotal * 100, // i multiplied by hundred because the the default unit of the amount is "paise".
-                currency : "INR",
-                receipt : "" + order_details._id,
-            }
-
-            instance.orders.create(options, function( err , order )
-            {
-                if(err)
+                console.log("wallet payment entered");
+    
+                const wallet = await Wallet.findOne({user : userId});
+    
+                console.log("the wallet is : ",wallet);
+                
+                if(subtotal <= wallet.amount)
                 {
-                    console.log(err);
+                    console.log('there is money in wallet');
+                    const data = 
+                    {
+                        orderId : oderId,
+                        amount : subtotal,
+                        date : new Date(),
+                        type : "debit",
+                        reason : "purchase"
+                    }
+    
+                    await Wallet.findOneAndUpdate(
+                        { user: userId },
+                        {
+                            $inc: { amount: -subtotal },
+                            $push: { walletHistory: data }
+                        }
+                    );
+                    
+                    await Order.findOneAndUpdate(
+                        {_id : oderId},
+                        {$set : {status : "placed"}}
+                    )
+    
+                    // decrementing the quantity
+                    for(let i = 0; i < cart.products.length; i++) 
+                    {
+                        const productId = products[i].productId;
+                        const index = products[i].product;
+                        const productQuantity = products[i].quantity;
+                        console.log(typeof productQuantity, productQuantity)
+                            await Product.updateOne({_id: productId}, {
+                                $inc: {
+                                    [`variant.${index}.quantity`]: - productQuantity
+                                }
+                            })
+                    }
+    
+                    await Cart.deleteOne({user : userId})
+                    console.log("wallet success");
+                    res.json({wallet : true});
                 }
-                console.log("this is the order : ",order);
-                res.json({ order });
-            });
+                else
+                {
+                    res.json({money : true})
+                }
+            }
+            //Razor Pay.
+            else if(order_details.status === 'pending')
+            {
+                console.log("Entered to pending ..................");
+                const options =
+                {
+                    amount : subtotal * 100, // i multiplied by hundred because the the default unit of the amount is "paise".
+                    currency : "INR",
+                    receipt : "" + order_details._id,
+                }
+    
+                instance.orders.create(options, function( err , order )
+                {
+                    if(err)
+                    {
+                        console.log(err);
+                    }
+                    console.log("this is the order : ",order);
+                    res.json({ order });
+                });
+            }
         }
+
+        
     } 
     catch (error) 
     {

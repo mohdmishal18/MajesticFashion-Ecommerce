@@ -20,9 +20,6 @@ yarn.lock
 .vscode/
 .idea/
 
-# Production build
-public/
-
 # MongoDB
 *.mdb
 *.ldb

@@ -128,8 +128,6 @@ const editCategory = async (req,res) =>
 
         const existingCategory = await Category.findOne({ name: { $regex: new RegExp('^' + lowercaseName + '$', 'i') } });
 
-        // const existingCategory = await Category.findOne({name});
-
         if(existingCategory)
         {
             console.log("already exists");

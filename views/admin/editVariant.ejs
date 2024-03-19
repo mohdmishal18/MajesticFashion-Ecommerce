@@ -18,7 +18,6 @@
                                 
                                 <input type="text" name="id" hidden value="<%= id %>">
                                 <input type="text" name="index" hidden value="<%= index %>">
-
                                 <input type="text" placeholder="Type here" class="form-control" value="<%= product.color %>" id="color" name="color"/>
                             </div>
                             <div class="row gx-2">
@@ -127,7 +126,7 @@ function editVariant() {
     if (color.value.trim() === '') {
         showErrorAlert('Color is required.');
         return false;
-    } else if (stock.value.trim() === '' || Number(stock.value) <= 0 || isNaN(stock.value)) {
+    } else if (stock.value.trim() === '' || Number(stock.value) < 0 || isNaN(stock.value)) {
         showErrorAlert('Invalid Quantity. Please enter a valid quantity.');
         return false;
     } else if (sizesSelect.selectedOptions.length === 0) {
