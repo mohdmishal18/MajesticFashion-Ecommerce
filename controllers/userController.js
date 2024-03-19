@@ -778,7 +778,7 @@ const sendResetPassLink = async(email , res) =>
             }
         })
 
-        const resetPage = `http://localhost:3001/resetpassword/${user._id}/${token.token}`;
+        const resetPage = `https://mejastic.online/resetpassword/${user._id}/${token.token}`;
 
         const mailOptions = 
         {
