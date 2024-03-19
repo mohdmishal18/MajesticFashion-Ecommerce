@@ -499,6 +499,7 @@ const loadUserManagement = async (req,res) =>
        })
        .limit(limit)
        .skip((page - 1) * limit)
+       .sort({created_at : -1})
        .exec()
 
        const count = await User.find({

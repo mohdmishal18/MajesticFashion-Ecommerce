@@ -5,7 +5,7 @@ const loadCategory = async (req,res) =>
 {
     try
     {
-        const categories = await Category.find({});
+        const categories = await Category.find({}).sort({_id : -1})
         res.render('category',{categories : categories});
     }
     catch(error)

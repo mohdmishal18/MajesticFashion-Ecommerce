@@ -571,8 +571,8 @@ const loadAddressManagement = async (req,res) =>
         const user = await User.findOne({_id:id})
         const userID = req.session.user._id;
         const userid = await User.findById(userID);
-        const address = userid.address;
-        
+        const address = userid.address.reverse()
+       
         res.render('addressManagement', { user : user, address : address});
     }
     catch(error)

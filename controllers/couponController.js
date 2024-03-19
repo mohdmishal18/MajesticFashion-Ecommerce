@@ -7,7 +7,7 @@ const loadCoupon = async (req,res) =>
 {
     try
     {
-        const coupon = await Coupon.find({});
+        const coupon = await Coupon.find({}).sort({_id : -1})
         res.render('couponManagement',{coupon : coupon});
     }
     catch(error)

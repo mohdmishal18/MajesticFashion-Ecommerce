@@ -18,7 +18,7 @@ const loadProduct = async (req,res) =>
         //     res.render('products', {products: data});
         // })
         const category = await Category.find({});
-        const product = await Product.find().populate('categoriesid')
+        const product = await Product.find().populate('categoriesid').sort({_id : -1})
 
         res.render('products',{products : product,category : category});
     }
@@ -172,6 +172,8 @@ const loadVariant = async (req,res) =>
 
             if(product)
             {
+                 // Reverse the variants array
+                 product.variant.reverse();
                 res.render('variant',{product : product});
             }
             else
