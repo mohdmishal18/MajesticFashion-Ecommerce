@@ -244,16 +244,20 @@
                                                 </div>
                                             </div> -->
                                             <div class="cart-product-quantity ml-3" style="display: flex; align-items: center;">
-                                                <button class="quantity-control" type="button" onclick="IncDecValue('<%= item.productId._id %>', -1,'<%= item.product%>','<%= item.size%>','<%= item.quantity%>')" style="background-color: transparent;color: black;">
-                                                    <span class="fa fa-angle-left   counter"></span>
-                                                </button>
-                                                
-                                                <input type="number" class="form-control" value="<%= item.quantity %>" min="1" max="10"
-                                                    step="1" data-decimals="0" disabled required style="text-align: start; width: 60px;">
-                                                
-                                                <button class="quantity-control" type="button" onclick="IncDecValue('<%= item.productId._id %>', 1,'<%= item.product%>','<%= item.size%>','<%= item.quantity%>')" style="background-color: transparent; color: black;">
-                                                    <span class="fa fa-angle-right  counter"></span>
-                                                </button>
+                                                <%if( item.productId.variant[item.product].quantity <= 0 ){%>
+                                                    <p style="background-color: red; color: white;">OUT OF STOCK</p>
+                                                <%}else{%>
+                                                    <button class="quantity-control" type="button" onclick="IncDecValue('<%= item.productId._id %>', -1,'<%= item.product%>','<%= item.size%>','<%= item.quantity%>')" style="background-color: transparent;color: black;">
+                                                        <span class="fa fa-angle-left   counter"></span>
+                                                    </button>
+                                                    
+                                                    <input type="number" class="form-control" value="<%= item.quantity %>" min="1" max="10"
+                                                        step="1" data-decimals="0" disabled required style="text-align: start; width: 60px;">
+                                                    
+                                                    <button class="quantity-control" type="button" onclick="IncDecValue('<%= item.productId._id %>', 1,'<%= item.product%>','<%= item.size%>','<%= item.quantity%>')" style="background-color: transparent; color: black;">
+                                                        <span class="fa fa-angle-right  counter"></span>
+                                                    </button>
+                                                <%}%>
                                             </div>
                                         </td>
                                         <%subTotal = (item.productId.variant[item.product].price * item.quantity)%>
