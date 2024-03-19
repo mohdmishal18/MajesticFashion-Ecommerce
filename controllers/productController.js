@@ -172,8 +172,6 @@ const loadVariant = async (req,res) =>
 
             if(product)
             {
-                 // Reverse the variants array
-                 product.variant.reverse();
                 res.render('variant',{product : product});
             }
             else
