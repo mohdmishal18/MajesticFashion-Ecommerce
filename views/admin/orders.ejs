@@ -93,6 +93,7 @@
                                         <th scope="col">Email</th>
                                         <th scope="col">Total</th>
                                         <!-- <th scope="col">Status</th> -->
+                                        <th scope="col">Payment Method</th>
                                         <th scope="col">Date</th>
                                         <th scope="col" class="text-center">Action</th>
                                     </tr>
@@ -106,6 +107,13 @@
                                                     <td><b><%= item.user.name%></b></td>
                                                     <td><%= item.user.email %></td>
                                                     <td><%= item.totalAmount %></td>
+                                                    <%if(item.status === 'pending'){%>
+                                                        <td>
+                                                            <p style="color: red;">Payment Pending</p>
+                                                        </td>
+                                                    <%}else{%>
+                                                        <td><%=item.paymentMethod%></td>
+                                                    <%}%>
                                                     <!-- <td><span class="badge rounded-pill alert-warning"><%= item.status %></span></td> -->
                                                     <% const formattedDate = item.date.toLocaleString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: true }); %>
                                                     <td><%= formattedDate %></td>

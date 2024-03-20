@@ -134,6 +134,8 @@
                                                 <th>Index</th>
                                                 <th scope="col">Image</th>
                                                 <th scope="col">Name</th>
+                                                <th scope="col">Quantity</th>
+                                                <th scope="col">Price</th>
                                                 <th scope="col">Total</th>
                                                 <th scope="col">Status</th>
                                                 <th scope="col">Date</th>
@@ -154,6 +156,12 @@
                                                     </td>
                                                     <td>
                                                         <%= el.productId.name%>
+                                                    </td>
+                                                    <td>
+                                                        <%=el.quantity%>
+                                                    </td>
+                                                    <td>
+                                                        <%=el.productId.variant[el.product].price%>
                                                     </td>
                                                     <td>
                                                         <%= el.totalPrice%>

@@ -243,7 +243,7 @@
                                         </tr>
                                         <tr>
                                             <td colspan=12" class="text-right-cell">
-                                                <% if (myOrder.status === 'pending') { %>
+                                                <% if (myOrder.status === 'pending' && totalAmount != 0) { %>
                                                     <button id="retryPaymentBtn" class="btn btn-primary" onclick="retryPayment('<%= myOrder._id %>')">Retry Payment</button>
                                                 <% } %>
                                             </td>

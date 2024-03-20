@@ -74,6 +74,7 @@
                                         <th scope="col">Total</th>
                                         <!-- <th scope="col">Status</th> -->
                                         <th scope="col">Date</th>
+                                        <th scope="col">Payment</th>
                                         <th scope="col">Action</th>
                                     
                                     </tr>
@@ -90,6 +91,15 @@
                                             <!-- <td style="padding: 24px;"><span class="badge rounded-pill alert-dark"><%= item.status%></span></td> -->
                                             <% const formattedDate = item.date.toLocaleString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: true }); %>
                                             <td style="padding: 24px;"><%= formattedDate%></td>
+                                            <%if(item.status === 'pending'){%>
+                                               <td>
+                                                <p style="color: red;">Payment Failed</p>
+                                               </td>
+                                            <%}else{%>
+                                              <td>
+                                                <p style="color: blue;">Payment Success</p>
+                                              </td>  
+                                            <%}%>
                                             <td style="padding: 24px;">
                                                <a href="/order-details?orderId=<%= item._id%>">More details</a>
                                                 <!-- dropdown //end -->

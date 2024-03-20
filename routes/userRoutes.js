@@ -106,13 +106,13 @@ userRoute
 
     .get('/address',auth.userAuth,userController.loadAddressManagement)
 
-    .post('/edit-profile',userController.editProfile)
+    .post('/edit-profile',auth.authlogg,userController.editProfile)
 
-    .post('/add-address',userController.addAddress)
+    .post('/add-address',auth.authlogg,userController.addAddress)
 
-    .delete('/deleteaddress',userController.deleteAddress)
+    .delete('/deleteaddress',auth.authlogg,userController.deleteAddress)
 
-    .post('/edit-address',userController.editAddress)
+    .post('/edit-address',auth.authlogg,userController.editAddress)
 
     // cart management =========================================
 
@@ -134,8 +134,8 @@ userRoute
     .post('/verifyPayment',auth.authlogg, orderController.verifyPayment)
 
     // In case the payment failed...
-    .post('/retry-payment',orderController.retryPayment)
-    .post('/continueRetryPayment',orderController.continueRetryPayment)
+    .post('/retry-payment',auth.authlogg,orderController.retryPayment)
+    .post('/continueRetryPayment',auth.authlogg,orderController.continueRetryPayment)
 
     .get('/successpage',auth.authlogg,orderController.successPage)
 
@@ -151,13 +151,13 @@ userRoute
 
     .get('/single-orderDetails',auth.userAuth,orderController.loadSingleOrderDetails)
 
-    .post('/cancel-product',orderController.cancelOrder)
+    .post('/cancel-product',auth.authlogg,orderController.cancelOrder)
 
-    .post('/return-product',orderController.returnProduct)
+    .post('/return-product',auth.authlogg,orderController.returnProduct)
 
     // change password ========================================
     
-    .post('/change-password',userController.changePassword)
+    .post('/change-password',auth.authlogg,userController.changePassword)
 
     // wishlist section =======================================
 
@@ -165,7 +165,7 @@ userRoute
 
     .post('/add-wish',wishlistController.addToWishlist)
     
-    .post('/remWish',wishlistController.remWish)
+    .post('/remWish',auth.authlogg,wishlistController.remWish)
 
     //checking coupon.
     .post('/coupon-check',couponController.couponCheck)

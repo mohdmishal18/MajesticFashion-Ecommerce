@@ -370,9 +370,20 @@ console.log(data);
         });
         return
       }
+
+       // validation
+     if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$/.test(newPassword)) {
+      document.getElementById('newPassword').classList.add('error-border');
+        document.getElementById('newPassword').classList.remove('error-border');
+        Swal.fire({
+          icon: 'error',
+          text: 'new password must be at least 6 characters long and contain at least one uppercase letter, one lowercase letter, and one number',
+        });
+        return
+      }
       
   
-      if (newPassword !== confirmPassword) {
+       if (newPassword !== confirmPassword) {
           Swal.fire({
             icon: 'error',
             text: 'Passwords must match',
@@ -397,7 +408,7 @@ console.log(data);
               data: JSON.stringify(data),
               contentType: 'application/json',
               success: function (response) {
-                if (response.reseted) {
+                if (response.reseted === true) {
                   Swal.fire({
                     icon: 'success',
                     text: 'Successfully updated',
@@ -411,7 +422,7 @@ console.log(data);
                   document.getElementById('confirmPassword').value = '';
                   $('#resetPasswordModal').modal('hide');
                 } 
-                else if(response.reset == true) {
+                else if(response.reset === true) {
                   Swal.fire({
                     icon: 'error',
                     text: 'new password cannot be same as the old password',
