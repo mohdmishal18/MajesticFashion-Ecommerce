@@ -355,7 +355,64 @@ const editVariant = async (req, res) => {
         res.status(500).send(error);
     }
 };
- 
+
+const delImg = async (req, res) => {
+    try {
+        const {productId, Vid, imgId} = req.body;
+        console.log(req.body);
+        // Convert index and img to numbers
+        const indexNumber = parseInt(Vid, 10);
+        const imgNumber = parseInt(imgId, 10);
+
+        console.log('productId:', productId);
+        console.log('indexNumber:', indexNumber,isNaN(indexNumber));
+        console.log('imgNumber:', imgNumber,isNaN(imgNumber));
+
+        // Validate input data
+        if (!productId || isNaN(indexNumber) || isNaN(imgNumber)) {
+            return res.status(400).json({ error: 'Missing required parameters or invalid index/img' });
+        }
+
+        // Find the product by ID
+        const product = await Product.findById(productId);
+
+        if (!product) {
+            return res.status(404).json({ error: 'Product not found' });
+        }
+
+        // Find the variant by index
+        const variant = product.variant[indexNumber];
+
+        if (!variant) {
+            return res.status(404).json({ error: 'Variant not found' });
+        }
+
+        // Ensure the variant has images and the specified image index is valid
+        if (variant.images && variant.images.length > imgNumber) {
+            // Remove the image from the images array in the variant
+            console.log(variant);
+            const images = variant.images.filter((el, i) => i != imgNumber);
+            console.log(images)
+           const update =  await Product.updateOne(
+                { _id: productId },
+                { $set: { [`variant.${indexNumber}.images`]: images  } }
+               );
+            // Respond with success
+            console.log(update);
+            if(update) {
+                return res.status(200).json({ deleted: true });
+            }
+        } else {
+            // If the image index is out of bounds or there are no images, return an error
+            return res.status(400).json({ error: 'Image not found in variant' });
+        }
+    } catch (error) {
+        console.error(error);
+        // Return a generic error message to avoid exposing internal details
+        return res.status(500).send({ error: 'Internal server error' });
+    }
+};
+
 const loadEditProduct = async(req,res) =>
 {
     try
@@ -534,4 +591,5 @@ module.exports =
     editVariant,
     listProduct,
     filter,
+    delImg
 }

@@ -144,10 +144,11 @@
                                                 <td><%= i + 1 %></td>
                                                 <td width="30%">
                                                     <a href="#" class="itemside">
-                                                        <% for(let i = 0 ; i < item.images.length; i++){ %>
+                                                        <% for(let j = 0 ; j < item.images.length; j++){ %>
                                                             <div class="left me-2">
-                                                                <img src="/assets/img/productImage/original/<%= item.images[i] %>" 
+                                                                <img src="/assets/img/productImage/original/<%= item.images[j] %>" 
                                                                 alt="Userpic" class="img-sm">
+                                                    <button type="button" class="btn btn-danger btn-sm" onclick="deleteImage('<%=product._id%>','<%=i%>','<%=j%>')">del</button>
                                                             </div>
                                                         <%}%>
                                                     </a>
@@ -381,5 +382,33 @@
     }
 </script>
 
+<script>
+    function deleteImage(productId , Vid,imgId) {
+     $.ajax({
+         url: '/admin/delimg',
+         type: 'POST',
+         contentType: 'application/json',
+         data: JSON.stringify({
+             productId: productId,
+             Vid: Vid,
+             imgId: imgId,
+         }),
+         success: function(response) {
+            if(response.deleted)
+            {
+             Swal.fire({
+                 icon: 'success',
+                 title: 'Image Deleted',
+                 text: 'The image has been deleted successfully.',
+             })
+            }
+         },
+         error: function(xhr, status, error) {
+             console.error('Error:', error);
+             // Handle error, show error message, etc.
+         }
+     });
+ }
+ </script>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>

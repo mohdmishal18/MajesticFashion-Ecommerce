@@ -30,53 +30,54 @@ adminRoute.set('views','./views/admin');
 adminRoute
     //  Admin Login
     .get('/',auth.isLogout,adminController.loadLogin)
-    .post('/',adminController.verifyLogin)
+    .post('/',auth.isLogout,adminController.verifyLogin)
 
     // Get home.
     .get('/home',auth.isLogin,adminController.loadDashboard)
 
     // user Management.
     .get('/userlist',auth.isLogin,adminController.loadUserManagement)
-    .post('/blockUser',adminController.blockUser)
+    .post('/blockUser',auth.isLogin,adminController.blockUser)
 
     // Product Management.
     .get('/product',auth.isLogin,productController.loadProduct)
     .get('/addproduct',auth.isLogin,productController.loadAddProduct)
     .get('/editProduct',auth.isLogin,productController.loadEditProduct)
-    .post('/editProduct',productController.editProduct)
+    .post('/editProduct',auth.isLogin,productController.editProduct)
     .get('/logout', auth.isLogin, adminController.adminLogout)
     .post('/addproduct',multer.array('images'),productController.addProduct)  
     .get('/variant/:id', auth.isLogin,productController.loadVariant)
     .post('/addvariant', multer.array('images'),productController.addVariant)
     .get('/editvariant',auth.isLogin,productController.loadEditVariant)
     .post('/editvariant',multer.array('images'),productController.editVariant)
-    .post('/listproduct',productController.listProduct)
+    .post('/delimg',auth.isLogin,productController.delImg)
+    .post('/listproduct',auth.isLogin,productController.listProduct)
 
     //Category Mangement.
     .get('/category',auth.isLogin,categoryController.loadCategory)
     .get('/addcategory',auth.isLogin,categoryController.loadAddCategory)
-    .post('/addcategory',categoryController.addCategory)
-    .post('/editcategory',categoryController.editCategory)
-    .post('/list-unlist',categoryController.listCategory)
+    .post('/addcategory',auth.isLogin,categoryController.addCategory)
+    .post('/editcategory',auth.isLogin,categoryController.editCategory)
+    .post('/list-unlist',auth.isLogin,categoryController.listCategory)
 
     //order management
     .get('/orders',auth.isLogin,adminController.loadOrder)
     .get('/orderdetails',auth.isLogin,adminController.singleOrderDetails)
-    .post('/change-orderStatus',adminController.changeOrderStatus)
+    .post('/change-orderStatus',auth.isLogin,adminController.changeOrderStatus)
 
     //sales Report.
     .get('/sales-report',auth.isLogin,adminController.salesReport)
-    .post('/order-report',adminController.orderReport)
+    .post('/order-report',auth.isLogin,adminController.orderReport)
 
     // coupon management .
     .get('/coupon',auth.isLogin, couponController.loadCoupon)
-    .post('/createCoupon',couponController.addCoupon)
-    .post('/editCoupon', couponController.editCoupon)
-    .delete('/deleteCoupon',couponController.deleteCoupon)
+    .post('/createCoupon',auth.isLogin,couponController.addCoupon)
+    .post('/editCoupon',auth.isLogin,couponController.editCoupon)
+    .delete('/deleteCoupon',auth.isLogin,couponController.deleteCoupon)
 
     // return requests.
     .get('/return-req',auth.isLogin,adminController.loadReturnReq)
-    .post('/return-req',adminController.returns)
+    .post('/return-req',auth.isLogin,adminController.returns)
 
     //monthly chart
     .post('/order-filter',auth.isLogin,adminController.filterDashboard)

@@ -122,6 +122,23 @@
                                     </div>
                                 </article>
                             </div>
+                            <div class="col-md-4">
+                                <article class="icontext align-items-start">
+                                    <span class="icon icon-sm rounded-circle bg-primary-light">
+                                        <i class="text-primary material-icons md-place"></i>
+                                    </span>
+                                    <div class="text">
+                                        <h6 class="mb-1">Payment Method</h6>
+                                        <p class="mb-1">
+                                           <%if(myOrder.status === 'pending'){%>
+                                            payment method : Pending
+                                           <%}else{%>
+                                            Payment method : <%=myOrder.paymentMethod%>
+                                           <%}%>
+                                        </p>
+                                    </div>
+                                </article>
+                            </div>
                             <!-- col// -->
                         </div>
                         <!-- row // -->
