@@ -8,7 +8,7 @@ const wishlistController = require('../controllers/wishlistController');
 const couponController = require('../controllers/couponController'); 
 const productController = require('../controllers/productController');
 
-const User = require('../models/userModel')
+const User = require('../models/userModel');
 const session = require("express-session");
 const config = require('../config/config');
 
@@ -73,7 +73,7 @@ userRoute
     .get('/login',auth.isLogin,userController.loadLogin)
 
     .get('/signup',auth.isLogOut,userController.loadSignup)
-    .post('/signup',userController.insertUser)
+    .post('/signup',auth.isLogined,userController.insertUser)
 
     /////////////// otp ========================================
 
@@ -81,7 +81,7 @@ userRoute
     .post('/otp',userController.verifyOtp)
     .post('/resend',userController.resentOTP)
 
-    .post('/login',userController.verifyLogin)
+    .post('/login',auth.isLogined,userController.verifyLogin)
 
     // forgot password=================================================
 
