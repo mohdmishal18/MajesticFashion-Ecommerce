@@ -209,7 +209,7 @@ const loadDashboard = async (req,res) =>
             }
 
         ])
-        const totalRevenue = totalPrice[0].totalMoney || 0;
+        const totalRevenue = totalPrice.length > 0 ? totalPrice[0].totalMoney : 0;
 
         let allOrders = await Order.find({});
 
@@ -286,7 +286,7 @@ const loadDashboard = async (req,res) =>
         //const latestOrders = await Order.find({}).sort({ date: -1 }).populate('user').limit(limit).skip((page - 1) * limit).exec()
 
          
-// Aggregate to get the total quantity sold for each product
+        // Aggregate to get the total quantity sold for each product
             const topProducts = await Order.aggregate([
                 { $unwind: "$products" },
                 { $match: { "products.status": "delivered" } },
@@ -393,7 +393,6 @@ const loadDashboard = async (req,res) =>
             topProducts,
             topProductsDetails,
             topCategories,
-
             monthlyData,
             
 
