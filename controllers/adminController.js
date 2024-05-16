@@ -209,7 +209,7 @@ const loadDashboard = async (req,res) =>
             }
 
         ])
-        const totalRevenue = totalPrice.length > 0 ? totalPrice[0].totalMoney : 0;
+        const totalRevenue = totalPrice[0].totalMoney || 0;
 
         let allOrders = await Order.find({});
 
@@ -366,7 +366,7 @@ const loadDashboard = async (req,res) =>
             }
 
         ])
-        const monthlyRevenueValue = totalMonth[0].totalMoney || 0;
+        const totalRevenue = totalPrice.length > 0 ? totalPrice[0].totalMoney : 0;
 
         // Initialize an array with 12 elements, each set to zero
         const monthlyData = Array.from({ length: 12 }).fill(0);
